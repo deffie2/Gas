@@ -1,9 +1,9 @@
 
 ## Wat hebben we nodig? / Classes
     # Bord
-        # Initialiseer bord (dxd)
-            # Nested list
-        # Bevat voertuigen
+        #FUNCTIE Initialiseer bord
+            # Nested list d*d bord
+            # Bevat voertuigen (laat hier voertuigen initaliseren, dus import data om dat te doen)
         # Lijst beweegbare voertuigen
         # Datastructuur hoeveel autos kunnen bewegen, dict?
         # Locatie voertuigen?! -> Na elke move refresh
@@ -23,13 +23,15 @@
     # Voertuigen
 class voertuigen(object)
     def __init__(self) -> None:
-        # Grote
-        # Verticaal / horizontaal
-        # Rood of niet rood
-        # Locatie voertuig
-        # Verander locatie functie
+        # Grote -> Verandert niet
+        # Verticaal / horizontaal -> Verandert niet
+        # Rood of niet rood -> Verandert niet
+        # Locatie voertuig -> Start is hetzelfde per bord -> daarna verandering
+        # FUNCTIE LOCATIE
+            # Verander locatie -> nieuwe coordinaten
 
 # MAIN:        
+    # Roep Bord aan (die roept automatisch voertuigen aan)
     # Check of rode auto pad vrij heeft (als er niks staat voor de rode auto
         # Ja -> +1 move, beweeg rode auto naar einde, end game
     # Nee ga door    
