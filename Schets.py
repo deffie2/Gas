@@ -3,7 +3,7 @@
     # Bord
         #FUNCTIE Initialiseer bord
             # Nested list d*d bord
-            # Coordinaat uitgang
+            # Coordinaat uitgang 
             # Bevat voertuigen (DICT -> A : ["H", 2, 1, 2]) (laat hier voertuigen initaliseren, dus import data om dat te doen)
         #FUNCTIE Welke auto's zijn beweegbaar? -> Na elke move refresh
             # Loopen door alle auto's op het bord
