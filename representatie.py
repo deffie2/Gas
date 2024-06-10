@@ -45,6 +45,10 @@ class Board(object):
             # Is een van die locaties leeg?
             # Ja -> voeg auto aan lijst (dict?) toe
         # Return dict  
+
+    def vechicle_movable():
+        movable_vehicles = []
+        
     
     def places_car(self) -> None:
         # Ga alle voertuigen af:
