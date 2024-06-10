@@ -8,6 +8,7 @@ class Board(object):
             self.createboard()
             self.ExitCordinate = [d/2,d]
             self.VehicleDict = {}
+            self.movable_vehicles = set()
             
             # Initialize vehicles
             with open('Rushhour6x6_1.csv', "r") as csvfile:
@@ -46,10 +47,35 @@ class Board(object):
             # Ja -> voeg auto aan lijst (dict?) toe
         # Return dict  
 
-    def vechicle_movable():
-        movable_vehicles = []
-        
-    
+    def is_vechicle_movable(self):
+
+        for carkey, vehicle in self.VehicleDict.items():
+            car_orientation = vehicle.direction
+            car_col = vehicle.col
+            car_row = vehicle.row
+            car_length = vehicle.size
+
+            vehicle_positions= []
+
+            
+            for i in range(car_length):
+                if vehicle.direction == "H":
+                    vehicle_positions.append((car_row - 1, car_col + i - 1))
+                elif vehicle.direction == "V":
+                    vehicle_positions.append((car_row + i - 1, car_col - 1))
+
+            for pos_row, pos_col in vehicle_positions:
+                if car_orientation == 'H':
+                    for (new_row, new_col) in self.empty_space:
+                        if (pos_row, pos_col + 1) == (new_row, new_col) or (pos_row, pos_col - 1) == (new_row, new_col):
+                            self.movable_vehicles.add(carkey)
+                elif car_orientation == 'V':
+                    for (new_row, new_col) in self.empty_space:
+                        if (pos_row + 1, pos_col) == (new_row, new_col) or (pos_row - 1, pos_col) == (new_row, new_col):
+                            self.movable_vehicles.add(carkey)
+        return self.movable_vehicles
+
+
     def places_car(self) -> None:
         # Ga alle voertuigen af:
         for carkey, vehicle in self.VehicleDict.items():
@@ -104,7 +130,8 @@ if __name__ == "__main__":
     board.places_car()
     board.printboard()
     print(board.empty_places())
-    
+    print(board.is_vechicle_movable())
+
     # Check of rode auto pad vrij heeft (als er niks staat voor de rode auto)
         # Ja -> +1 move, beweeg rode auto naar einde, end game
     # Nee ga door    
