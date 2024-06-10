@@ -57,6 +57,7 @@ class Board:
                     
     #FUNCTIE Locatie lege plekken
         # Alle coordinaten - coordinatenvoertuigen (LET OP DAT DIT KAN VOOR HET DATATYPE) (Set)
+        
     #FUNCTIE Beweeg voertuig
         # Vraag voertuigletter
         # Verander voertuig dmv FUNCTIE LOCATIE in voertuigen class
@@ -81,6 +82,7 @@ class Vehicle:
     # FUNCTIE LOCATIE
     def locationchange(self, x, y) -> None:
         self.n_times_moved += 1
+        self.locationHead = [x, y]
         # Verander locatie -> nieuwe coordinaten
         
     def __repr__(self) -> str:
