@@ -27,6 +27,7 @@ class Board:
                     self.vehicle_dict[key] = vehicle
 
     def createboard(self) -> None:
+        self.board = []
         for i in range(self.dimension):
             row = []
             for j in range(self.dimension):
@@ -80,8 +81,10 @@ class Board:
         return self.movable_vehicles
 
     def possible_sets(self):
+        self.possible_moves_dict = {}
         for car_id in self.movable_vehicles:
                 self.possible_moves_dict[car_id] = []
+        print(self.possible_moves_dict)
 
         for car_id in self.movable_vehicles:
             vehicle = self.vehicle_dict[car_id]
@@ -179,10 +182,6 @@ class Board:
             for j in range(self.dimension):
                 print(f"{self.board[i][j]:>2}", end = '')
             print()
-
-    def print_vehicle_dict(self):
-        for key, vehicle in self.vehicle_dict.items():
-            print(f"{key}: {vehicle}")
     
     
     # Bevat einddoellocatie rood
@@ -208,6 +207,8 @@ class Vehicle:
     def locationchange(self, x, y) -> None:
         self.n_times_moved += 1
         self.locationHead = [x, y]
+        self.row = x
+        self.col = y
         # Verander locatie -> nieuwe coordinaten
 
     def __repr__(self) -> str:

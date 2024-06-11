@@ -11,14 +11,14 @@ def main():
         print("Red car is already at the exit! You won.")
         return
 
-    for i in range(5):
+    for i in range(10):
         print(f"Move {i + 1}")
         move_car_random(board)
         if board.is_red_car_at_exit():
             print("Red car reached the exit! You won.")
             break
     else:
-        print("Red car did not reach the exit after 5 moves.")
+        print("Red car did not reach the exit after 2 moves.")
 
 if __name__ == "__main__":
     main()
