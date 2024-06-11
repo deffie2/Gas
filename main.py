@@ -1,12 +1,13 @@
 from representatie import Board
 from randomise import move_car_random
+import csv
 
 if __name__ == "__main__":
 
     # Call board
-    board = Board(6)
-    board.places_car()
-    board.printboard()
+    #board = Board(6)
+    #board.places_car()
+    #board.printboard()
     
     runs = input("How many times do you want to run the simulation? ")
 
@@ -18,7 +19,12 @@ if __name__ == "__main__":
     moveslist = []
     # All the runs
     for i in runs:
+    
         moves = 0
+        # Call board
+        board = Board(6)
+        board.places_car()
+        board.printboard()
         # A single run
         while not (board.is_red_car_at_exit()):
             move_car_random(board)
