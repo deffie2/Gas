@@ -12,18 +12,11 @@ if __name__ == "__main__":
     elif len(argv) == 2:
         game_number = argv[1]
     
-    d = int(input("What is the dimension?"))
+    #asking dimension
+    d = int(input("What is the dimension? "))
 
-    # Call board
-
-   
-    
-    runs = int(input("How many times do you want to run the simulation?"))
-
-    # Check if the red car is already at the exit
-    #if board.is_red_car_at_exit():
-        #print("Red car is already at the exit! You won.")
-        #return
+    #asking how many runs
+    runs = int(input("How many times do you want to run the simulation? "))
 
     moveslist = []
     # All the runs
@@ -37,12 +30,3 @@ if __name__ == "__main__":
             moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
-
-    
-    
-    
-    #if board.is_red_car_at_exit():
-    #    print("Red car reached the exit! You won!")
-     #   print(f"It took{moves} moves")
-      #  break
-    
