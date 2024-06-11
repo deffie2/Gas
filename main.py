@@ -1,9 +1,6 @@
 from representatie import Board
 from randomise import move_car_random
 
-#def main():
-
-
 if __name__ == "__main__":
 
     # Call board
