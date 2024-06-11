@@ -54,6 +54,7 @@ class Board:
         return self.empty_space
 
     def vehicles_moveable(self):
+        self.movable_vehicles = set()
         for carkey, vehicle in self.vehicle_dict.items():
             car_orientation = vehicle.direction
             car_col = vehicle.col
@@ -84,7 +85,6 @@ class Board:
         self.possible_moves_dict = {}
         for car_id in self.movable_vehicles:
                 self.possible_moves_dict[car_id] = []
-        print(self.possible_moves_dict)
 
         for car_id in self.movable_vehicles:
             vehicle = self.vehicle_dict[car_id]

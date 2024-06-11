@@ -9,22 +9,21 @@ def move_car_random(board):
 
     # Calculate the possible moves
     possible_moves = board.possible_sets()
-    print(possible_moves)
 
     # Randomly select a vehicle that can move
     movable_vehicle = random.choice(list(board.movable_vehicles))
 
-    print(movable_vehicle)
-
     # Get possible moves for the selected vehicle
     possible_vehicle_moves = possible_moves.get(movable_vehicle, [])
-    print(possible_vehicle_moves)
 
-    # Randomly select a possible move for the selected vehicle
-    move_direction, move_steps = random.choice(possible_vehicle_moves)
+    # Combine all possible steps for all directions
+    all_possible_steps = []
+    for move_direction, move_steps in possible_vehicle_moves:
+        for step in move_steps:
+            all_possible_steps.append((move_direction, step))
 
-    # Randomly select a step in the selected direction
-    step = random.choice(move_steps)
+  # Randomly select a step from all possible steps
+    move_direction, step = random.choice(all_possible_steps)
 
     # Move the vehicle to the new position
     board.move_vehicle(movable_vehicle, move_direction, step)
@@ -33,10 +32,6 @@ def move_car_random(board):
     board.printboard()
 
     return
-
-
-
-
 
 
 
