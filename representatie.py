@@ -19,13 +19,14 @@ class Board:
                 for row in reader:
                     key = row[0]
                     direction = row[1]
-                    ycor = int(row[2])
-                    xcor = int(row[3])
+                    ycor = int(row[2]) - 1
+                    xcor = int(row[3]) - 1
                     Size = int(row[4])
 
                     # Save vehicle as object in dict
                     vehicle = Vehicle(direction, xcor, ycor, Size)
                     self.vehicle_dict[key] = vehicle
+                    print(vehicle)
 
     def createboard(self) -> None:
         # Create an empty board with dimensions d x d
@@ -41,9 +42,9 @@ class Board:
         for carkey, vehicle in self.vehicle_dict.items():
             for i in range(vehicle.size):
                 if (vehicle.direction == "V"):
-                    self.board[vehicle.row + i - 1][vehicle.col - 1] = carkey
+                    self.board[vehicle.row + i][vehicle.col] = carkey
                 else:
-                    self.board[vehicle.row - 1][vehicle.col + i - 1] = carkey
+                    self.board[vehicle.row][vehicle.col + i] = carkey
 
     def empty_places(self) -> list:
         # Find all empty spaces on the board
@@ -69,9 +70,9 @@ class Board:
             vehicle_positions = []
             for i in range(car_length):
                 if vehicle.direction == "H":
-                    vehicle_positions.append((car_row - 1, car_col + i - 1))
+                    vehicle_positions.append((car_row, car_col + i))
                 elif vehicle.direction == "V":
-                    vehicle_positions.append((car_row + i - 1, car_col - 1))
+                    vehicle_positions.append((car_row + i, car_col))
 
             for pos_row, pos_col in vehicle_positions:
                 if car_orientation == 'H':
@@ -109,9 +110,9 @@ class Board:
         # Check possible moves to the left
         move_steps_left = []
 
-        for j in range((car_col - 1) - 1, -1, -1):
-            if self.board[car_row - 1][j] == "_":
-                move_steps_left.append(j - (car_col - 1))
+        for j in range(car_col - 1, -1, -1):
+            if self.board[car_row][j] == "_":
+                move_steps_left.append(j - car_col)
             else:
                 break
         if move_steps_left:
@@ -119,9 +120,9 @@ class Board:
 
         # Check possible moves to the right
         move_steps_right = []
-        for j in range((car_col - 1) + car_length, self.dimension):
-            if self.board[car_row - 1][j] == "_":
-                move_steps_right.append(j - (car_col - 1) - car_length + 1)
+        for j in range(car_col + car_length, self.dimension):
+            if self.board[car_row][j] == "_":
+                move_steps_right.append(j - car_col - car_length + 1)
             else:
                 break
         if move_steps_right:
@@ -130,9 +131,9 @@ class Board:
     def check_vertical_moves(self, car_id, car_row, car_col, car_length):
         # Check possible moves upward
         move_steps_up = []
-        for i in range((car_row - 1) - 1, -1, -1):
-            if self.board[i][car_col - 1] == "_":
-                move_steps_up.append(i - (car_row - 1))
+        for i in range(car_row - 1, -1, -1):
+            if self.board[i][car_col] == "_":
+                move_steps_up.append(i - car_row)
             else:
                 break
         if move_steps_up:
@@ -140,9 +141,9 @@ class Board:
 
         # Check possible moves downward
         move_steps_down = []
-        for i in range((car_row - 1) + car_length, self.dimension):
-            if self.board[i][car_col - 1] == "_":
-                move_steps_down.append(i - (car_row - 1) - car_length + 1)
+        for i in range(car_row + car_length, self.dimension):
+            if self.board[i][car_col] == "_":
+                move_steps_down.append(i - car_row - car_length + 1)
             else:
                 break
         if move_steps_down:
@@ -205,6 +206,7 @@ class Vehicle:
         self.locationHead = [x, y]
         self.row = x
         self.col = y
+        # lijst maken 
         self.locationtot = []
         
         # self.justmoved = False
@@ -226,7 +228,8 @@ class Vehicle:
 # MAIN: 
 if __name__ == "__main__":
 
-    board = Board(6)
+
+    board = Board(6,1)
     board.places_car()
     board.printboard()
     print(board.empty_places())
