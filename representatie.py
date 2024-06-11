@@ -151,7 +151,7 @@ class Board:
         if not red_car:
             return False
         red_car_end_col = (red_car.col - 1) + red_car.size - 1
-        if red_car.direction == 'H' and (red_car.row - 1) == self.exit_cordinate[0] and red_car_end_col == self.dimension:
+        if red_car.direction == 'H' and (red_car.row - 1) == self.exit_cordinate[0] and red_car_end_col == self.exit_cordinate[1]:
             return True
         return False
 
