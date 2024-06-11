@@ -3,14 +3,14 @@ import csv
 
 class Board:
     def __init__(self, d: int) -> None:
-            self.board = [] 
+            self.board = []
             self.dimension = d
             self.createboard()
-            self.ExitCordinate = [d/2,d]
-            self.VehicleDict = {}
+            self.exit_cordinate = [d/2, d]
+            self.vehicle_dict = {}
             self.movable_vehicles = set()
             self.possible_moves_dict = {}
-            
+
             # Initialize vehicles
             with open('data/Rushhour6x6_1.csv', "r") as csvfile:
                 reader = csv.reader(csvfile)
@@ -21,11 +21,10 @@ class Board:
                     ycor = int(row[2])
                     xcor = int(row[3])
                     Size = int(row[4])
-                    
+
                     # Save vehicle as object in dict
                     vehicle = Vehicle(direction, xcor, ycor, Size)
-                    self.VehicleDict[key] = vehicle
-
+                    self.vehicle_dict[key] = vehicle
 
     def createboard(self) -> None:
         for i in range(self.dimension):
@@ -34,16 +33,33 @@ class Board:
                 row.append("_")
             self.board.append(row)
 
+    def places_car(self) -> None:
+        # Ga alle voertuigen af:
+        for carkey, vehicle in self.vehicle_dict.items():
+            for i in range(vehicle.size):
+                if (vehicle.direction == "V"):
+                    self.board[vehicle.row + i - 1][vehicle.col - 1] = carkey
+                else:
+                    self.board[vehicle.row - 1][vehicle.col + i - 1] = carkey
+
+    # FUNCTIE Locatie lege plekken
+    def empty_places(self) -> list:
+        self.empty_space = []
+        for i in range(self.dimension):
+            for j in range(self.dimension):
+                if (self.board[i][j] == "_"):
+                    empty_place_tuple = (i, j)
+                    self.empty_space.append(empty_place_tuple)
+        return self.empty_space
 
     def vehicles_moveable(self):
-        for carkey, vehicle in self.VehicleDict.items():
+        for carkey, vehicle in self.vehicle_dict.items():
             car_orientation = vehicle.direction
             car_col = vehicle.col
             car_row = vehicle.row
             car_length = vehicle.size
 
-            vehicle_positions= []
-
+            vehicle_positions = []
             for i in range(car_length):
                 if vehicle.direction == "H":
                     vehicle_positions.append((car_row - 1, car_col + i - 1))
@@ -63,13 +79,12 @@ class Board:
                             self.movable_vehicles.add(carkey)
         return self.movable_vehicles
 
-
     def possible_sets(self):
         for car_id in self.movable_vehicles:
                 self.possible_moves_dict[car_id] = []
 
         for car_id in self.movable_vehicles:
-            vehicle = self.VehicleDict[car_id]
+            vehicle = self.vehicle_dict[car_id]
             car_orientation = vehicle.direction
             car_col = vehicle.col
             car_row = vehicle.row
@@ -79,9 +94,7 @@ class Board:
                 self.check_horizontal_moves(car_id, car_row, car_col, car_length)
             elif car_orientation == 'V':
                 self.check_vertical_moves(car_id, car_row, car_col, car_length)
-
         return self.possible_moves_dict
-
 
     def check_horizontal_moves(self, car_id, car_row, car_col, car_length):
         # Controleer beweging naar links
@@ -105,7 +118,6 @@ class Board:
         if move_steps_right:
             self.possible_moves_dict[car_id].append(('R', move_steps_right))
 
-
     def check_vertical_moves(self, car_id, car_row, car_col, car_length):
         # Controleer beweging naar boven
         move_steps_up = []
@@ -127,41 +139,55 @@ class Board:
         if move_steps_down:
             self.possible_moves_dict[car_id].append(('D', move_steps_down))
 
+    def is_red_car_at_exit(self) -> bool:
+        red_car = self.vehicle_dict.get('X', None)
+        if not red_car:
+            return False
+        red_car_end_col = (red_car.col - 1) + red_car.size - 1
+        if red_car.direction == 'H' and (red_car.row - 1) == self.exit_cordinate[0] and red_car_end_col == self.dimension:
+            return True
+        return False
 
-    def places_car(self) -> None:
-        # Ga alle voertuigen af:
-        for carkey, vehicle in self.VehicleDict.items():
-            for i in range(vehicle.size):
-                if (vehicle.direction == "V"):
-                    self.board[vehicle.row + i - 1][vehicle.col - 1] = carkey
-                else:
-                    self.board[vehicle.row - 1][vehicle.col + i - 1] = carkey
-                    
-    # FUNCTIE Locatie lege plekken
-    def empty_places(self) -> list:
-        self.empty_space = []
-        for i in range(self.dimension):
-            for j in range(self.dimension):
-                if (self.board[i][j] == "_"):
-                    empty_place_tuple = (i,j)
-                    self.empty_space.append(empty_place_tuple)
-        return self.empty_space
+    def move_vehicle(self, car_id, move_direction, step):
+        vehicle = self.vehicle_dict[car_id]
+        if move_direction == 'L':
+            new_col = vehicle.col + step
+            new_row = vehicle.row
+        elif move_direction == 'R':
+            new_col = vehicle.col + step
+            new_row = vehicle.row
+        elif move_direction == 'U':
+            new_col = vehicle.col
+            new_row = vehicle.row + step
+        elif move_direction == 'D':
+            new_col = vehicle.col
+            new_row = vehicle.row + step
 
+        # Move the vehicle to the new position
+        vehicle.locationchange(new_row, new_col)
+
+        # Reset and update the board
+        self.createboard()
+        self.places_car()
 
     def printboard(self) -> None:
         for i in range(self.dimension):
             for j in range(self.dimension):
                 print(f"{self.board[i][j]:>2}", end = '')
             print()
+
+    def print_vehicle_dict(self):
+        for key, vehicle in self.vehicle_dict.items():
+            print(f"{key}: {vehicle}")
     
-    #FUNCTIE Beweeg voertuig
-        # Vraag voertuigletter
-        # Verander voertuig dmv FUNCTIE LOCATIE in voertuigen class
+    
     # Bevat einddoellocatie rood
-    # Visualiserend het bord met verschillende kleuren. 
+    # Visualiserend het bord met verschillende kleuren.
     # Donkergrijze border om d bij d lichtgrijs bord
 
     # Voertuigen
+
+
 class Vehicle:
     def __init__(self, direction, x, y, Size: int) -> None:
         self.size = Size
@@ -171,20 +197,21 @@ class Vehicle:
         self.col = y
         self.locationtot = []
         
-        #self.justmoved = False
+        # self.justmoved = False
         self.n_times_moved = 0
-        
+
     # FUNCTIE LOCATIE
     def locationchange(self, x, y) -> None:
         self.n_times_moved += 1
         self.locationHead = [x, y]
         # Verander locatie -> nieuwe coordinaten
-        
+
     def __repr__(self) -> str:
         return f"Vehicle({self.direction},{self.col},{self.row},{self.size})"
 
 # MAIN: 
 if __name__ == "__main__":
+
     board = Board(6)
     board.places_car()
     board.printboard()
@@ -195,7 +222,7 @@ if __name__ == "__main__":
 
     # Check of rode auto pad vrij heeft (als er niks staat voor de rode auto)
         # Ja -> +1 move, beweeg rode auto naar einde, end game
-    # Nee ga door    
+    # Nee ga door
     # Eerst checken welke autos op dit moment schuifbaar zijn, dus lege plekken voor of achter zich hebben
 
     # Hoeveel is die auto schuifbaar? (dus -1 tot + 2 bijv)
@@ -208,5 +235,3 @@ if __name__ == "__main__":
     # Plaatsverandering opgeslaan.
     
     # Als endgame publiceer move
-    
-
