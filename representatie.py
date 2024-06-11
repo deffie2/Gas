@@ -158,19 +158,13 @@ class Board:
     def move_vehicle(self, car_id, move_direction, step):
         # Move a vehicle in the specified direction by the given number of steps
         vehicle = self.vehicle_dict[car_id]
-        if move_direction == 'L':
+        if move_direction == 'L' or move_direction == 'R':
             new_col = vehicle.col + step
             new_row = vehicle.row
-        elif move_direction == 'R':
-            new_col = vehicle.col + step
-            new_row = vehicle.row
-        elif move_direction == 'U':
+        elif move_direction == 'U' or move_direction == 'D':
             new_col = vehicle.col
             new_row = vehicle.row + step
-        elif move_direction == 'D':
-            new_col = vehicle.col
-            new_row = vehicle.row + step
-
+      
         # Move the vehicle to the new position
         vehicle.locationchange(new_row, new_col)
 
