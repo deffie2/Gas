@@ -2,7 +2,7 @@ import csv
 
 
 class Board:
-    def __init__(self, d: int) -> None:
+    def __init__(self, d: int, game_number:int) -> None:
             self.board = []
             self.dimension = d
             self.createboard()
@@ -12,7 +12,7 @@ class Board:
             self.possible_moves_dict = {}
 
             # Initialize vehicles from the CSV file
-            with open('data/Rushhour6x6_1.csv', "r") as csvfile:
+            with open(f'data/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
                 reader = csv.reader(csvfile)
                 next(reader)
                 for row in reader:

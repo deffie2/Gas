@@ -29,7 +29,7 @@ def move_car_random(board):
     board.move_vehicle(movable_vehicle, move_direction, step)
 
     # Print the board after the move
-    board.printboard()
+    # board.printboard()
 
     return
 
