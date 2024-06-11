@@ -6,7 +6,7 @@ class Board:
             self.board = []
             self.dimension = d
             self.createboard()
-            self.exit_cordinate = [d/2, d]
+            self.exit_cordinate = [(d/2 - 1), d - 1]
             self.vehicle_dict = {}
             self.movable_vehicles = set()
             self.possible_moves_dict = {}
