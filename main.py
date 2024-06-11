@@ -11,7 +11,7 @@ if __name__ == "__main__":
     board.places_car()
     board.printboard()
     
-    runs = input("How many times do you want to run the simulation?")
+    runs = input("How many times do you want to run the simulation? ")
 
     # Check if the red car is already at the exit
     #if board.is_red_car_at_exit():
