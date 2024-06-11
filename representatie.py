@@ -166,9 +166,13 @@ class Board:
         # Move the vehicle to the new position
         vehicle.locationchange(new_row, new_col)
 
-        # Reset and update the board
+        # Update the board
+        self.update_board()
+
+    def update_board(self) -> None:
         self.createboard()
         self.places_car()
+        self.empty_places()
 
     def printboard(self) -> None:
         for i in range(self.dimension):
