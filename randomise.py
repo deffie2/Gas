@@ -31,7 +31,7 @@ def move_car_random(board):
     # Print the board after the move
     # board.printboard()
 
-    return
+    
 
 
 
