@@ -11,6 +11,7 @@ class Board:
             self.movable_vehicles = set()
             self.possible_moves_dict = {}
 
+            # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
             # Initialize vehicles from the CSV file
             with open('data/Rushhour6x6_1.csv', "r") as csvfile:
                 reader = csv.reader(csvfile)
@@ -63,6 +64,8 @@ class Board:
             car_row = vehicle.row
             car_length = vehicle.size
 
+            # zoek beide coordinaten per auto . misschien verplaatseen naar vehicle class
+
             vehicle_positions = []
             for i in range(car_length):
                 if vehicle.direction == "H":
@@ -88,7 +91,7 @@ class Board:
         self.possible_moves_dict = {}
         for car_id in self.movable_vehicles:
                 self.possible_moves_dict[car_id] = []
-
+        # Twee loops in 1 zetten en ook letten op de variable names.
         for car_id in self.movable_vehicles:
             vehicle = self.vehicle_dict[car_id]
             car_orientation = vehicle.direction
@@ -146,6 +149,8 @@ class Board:
             self.possible_moves_dict[car_id].append(('D', move_steps_down))
 
     def is_red_car_at_exit(self) -> bool:
+        # assert in plaats van false toevoegen
+
         # Check if the red car is at the exit
         red_car = self.vehicle_dict.get('X', None)
         if not red_car:
@@ -175,6 +180,7 @@ class Board:
         # Update the board after moving a vehicle
         self.createboard()
         self.places_car()
+        # checken als empty_places weg kan. 
         self.empty_places()
 
     def printboard(self) -> None:
@@ -211,6 +217,8 @@ class Vehicle:
         self.row = x
         self.col = y
         # Verander locatie -> nieuwe coordinaten
+
+    # functie om beide locaties te hebben, om get makkelijker op te vragen. 
 
     def __repr__(self) -> str:
         return f"Vehicle({self.direction},{self.col},{self.row},{self.size})"
