@@ -15,5 +15,7 @@ Mogelijke heuristieken:
     Bijvoorbeeld: A + 1, B -2, B + 2, A -1, moet dit verwijdert worden, 
     aangezien gamestate aan het begin en het eind exact hetzelfde is.
 - We kunnen kijken naar auto's die echt perse op een bepaalde plek moeten staan.
-    Een auto op deze plek kan deel zijn van een stap de goede richting in
+    Een auto op deze plek kan deel zijn van een stap de goede richting in.
+    (Bijvoorbeeld een vrachtwagen die op het eind op een plek MOET eindigen, omdat
+    anders de auto ALTIJD voor de uitgang staat
 - Nieuwe gamestates zijn belangrijker dan oude gamestates
