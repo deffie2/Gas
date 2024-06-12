@@ -16,7 +16,7 @@ class Board:
 
             # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
             # Initialize vehicles from the CSV file
-            with open(f'data/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+            with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
                 reader = csv.reader(csvfile)
                 next(reader)
                 for row in reader:
