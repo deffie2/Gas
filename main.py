@@ -12,18 +12,15 @@ if __name__ == "__main__":
     elif len(argv) == 2:
         game_number = argv[1]
     
-    d = int(input("What is the dimension?"))
+    #asking dimension
+    d = int(input("What is the dimension? "))
 
-    # Call board
-
-   
+    #asking how many runs
+    runs = int(input("How many times do you want to run the simulation? "))
     
-    runs = int(input("How many times do you want to run the simulation?"))
-
-    # Check if the red car is already at the exit
-    #if board.is_red_car_at_exit():
-        #print("Red car is already at the exit! You won.")
-        #return
+    best_moves = None
+    current_moves = 0
+    best_moves_list = []
 
     moveslist = []
     # All the runs
@@ -37,12 +34,21 @@ if __name__ == "__main__":
             moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
+        if i == 0:
+            best_moves = moves  
 
+        if best_moves >= moves:
+            best_moves = moves
+            best_moves_list = board.move_history
+        board.move_history = []
     
-    
-    
-    #if board.is_red_car_at_exit():
-    #    print("Red car reached the exit! You won!")
-     #   print(f"It took{moves} moves")
-      #  break
+
+    with open('data/random_best_move.csv', mode = 'w', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Car', 'Move direction', 'Step'])
+
+        for list in best_moves_list:
+            writer.writerow(list)
+      
+
     
