@@ -1,4 +1,5 @@
 import csv
+import math
 
 
 class Board:
@@ -6,7 +7,7 @@ class Board:
             self.board = []
             self.dimension = d
             self.createboard()
-            self.exit_cordinate = [(d/2 - 1), d - 1]
+            self.exit_cordinate = [round((d/2 - 1)), d - 1]
             self.vehicle_dict = {}
             self.movable_vehicles = set()
             self.possible_moves_dict = {}
@@ -232,13 +233,14 @@ class Vehicle:
 if __name__ == "__main__":
 
 
-    board = Board(6,1)
+    board = Board(9,4)
     board.places_car()
     board.printboard()
     print(board.empty_places())
     print(board.vehicles_moveable())
     board.possible_sets()
     print(board.possible_moves_dict)
+    print(board.exit_cordinate)
 
     # Check of rode auto pad vrij heeft (als er niks staat voor de rode auto)
         # Ja -> +1 move, beweeg rode auto naar einde, end game
