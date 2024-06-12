@@ -19,3 +19,10 @@ Mogelijke heuristieken:
     (Bijvoorbeeld een vrachtwagen die op het eind op een plek MOET eindigen, omdat
     anders de auto ALTIJD voor de uitgang staat
 - Nieuwe gamestates zijn belangrijker dan oude gamestates
+
+-  12 juni
+
+- CSV bestand produceren
+- Baseline bestand schrijven
+- Breadth first algoritme
+- Een van de heuristieken van boven
