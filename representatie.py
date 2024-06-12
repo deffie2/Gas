@@ -11,22 +11,24 @@ class Board:
             self.movable_vehicles = set()
             self.possible_moves_dict = {}
 
+            
+
             # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
             # Initialize vehicles from the CSV file
             with open(f'data/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
                 reader = csv.reader(csvfile)
                 next(reader)
                 for row in reader:
-                    key = row[0]
+                    car = row[0]
                     direction = row[1]
                     ycor = int(row[2]) - 1
                     xcor = int(row[3]) - 1
                     Size = int(row[4])
 
                     # Save vehicle as object in dict
-                    vehicle = Vehicle(direction, xcor, ycor, Size)
-                    self.vehicle_dict[key] = vehicle
-                    print(vehicle)
+                    vehicle = Vehicle(car, direction, xcor, ycor, Size)
+                    self.vehicle_dict[car] = vehicle
+      
 
     def createboard(self) -> None:
         # Create an empty board with dimensions d x d
@@ -61,18 +63,10 @@ class Board:
         self.movable_vehicles = set()
         for carkey, vehicle in self.vehicle_dict.items():
             car_orientation = vehicle.direction
-            car_col = vehicle.col
-            car_row = vehicle.row
-            car_length = vehicle.size
-
             # zoek beide coordinaten per auto . misschien verplaatseen naar vehicle class
 
-            vehicle_positions = []
-            for i in range(car_length):
-                if vehicle.direction == "H":
-                    vehicle_positions.append((car_row, car_col + i))
-                elif vehicle.direction == "V":
-                    vehicle_positions.append((car_row + i, car_col))
+            vehicle = self.vehicle_dict[carkey]
+            vehicle_positions = vehicle.vehiclepositions()
 
             for pos_row, pos_col in vehicle_positions:
                 if car_orientation == 'H':
@@ -92,24 +86,20 @@ class Board:
         self.possible_moves_dict = {}
         for car_id in self.movable_vehicles:
                 self.possible_moves_dict[car_id] = []
-        # Twee loops in 1 zetten en ook letten op de variable names.
-        for car_id in self.movable_vehicles:
-            vehicle = self.vehicle_dict[car_id]
-            car_orientation = vehicle.direction
-            car_col = vehicle.col
-            car_row = vehicle.row
-            car_length = vehicle.size
-
-            if car_orientation == 'H':
-                self.check_horizontal_moves(car_id, car_row, car_col, car_length)
-            elif car_orientation == 'V':
-                self.check_vertical_moves(car_id, car_row, car_col, car_length)
+                vehicle = self.vehicle_dict[car_id]
+                car_orientation = vehicle.direction
+                car_col = vehicle.col
+                car_row = vehicle.row
+                car_length = vehicle.size
+                if car_orientation == 'H':
+                    self.check_horizontal_moves(car_id, car_row, car_col, car_length)
+                elif car_orientation == 'V':
+                    self.check_vertical_moves(car_id, car_row, car_col, car_length)
         return self.possible_moves_dict
 
     def check_horizontal_moves(self, car_id, car_row, car_col, car_length):
         # Check possible moves to the left
         move_steps_left = []
-
         for j in range(car_col - 1, -1, -1):
             if self.board[car_row][j] == "_":
                 move_steps_left.append(j - car_col)
@@ -151,13 +141,12 @@ class Board:
 
     def is_red_car_at_exit(self) -> bool:
         # assert in plaats van false toevoegen
+        assert self.vehicle_dict.get('X') is not None
 
         # Check if the red car is at the exit
         red_car = self.vehicle_dict.get('X', None)
-        if not red_car:
-            return False
-        red_car_end_col = (red_car.col - 1) + red_car.size - 1
-        if red_car.direction == 'H' and (red_car.row - 1) == self.exit_cordinate[0] and red_car_end_col == self.exit_cordinate[1]:
+        red_car_end_col = (red_car.col) + red_car.size - 1
+        if red_car.direction == 'H' and (red_car.row) == self.exit_cordinate[0] and red_car_end_col == self.exit_cordinate[1]:
             return True
         return False
 
@@ -200,17 +189,27 @@ class Board:
 
 
 class Vehicle:
-    def __init__(self, direction, x, y, Size: int) -> None:
+    def __init__(self, car, direction, x, y, Size: int) -> None:
+        self.car = car 
         self.size = Size
         self.direction = direction 
         self.locationHead = [x, y]
         self.row = x
         self.col = y
-        # lijst maken 
-        self.locationtot = []
-        
+        self.vehicle_positions = []
+    
         # self.justmoved = False
         self.n_times_moved = 0
+     
+    def vehiclepositions(self):
+        self.vehicle_positions = []
+        for i in range(self.size):
+            if self.direction == "H":
+                self.vehicle_positions.append((self.row, self.col + i))
+            elif self.direction == "V":
+                self.vehicle_positions.append((self.row + i, self.col))
+        return self.vehicle_positions
+
 
     # FUNCTIE LOCATIE
     def locationchange(self, x, y) -> None:
