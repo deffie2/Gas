@@ -17,6 +17,10 @@ if __name__ == "__main__":
 
     #asking how many runs
     runs = int(input("How many times do you want to run the simulation? "))
+    
+    best_moves = None
+    current_moves = 0
+    best_moves_list = []
 
     moveslist = []
     # All the runs
@@ -30,3 +34,14 @@ if __name__ == "__main__":
             moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
+        if i == 0:
+            best_moves = moves  
+
+        if best_moves >= moves:
+            best_moves = moves
+            best_moves_list = board.move_history
+        board.move_history = []
+    
+    print(best_moves_list)    
+
+    
