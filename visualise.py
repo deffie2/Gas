@@ -11,7 +11,7 @@ def frequency_graph(name_data: str, name_new_file: str) -> None:
     list_of_n_moves = []
     
     # Open file and save data in list
-    with open(f"{name_data}") as csv_file:
+    with open(f"data/{name_data}") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             for item in row:
