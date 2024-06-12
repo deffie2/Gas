@@ -42,6 +42,13 @@ if __name__ == "__main__":
             best_moves_list = board.move_history
         board.move_history = []
     
-    print(best_moves_list)    
+
+    with open('data/random_best_move.csv', mode = 'w', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Car', 'Move direction', 'Step'])
+
+        for list in best_moves_list:
+            writer.writerow(list)
+      
 
     
