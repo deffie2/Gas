@@ -152,7 +152,7 @@ class Board:
             return True
         return False
 
-    def  move_vehicle(self, car_id, move_direction, step):
+    def move_vehicle(self, car_id, move_direction, step):
         # Move a vehicle in the specified direction by the given number of steps
         vehicle = self.vehicle_dict[car_id]
         if move_direction == 'L' or move_direction == 'R':
@@ -185,6 +185,37 @@ class Board:
                 print(f"{self.board[i][j]:>2}", end = '')
             print()
     
+    def heuri_red_clear_exit(self) -> bool:
+        """
+        Input: Nothing
+        Output: Boolean
+        Returns true if the way to the exit is clear for the red car.
+        Otherwise it returns false.
+        """
+        red_car = self.vehicle_dict.get('X', None)
+        
+        for i in range(red_car.car_col + 2, self.dimension, 1):
+            if not [self.exit_cordinate[0], i] in self.empty_places:
+                return False
+        return True
+        
+    def heuri_get_red_to_exit(self) -> None:
+        """
+        Input: Nothing
+        Output: Moves red_car_to exit
+        """
+        
+        # Checks if the way is clear
+        if (heuri_red_clear_exit()):
+        
+            # How much should red car move?
+            red_car = self.vehicle_dict.get('X', None)
+            steps = self.dimension - red_car.col -1
+        
+            # Moves red car by that amount
+            move_vehicle("X", "R", steps)
+        
+            
     
     # Bevat einddoellocatie rood
     # Visualiserend het bord met verschillende kleuren.
