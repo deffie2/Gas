@@ -43,13 +43,15 @@ if __name__ == "__main__":
             best_moves_list = board.move_history
         board.move_history = []
     
-    with open(f'data/r_freq_move_{game_number}_{d}x{d}.csv', mode = 'w', newline = '') as file:
+    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    with open(f'data/Freq_moves_table/Random/r_freq_move_{game_number}_{d}x{d}.csv', mode = 'w', newline = '') as file:
             writer = csv.writer(file)
             
             for list in moveslist:
                 writer.writerow([list])
 
-    with open(f'data/r_best_move_{game_number}_{d}x{d}.csv', mode = 'w', newline = '') as file:
+    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    with open(f'data/Best_moves_table/Random/r_best_move_{game_number}_{d}x{d}.csv', mode = 'w', newline = '') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Move direction', 'Step'])
 
