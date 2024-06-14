@@ -8,14 +8,11 @@ from randomise import move_car_random_with_heuri
 import csv
 
 
-from code.classes.board import Board
-from code.classes.vehicle import Vehicle
-from code.algorithms.breadth_first import (
-    breadth_first_search_without_heur, 
-    breadth_first_search_with_heur
-)
-from code.algorithms.random import move_car_random
-from code.visualisation import frequency_graph
+# from code.classes.board import Board
+# from code.classes.vehicle import Vehicle
+from code.algorithms.breadth_first import breadth_first_search_without_heur
+# from code.algorithms.random import move_car_random
+# from code.visualisation import frequency_graph
 
 
 
@@ -99,7 +96,7 @@ if __name__ == "__main__":
 
     # --------------------------- Breadth First -------------------------------
 
-    game_number = 
+    game_number = 1
     board = Board(6, game_number)  # Maak het bord aan zoals je al doet
     
     # Voer het BFS-algoritme uit om de oplossing te vinden
@@ -111,12 +108,12 @@ if __name__ == "__main__":
         file_path = f'data/Best_moves_table/breadth_first/r_best_move_{game_number}_{d}x{d}.csv'
 
         with open(file_path, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Car', 'Move direction', 'Step'])
+            writer = csv.writer(file)
+            writer.writerow(['Car', 'Move direction', 'Step'])
 
-        # Opslaan van elke move in de oplossing naar het CSV-bestand
-        for move in solution:
-            writer.writerow(move)
+            # Opslaan van elke move in de oplossing naar het CSV-bestand
+            for move in solution:
+                writer.writerow(move)
     
         print(f"Moves successfully saved to {file_path}")
     else:
