@@ -1,18 +1,10 @@
-from representatie import Board
-from randomise import move_car_random
-<<<<<<< HEAD
-from randomise import move_car_random_with_heuri
-=======
-
->>>>>>> d5d5f64b47509059841c71952e8947d7f329cef3
 import csv
 
 
-# from code.classes.board import Board
-# from code.classes.vehicle import Vehicle
+from code.classes.board import Board
 from code.algorithms.breadth_first import breadth_first_search_without_heur
-# from code.algorithms.random import move_car_random
-# from code.visualisation import frequency_graph
+from code.algorithms.random import move_car_random
+from code.visualisation import frequency_graph
 
 
 
@@ -51,23 +43,27 @@ if __name__ == "__main__":
     #     print(f"Board {game_number} took {moves} moves")
     #     moveslist.append(moves)
 
-<<<<<<< HEAD
-    moveslist = []
-    # All the runs
-    for i in range(runs):
-        board = Board(d, game_number)
-        board.places_car()
-        moves = 0
-        # A single run
-        while not (board.is_red_car_at_exit()):
-            move_car_random_with_heuri(board)
-            moves += 1
-        print(f"Board {game_number} took {moves} moves")
-        moveslist.append(moves)
-=======
+
+##. van Charlotte aangepast
+
+    # moveslist = []
+    # # All the runs
+    # for i in range(runs):
+    #     board = Board(d, game_number)
+    #     board.places_car()
+    #     moves = 0
+    #     # A single run
+    #     while not (board.is_red_car_at_exit()):
+    #         move_car_random_with_heuri(board)
+    #         moves += 1
+    #     print(f"Board {game_number} took {moves} moves")
+    #     moveslist.append(moves)
+
     #     if i == 0:
     #         best_moves = moves
->>>>>>> d5d5f64b47509059841c71952e8947d7f329cef3
+###
+
+
 
     #     if best_moves >= moves:
     #         best_moves = moves
