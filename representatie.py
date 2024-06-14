@@ -219,14 +219,18 @@ class Board:
         
             # Moves red car by that amount
             move_vehicle("X", "R", steps)
-        
-    
-    def copy_board(self):
-        # Maak een diepe kopie van het bord en alle voertuigen erop
-        return copy.deepcopy(self)
-
 
     def get_board_state(self):
+        new_board = []
+        for row in self.board:
+            new_row = []
+            for cell in row:
+                new_row.append(cell)
+            new_board.append(new_row)
+        return new_board
+
+
+
 
     # Bevat einddoellocatie rood
     # Visualiserend het bord met verschillende kleuren.
@@ -283,6 +287,7 @@ if __name__ == "__main__":
     board.possible_sets()
     print(board.possible_moves_dict)
     print(board.exit_cordinate)
+    print(board.get_board_state())
 
     # Check of rode auto pad vrij heeft (als er niks staat voor de rode auto)
         # Ja -> +1 move, beweeg rode auto naar einde, end game

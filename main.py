@@ -19,107 +19,111 @@ if __name__ == "__main__":
 
 
     # --------------------------- Random --------------------------------------
-    from sys import argv
+    # from sys import argv
 
-    # Load the requested game or else game 1
-    if len(argv) == 1:
-        game_number = "1"
-    elif len(argv) == 2:
-        game_number = argv[1]
+    # # Load the requested game or else game 1
+    # if len(argv) == 1:
+    #     game_number = "1"
+    # elif len(argv) == 2:
+    #     game_number = argv[1]
     
-    # asking dimension
-    d = int(input("What is the dimension? "))
+    # # asking dimension
+    # d = int(input("What is the dimension? "))
 
-    # asking how many runs
-    runs = int(input("How many times do you want to run the simulation? "))
+    # # asking how many runs
+    # runs = int(input("How many times do you want to run the simulation? "))
     
-    best_moves = None
-    current_moves = 0
-    best_moves_list = []
+    # best_moves = None
+    # current_moves = 0
+    # best_moves_list = []
 
-    moveslist = []
-    # All the runs
-    for i in range(runs):
-        board = Board(d, game_number)
-        board.places_car()
-        moves = 0
-        # A single run
-        while not (board.is_red_car_at_exit()):
-            move_car_random(board)
-            moves += 1
-        print(f"Board {game_number} took {moves} moves")
-        moveslist.append(moves)
+    # moveslist = []
+    # # All the runs
+    # for i in range(runs):
+    #     board = Board(d, game_number)
+    #     board.places_car()
+    #     moves = 0
+    #     # A single run
+    #     while not (board.is_red_car_at_exit()):
+    #         move_car_random(board)
+    #         moves += 1
+    #     print(f"Board {game_number} took {moves} moves")
+    #     moveslist.append(moves)
 
-        if i == 0:
-            best_moves = moves
+    #     if i == 0:
+    #         best_moves = moves
 
-        if best_moves >= moves:
-            best_moves = moves
-            best_moves_list = board.move_history
-        board.move_history = []
+    #     if best_moves >= moves:
+    #         best_moves = moves
+    #         best_moves_list = board.move_history
+    #     board.move_history = []
 
-    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(f'data/Freq_moves_table/Random/'
-              f'r_freq_move_{game_number}_{d}x{d}.csv',
-              mode='w', newline='') as file:
-        writer = csv.writer(file)
+    # # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    # with open(f'data/Freq_moves_table/Random/'
+    #           f'r_freq_move_{game_number}_{d}x{d}.csv',
+    #           mode='w', newline='') as file:
+    #     writer = csv.writer(file)
             
-        for list in moveslist:
-            writer.writerow([list])
+    #     for list in moveslist:
+    #         writer.writerow([list])
 
-    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(f'data/Best_moves_table/Random/'
-              f'r_best_move_{game_number}_{d}x{d}.csv',
-              mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Car', 'Move direction', 'Step'])
+    # # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    # with open(f'data/Best_moves_table/Random/'
+    #           f'r_best_move_{game_number}_{d}x{d}.csv',
+    #           mode='w', newline='') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow(['Car', 'Move direction', 'Step'])
 
-        for list in best_moves_list:
-            writer.writerow(list)
+    #     for list in best_moves_list:
+    #         writer.writerow(list)
 
 
     # --------------------------- Breadth First -------------------------------
 
-    board = Board(6, 1)  # Maak het bord aan zoals je al doet
+    game_number = 
+    board = Board(6, game_number)  # Maak het bord aan zoals je al doet
     
     # Voer het BFS-algoritme uit om de oplossing te vinden
     solution = breadth_first_search(board)
     
     if solution:
-        print("Oplossing gevonden:")
-        for move in solution:
-            print(move)
-    else:
-        print("Geen oplossing gevonden.")
+        d = board.dimension
 
+        file_path = f'data/Best_moves_table/breadth_first/r_best_move_{game_number}_{d}x{d}.csv'
 
-
-
-
-
-
-
-
-
-
-    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(f'data/Freq_moves_table/Random/'
-              f'r_freq_move_{game_number}_{d}x{d}.csv',
-              mode='w', newline='') as file:
-        writer = csv.writer(file)
-            
-        for list in moveslist:
-            writer.writerow([list])
-
-    # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(f'data/Best_moves_table/Random/'
-              f'r_best_move_{game_number}_{d}x{d}.csv',
-              mode='w', newline='') as file:
+        with open(file_path, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Move direction', 'Step'])
 
-        for list in best_moves_list:
-            writer.writerow(list)
+        # Opslaan van elke move in de oplossing naar het CSV-bestand
+        for move in solution:
+            writer.writerow(move)
+    
+        print(f"Moves successfully saved to {file_path}")
+    else:
+        print("No solution found.")
+        
+
+
+
+    # # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    # with open(f'data/Freq_moves_table/Random/'
+    #           f'r_freq_move_{game_number}_{d}x{d}.csv',
+    #           mode='w', newline='') as file:
+    #     writer = csv.writer(file)
+            
+    #     for list in moveslist:
+    #         writer.writerow([list])
+
+    # # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
+    # with open(f'data/Best_moves_table/Random/'
+    #           f'r_best_move_{game_number}_{d}x{d}.csv',
+    #           mode='w', newline='') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow(['Car', 'Move direction', 'Step'])
+
+    #     for list in best_moves_list:
+    #         writer.writerow(list)
 
     # --------------------------- Visualisation -------------------------------
 
