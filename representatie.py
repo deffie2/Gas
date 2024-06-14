@@ -194,7 +194,7 @@ class Board:
         """
         red_car = self.vehicle_dict.get('X', None)
         
-        for i in range(red_car.car_col + 2, self.dimension, 1):
+        for i in range(red_car.col + 2, self.dimension, 1):
             if not [self.exit_cordinate[0], i] in self.empty_places:
                 return False
         return True

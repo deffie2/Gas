@@ -1,5 +1,6 @@
 from representatie import Board
 from randomise import move_car_random
+from randomise import move_car_random_with_heuri
 import csv
 
 if __name__ == "__main__":
@@ -30,7 +31,7 @@ if __name__ == "__main__":
         moves = 0
         # A single run
         while not (board.is_red_car_at_exit()):
-            move_car_random(board)
+            move_car_random_with_heuri(board)
             moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
