@@ -1,17 +1,13 @@
 import copy
 
 
-from ..representatie import Board
+from ..classes.board import Board
 from ..classes.queue import Queue
-
-# from code.classes.board import Board
-# from code.classes.vehicle import Vehicle
-# from code.classes.queue import Queue
-
-
 
 
 def breadth_first_search_without_heur(initial_bord):
+	"""Het retourneert een lijst met alle possible_moves die het heeft gemaakt totdat de rode auto bij de exit is."""
+
 	# Create een queue om toestanden van het bord en bijbehorende moves te beheren
 	queue = Queue
 	# Bijhouden van welke bordtoestanden zijn al geweest, dit voorkont herhaling
