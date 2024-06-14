@@ -141,6 +141,13 @@ class Board:
         if move_steps_down:
             self.possible_moves_dict[car_id].append(('D', move_steps_down))
 
+    def generate_all_possible_moves(self):
+        # Generate all possible moves
+        empty_spaces = self.empty_places()
+        movable_vehicles = self.vehicles_moveable()
+        possible_moves = self.possible_sets()
+        return movable_vehicles, possible_moves
+
     def is_red_car_at_exit(self) -> bool:
         # assert in plaats van false toevoegen
         assert self.vehicle_dict.get('X') is not None
@@ -175,8 +182,6 @@ class Board:
         # Update the board after moving a vehicle
         self.createboard()
         self.places_car()
-        # checken als empty_places weg kan. 
-        self.empty_places()
 
     def printboard(self) -> None:
         # Print the current state of the board
@@ -215,8 +220,14 @@ class Board:
             # Moves red car by that amount
             move_vehicle("X", "R", steps)
         
-            
     
+    def copy_board(self):
+        # Maak een diepe kopie van het bord en alle voertuigen erop
+        return copy.deepcopy(self)
+
+
+    def get_board_state(self):
+
     # Bevat einddoellocatie rood
     # Visualiserend het bord met verschillende kleuren.
     # Donkergrijze border om d bij d lichtgrijs bord
