@@ -38,7 +38,6 @@ def breadth_first_search_with_heur():
 	pass
 
 
-
 def process_moves(current_board, path, visited_state, queue):
     # Genereer alle mogelijke zetten voor de huidige toestand van het bord
     movable_vehicles, possible_moves = current_board.generate_all_possible_moves()
@@ -58,4 +57,8 @@ def process_moves(current_board, path, visited_state, queue):
                     visited_state.add(new_board_state)
                     new_path = path + [[car_id, move_direction, steps]]
                     queue.enqueue((new_board, new_path))
+
+
+
+      
 
