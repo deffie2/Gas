@@ -1,10 +1,10 @@
 import csv
-
+import os
 
 from code.classes.board import Board
 from code.algorithms.breadth_first import breadth_first_search_without_heur
 from code.algorithms.random import move_car_random
-from code.visualisation import frequency_graph
+# from code.visualisation import frequency_graph
 
 
 
@@ -96,25 +96,32 @@ if __name__ == "__main__":
     board = Board(6, game_number)  # Maak het bord aan zoals je al doet
     
     # Voer het BFS-algoritme uit om de oplossing te vinden
-    solution = breadth_first_search(board)
+    solution = breadth_first_search_without_heur(board)
     
     if solution:
         d = board.dimension
 
-        file_path = f'data/Best_moves_table/breadth_first/r_best_move_{game_number}_{d}x{d}.csv'
+        file_path = f'code/data/breadth_first/{game_number}_{d}x{d}.csv'
 
-        with open(file_path, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['Car', 'Move direction', 'Step'])
+        try:
+            # Controleer of de map bestaat, zo niet, maak deze aan
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-            # Opslaan van elke move in de oplossing naar het CSV-bestand
-            for move in solution:
-                writer.writerow(move)
-    
-        print(f"Moves successfully saved to {file_path}")
-    else:
-        print("No solution found.")
-        
+            # Open het bestand voor schrijven ('x' modus)
+            with open(file_path, mode='x', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Car', 'Move direction', 'Step'])
+
+                # Opslaan van elke move in de oplossing naar het CSV-bestand
+                for move in solution:
+                    writer.writerow(move)
+
+                print(f"Moves successfully saved to {file_path}")
+        except FileExistsError:
+            print(f"CSV file already exists: {file_path}")
+        except IOError as e:
+            print(f"Fout bij openen/bewerken van bestand: {e}")
+
 
 
 

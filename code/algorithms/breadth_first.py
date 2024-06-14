@@ -1,20 +1,20 @@
 import copy
 
 
-from ..classes.board import Board
-from ..classes.queue import Queue
+from code.classes.board import Board
+from code.classes.queue import Queue
 
 
 def breadth_first_search_without_heur(initial_bord):
 	"""Het retourneert een lijst met alle possible_moves die het heeft gemaakt totdat de rode auto bij de exit is."""
 
 	# Create een queue om toestanden van het bord en bijbehorende moves te beheren
-	queue = Queue
+	queue = Queue()
 	# Bijhouden van welke bordtoestanden zijn al geweest, dit voorkont herhaling
 	visited_state = set()
 
 	# Zet het initial_bord in queue en ook de in visited_state
-	queue.enqueue(initial_bord, [])
+	queue.enqueue((initial_bord, []))
 	visited_state.add(initial_bord)
 
 	# Nu ga je checken als de queue niet leeg is
@@ -27,7 +27,7 @@ def breadth_first_search_without_heur(initial_bord):
 			return path
 
 		# Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
-        process_moves(current_board, path, visited_state, queue)
+		process_moves(current_board, path, visited_state, queue)
 
 	return None
 
@@ -50,9 +50,11 @@ def process_moves(current_board, path, visited_state, queue):
                 new_board = copy.deepcopy(current_board)
                 new_board.move_vehicle(car_id, move_direction, steps)
 
-                # Controleer of de nieuwe toestand al is bezocht
                 new_board_state = new_board.get_board_state()
-                if new_board_state not in visited_state:
+                new_board_hash = hash(new_board_state)
+
+                # Controleer of de nieuwe toestand al is bezocht
+                if new_board_hash not in visited_state:
                     visited_state.add(new_board_state)
                     new_path = path + [[car_id, move_direction, steps]]
                     queue.enqueue((new_board, new_path))

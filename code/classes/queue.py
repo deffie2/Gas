@@ -3,9 +3,9 @@ class Queue:
     def __init__(self):
         self._data = []
 
-    def enqueue(self, element):
+    def enqueue(self, item):
         """Add new element to back of queue"""
-        self._data.append(element) 
+        self._data.append(item) 
 
     def dequeue(self):
         """Remove and return element from front of queue"""

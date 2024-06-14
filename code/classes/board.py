@@ -2,7 +2,7 @@ import csv
 import math
 
 
-from vehicle import Vehicle
+from code.classes.vehicle import Vehicle
 
 
 class Board:
@@ -224,10 +224,9 @@ class Board:
             move_vehicle("X", "R", steps)
 
     def get_board_state(self):
-        new_board = []
-        for row in self.board:
-            new_row = []
-            for cell in row:
-                new_row.append(cell)
-            new_board.append(new_row)
-        return new_board
+        return tuple(map(tuple, self.board))
+
+    def __hash__(self):
+        return hash(self.get_board_state())
+
+
