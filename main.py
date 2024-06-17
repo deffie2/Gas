@@ -149,8 +149,8 @@ if __name__ == "__main__":
     #         print("No solution found.")
 
     # Breadth-first search with early constraint checking applied to game boards 4, 5, 6 en 7.
-    gameboards_list = [(9, 4), (9, 5), (9, 6), (12, 7)]
-    constraint_number = 2
+    gameboards_list = [(6, 1)] # , (9, 5), (9, 6), (12, 7)
+    constraint_number = 1
 
     for d, game_number in gameboards_list:
         file_path6 = f'./data/Breadth_First/Best_Moves_ECC/{game_number}_{d}x{d}.csv'

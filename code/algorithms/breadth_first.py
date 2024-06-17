@@ -62,6 +62,7 @@ def breadth_first_search_with_early_constraints(initial_board: Board, constrain_
                 if new_board_state not in queue.visited_state:
                     queue.enqueue(new_board)
                     parents[new_board_state] = (hash(initial_board.get_board_state()), car_id, move_direction, steps)
+                    print(f"De eerste: Key: {new_board_state}, Value: {parents[new_board_state]} ")
 
                     moves = 1
                     while not queue.is_empty():
@@ -84,8 +85,11 @@ def breadth_first_search_with_early_constraints(initial_board: Board, constrain_
 
 
                         # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
-                        process_moves(current_board, queue, parents)
                         moves += 1
+                        print()
+                        print(moves)
+                        process_moves(current_board, queue, parents)
+
     
     if all_paths_to_exit:
         return min(all_paths_to_exit, key=len)
@@ -118,6 +122,8 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
                 # Maak een kopie van het bord en voer de zet uit
                 new_board = copy.deepcopy(current_board)
                 new_board.move_vehicle(car_id, move_direction, steps)
+                new_board.printboard()
+                print()
 
                 new_board_state = hash(new_board.get_board_state())
 
