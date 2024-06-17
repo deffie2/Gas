@@ -2,6 +2,7 @@ import csv
 import os
 
 from code.classes.board import Board
+from code.classes.vehicle import Vehicle
 from code.algorithms.breadth_first import (
     breadth_first_search_without_heur, 
     breadth_first_search_with_early_constraints
@@ -101,19 +102,21 @@ if __name__ == "__main__":
 
 
 ##. van Charlotte aangepast
-
-    # moveslist = []
-    # # All the runs
-    # for i in range(runs):
-    #     board = Board(d, game_number)
-    #     board.places_car()
-    #     moves = 0
-    #     # A single run
-    #     while not (board.is_red_car_at_exit()):
-    #         move_car_random_with_heuri(board)
-    #         moves += 1
-    #     print(f"Board {game_number} took {moves} moves")
-    #     moveslist.append(moves)
+    runs = 1
+    moveslist = []
+    d = 6
+    game_number = 1
+    # All the runs
+    for i in range(runs):
+        board = Board(d, game_number)
+        board.places_car()
+        moves = 0
+        # A single run
+        while not (board.is_red_car_at_exit()):
+            move_car_random(board)
+            moves += 1
+        print(f"Board {game_number} took {moves} moves")
+        moveslist.append(moves)
 
     ###
 
