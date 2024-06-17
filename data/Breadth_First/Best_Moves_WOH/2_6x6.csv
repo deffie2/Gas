@@ -1,0 +1,16 @@
+Car,Move direction,Step
+A,L,-2
+C,L,-1
+B,L,-2
+X,L,-1
+D,L,-1
+H,U,-1
+G,U,-2
+F,R,2
+K,U,-2
+I,L,-3
+L,L,-3
+K,D,2
+F,L,-1
+H,D,3
+X,R,3
