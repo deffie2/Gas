@@ -40,62 +40,62 @@ def breadth_first_search_without_heur(initial_bord: Board):
     return None
 
 
-def breadth_first_search_with_early_constraints(initial_board: Board, constrain_number: int):
-    """Executes BFS with early constraints and resets search if constraints are exceeded."""
+# def breadth_first_search_with_early_constraints(initial_board: Board, constrain_number: int):
+#     """Executes BFS with early constraints and resets search if constraints are exceeded."""
 
-    movable_vehicles, possible_moves = initial_board.generate_all_possible_moves()
-    all_paths_to_exit = []
+#     movable_vehicles, possible_moves = initial_board.generate_all_possible_moves()
+#     all_paths_to_exit = []
 
-    for car_id in movable_vehicles:
-        queue, parents = initialize_search(initial_board)
+#     for car_id in movable_vehicles:
+#         queue, parents = initialize_search(initial_board)
         
 
-        # Move the current car and initialize the search from that state
-        for move_direction, step_list in possible_moves[car_id]:
-            for steps in step_list:
-                new_board = copy.deepcopy(initial_board)
-                new_board.move_vehicle(car_id, move_direction, steps)
+#         # Move the current car and initialize the search from that state
+#         for move_direction, step_list in possible_moves[car_id]:
+#             for steps in step_list:
+#                 new_board = copy.deepcopy(initial_board)
+#                 new_board.move_vehicle(car_id, move_direction, steps)
 
-                new_board_state = hash(new_board.get_board_state())
+#                 new_board_state = hash(new_board.get_board_state())
 
-                # Controleer of de nieuwe toestand al is bezocht
-                if new_board_state not in queue.visited_state:
-                    queue.enqueue(new_board)
-                    parents[new_board_state] = (hash(initial_board.get_board_state()), car_id, move_direction, steps)
-                    print(f"De eerste: Key: {new_board_state}, Value: {parents[new_board_state]} ")
-                    # new_board.printboard()
+#                 # Controleer of de nieuwe toestand al is bezocht
+#                 if new_board_state not in queue.visited_state:
+#                     queue.enqueue(new_board)
+#                     parents[new_board_state] = (hash(initial_board.get_board_state()), car_id, move_direction, steps)
+#                     print(f"De eerste: Key: {new_board_state}, Value: {parents[new_board_state]} ")
+#                     # new_board.printboard()
 
-                    moves = 1
-                    while not queue.is_empty():
+#                     moves = 1
+#                     while not queue.is_empty():
 
-                        # Get the current state from the queue and pop it
-                        current_board = queue.dequeue()
+#                         # Get the current state from the queue and pop it
+#                         current_board = queue.dequeue()
 
-                        # Check if the current state is already a winning state
-                        if current_board.is_red_car_at_exit():
-                            red_car_path = reconstruct_path(parents, hash(current_board))
-                            all_paths_to_exit.add(red_car_path)
-                            queue.clear()
-                            queue, parents = initialize_search(initial_board)
-                            break
+#                         # Check if the current state is already a winning state
+#                         if current_board.is_red_car_at_exit():
+#                             red_car_path = reconstruct_path(parents, hash(current_board))
+#                             all_paths_to_exit.add(red_car_path)
+#                             queue.clear()
+#                             queue, parents = initialize_search(initial_board)
+#                             break
 
-                        elif moves >= constrain_number:
-                            queue.clear()
-                            queue, parents = initialize_search(initial_board)
-                            break
+#                         elif moves >= constrain_number:
+#                             queue.clear()
+#                             queue, parents = initialize_search(initial_board)
+#                             break
 
 
-                        # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
-                        moves += 1
-                        # print()
-                        # print(moves)
-                        process_moves(current_board, queue, parents)
+#                         # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
+#                         moves += 1
+#                         # print()
+#                         # print(moves)
+#                         process_moves(current_board, queue, parents)
 
     
-    if all_paths_to_exit:
-        return min(all_paths_to_exit, key=len)
-    else:
-        return None
+#     if all_paths_to_exit:
+#         return min(all_paths_to_exit, key=len)
+#     else:
+#         return None
 
 def initialize_search(initial_bord):
     """Initializes the queue and parents dictionary for the search."""
