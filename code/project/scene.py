@@ -6,9 +6,15 @@ import csv
 import time
 import matplotlib.cm as cm
 
-def visualize(d, game_number):
+def visualize(d: int, game_number: int):
+    """ 
+    Uses data of the initial positon of the cars and all the moves, 
+    for each move the position of the car gets updated. With this updated data, 
+    a new game state gets plotted
 
-    # Define car positions and sizes (example)
+    pre: dimension (d) and game_number (game_number)
+    """
+
     cars_in_game = import_table(d, game_number)
     cars_in_game = colors(cars_in_game)
     fig, ax = plt.subplots()
@@ -16,49 +22,49 @@ def visualize(d, game_number):
 
     car_moves_data = car_moves(d, game_number)
 
-
-    move = 1
-    print(move)
+    move = 0
     for car_id, direction, steps in car_moves_data:
         if car_id in cars_in_game:
+            move += 1
             for i in range(abs(steps)):
-
                 if direction == 'R':  # Move right
                     cars_in_game[car_id][1] += 1
-                    print(car_id)
-                    print(cars_in_game)
                 elif direction == 'L':  # Move left
                     cars_in_game[car_id][1] -= 1
                 elif direction == 'U':  # Move up
                     cars_in_game[car_id][0] -= 1
                 elif direction == 'D':  # Move down
                     cars_in_game[car_id][0] += 1
-                plotting_grid(ax, cars_in_game, move, d, game_number)
-                print(car_id)
-            move += 1
-            print(move)
+            plotting_grid(ax, cars_in_game, move, d, game_number)
+    plt.show()
+
 
 def import_table(d, game_number):
+    """ 
+    Collects data of the cars and their initial positions 
+
+    pre: dimension and game number
+    post: dictionary with the car id as key value and the row, colomn, width an heigt as the key
+
+    """
     cars_in_game = {}
     with open(f'../../data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header
-        for row in reader:
-            car_id = row[0]
-            direction = row[1]
-            row_pos = int(row[3])-1
-            col_pos = int(row[2])-1
+        for line in reader:
+            car_id = line[0]
+            direction = line[1]
+            row = int(line[3])-1
+            col = int(line[2])-1
 
             if direction == 'H':
-                width = int(row[4])
+                width = int(line[4])
                 height = 1
-            else:
+            elif direction == 'V':
                 width = 1
-                height = int(row[4])
+                height = int(line[4])
             
-
-            cars_in_game[car_id] = [row_pos, col_pos, width, height]
-
+            cars_in_game[car_id] = [row, col, width, height]
     return cars_in_game
 
 def colors(cars_in_game):
@@ -113,9 +119,8 @@ def plotting_grid(ax, cars_in_game, move, d, game_number):
     for spine in ax.spines.values():
         spine.set_linewidth(8)
 
-
     plt.draw()
-    plt.pause(0.3) 
+    plt.pause(0.5) 
 
 
 def car_moves(d, game_number):
@@ -134,6 +139,6 @@ def car_moves(d, game_number):
 
 # Main script
 if __name__ == "__main__":
-    d = 9  # Example grid size
-    game_number = 4  # Example game number
+    d = 6  # Example grid size
+    game_number = 2  # Example game number
     visualize(d, game_number)
