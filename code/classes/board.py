@@ -3,13 +3,13 @@ import math
 import os
 
 
-from code.classes.vehicle import Vehicle
+#from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
 
-#############################
-# Om het te testen: python3 board.py
-# from vehicle import Vehicle
 ###########################
+# Om het te testen: python3 board.py
+from vehicle import Vehicle
+#########################
 
 
 class Board:
@@ -44,28 +44,14 @@ class Board:
         self.move_history: List[List[Union[str, int]]] = []
 
 
-        ####################################################################
-        # # Om het te testen: python3 board.py
-        # current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
-        # csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
+        ###################################################################
+        # Om het te testen: python3 board.py
+        current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
+        csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
 
-        #   # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
-        # # Initialize vehicles from the CSV file
-        # with open(csv_path, "r") as csvfile:
-        #     reader = csv.reader(csvfile)
-        #     next(reader)
-        #     for row in reader:
-        #         car = row[0]
-        #         direction = row[1]
-        #         ycor = int(row[2]) - 1
-        #         xcor = int(row[3]) - 1
-        #         Size = int(row[4])
-
-        ##################################################################
-
-        # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+          # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
         # Initialize vehicles from the CSV file
-        with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+        with open(csv_path, "r") as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
             for row in reader:
@@ -74,7 +60,21 @@ class Board:
                 ycor = int(row[2]) - 1
                 xcor = int(row[3]) - 1
                 Size = int(row[4])
-        ##############################################################
+
+        # #################################################################
+
+        # # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+        # # Initialize vehicles from the CSV file
+        # with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+            # reader = csv.reader(csvfile)
+            # next(reader)
+            # for row in reader:
+                # car = row[0]
+                # direction = row[1]
+                # ycor = int(row[2]) - 1
+                # xcor = int(row[3]) - 1
+                # Size = int(row[4])
+        # ##############################################################
 
                 # Save vehicle as object in dict
                 vehicle = Vehicle(car, direction, xcor, ycor, Size)
@@ -319,6 +319,15 @@ class Board:
             for j in range(self.dimension):
                 print(f"{self.board[i][j]:>2}", end = '')
             print()
+        print()
+            
+    def get_board_state(self) -> Tuple[Tuple[str, ...], ...]:
+        """
+        Gets the current state of the board.
+
+        post: Returns the current board state as a tuple of tuples
+        """
+        return tuple(map(tuple, self.board))
     
     def heuri_red_clear_exit(self) -> bool:
         """
@@ -330,55 +339,99 @@ class Board:
         red_car = self.vehicle_dict.get('X', None)
         
         for i in range(red_car.col + 2, self.dimension, 1):
-            if not [self.exit_cordinate[0], i] in self.empty_places:
+            if not (self.exit_cordinate[0], i) in self.empty_places():
                 return False
         return True
         
     def heuri_get_red_to_exit(self) -> None:
         """
         Input: Nothing
-        Output: Moves red_car_to exit
+        Output: Moves red_car to the exit
         """
         
         # Checks if the way is clear
-        if (heuri_red_clear_exit()):
+        if (self.heuri_red_clear_exit()):
         
             # How much should red car move?
             red_car = self.vehicle_dict.get('X', None)
-            steps = self.dimension - red_car.col -1
+            steps = self.dimension - red_car.col - 2
         
             # Moves red car by that amount
-            move_vehicle("X", "R", steps)
+            self.move_vehicle("X", "R", steps)
 
-    def get_board_state(self) -> Tuple[Tuple[str, ...], ...]:
-        """
-        Gets the current state of the board.
-
-        post: Returns the current board state as a tuple of tuples
-        """
-        return tuple(map(tuple, self.board))
+    
 
 
 # MAIN: 
 if __name__ == "__main__":
 
 
-    board = Board(9,6)
-    board.printboard()
-    print()
-    hash(board)
-    print(hash(board))
-    print(board)
-    print(board.get_board_state())
+    # board = Board(1,6)
+    # board.printboard()
+    # print()
+    # hash(board)
+    # print(hash(board))
+    # print(board)
+    # print(board.get_board_state())
 
     # test eq__
     board1 = Board(6,1)
     board2 = Board(6,1)
-
+    
+    print(board1.empty_places)
     print(board1 is board2)
     print(board1 == board2)
-
-
+    # # C,L,-1
+    # # A,L,-1
+    # # G,U,-2
+    # # L,U,-2
+    # # J,L,-3
+    # # I,D,2
+    # # H,R,1
+    # # E,D,3
+    # # D,L,-1
+    # # H,L,-1
+    # # I,U,-3
+    # # H,R,1
+    # # E,U,-2
+    # # J,R,3
+    # # L,D,1
+    # # E,D,1
+    # # X,R,3
+    # # G,D,1
+    # # B,L,-1
+    # # I,U,-1
+    # # X,R,1
+    board1.move_vehicle("C","L",-1)
+    board1.move_vehicle("A","L",-1)
+    
+    board1.move_vehicle("G","U",-2)
+    board1.heuri_red_clear_exit()
+    board1.move_vehicle("L","U",-2)
+    board1.move_vehicle("J","L",-3)
+    board1.move_vehicle("I","D",2)
+    #print(board1.heuri_red_clear_exit())
+    board1.heuri_get_red_to_exit()
+    board1.move_vehicle("H","R",1)
+    board1.move_vehicle("E","D",3)
+    board1.move_vehicle("D","L",-1)
+    board1.move_vehicle("H","L",-1)
+    board1.move_vehicle("I","U",-3)
+    board1.move_vehicle("H","R",1)
+    board1.move_vehicle("E","U",-2)
+    board1.move_vehicle("J","R",3)
+    board1.move_vehicle("L","D",1)
+    board1.move_vehicle("E","D",1)
+    board1.move_vehicle("X","R",3)
+    board1.move_vehicle("G","D",1)
+    board1.move_vehicle("B","L",-1)
+    board1.move_vehicle("I","U",-1)
+    print(board1.heuri_red_clear_exit())
+    board1.heuri_get_red_to_exit()
+    board1.printboard()
+    #board1.move_vehicle("X","R",1)
+    
+    
     # board.places_car()
     # board.printboard()
     # board.printboard()

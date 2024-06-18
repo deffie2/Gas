@@ -23,7 +23,7 @@ def move_car_random(board):
         board.heuri_get_red_to_exit()
 
     # Move the vehicle to the new position
-    board.move_vehicle(movable_vehicle, move_direction, step)
+    #board.move_vehicle(movable_vehicle, move_direction, step)
 
 def select_random_move(board):
     # Generate all possible moves

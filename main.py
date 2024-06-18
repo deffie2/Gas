@@ -2,6 +2,7 @@ import csv
 import os
 
 from code.classes.board import Board
+from code.classes.vehicle import Vehicle
 from code.algorithms.breadth_first import (
     breadth_first_search_without_heur, 
     breadth_first_search_with_early_constraints
@@ -100,22 +101,40 @@ if __name__ == "__main__":
     # Random Function with heuristics
 
 
-##. van Charlotte aangepast
+# ##. van Charlotte aangepast
+#     runs = 1
+#     moveslist = []
+#     d = 6
+#     game_number = 1
+#     # All the runs
+#     for i in range(runs):
+#         board = Board(d, game_number)
+#         board.places_car()
+#         moves = 0
+#         # A single run
+#         while not (board.is_red_car_at_exit()):
+#             move_car_random(board)
+#             moves += 1
+#         print(f"Board {game_number} took {moves} moves")
+#         moveslist.append(moves)
 
-    # moveslist = []
-    # # All the runs
-    # for i in range(runs):
-    #     board = Board(d, game_number)
-    #     board.places_car()
-    #     moves = 0
-    #     # A single run
-    #     while not (board.is_red_car_at_exit()):
-    #         move_car_random_with_heuri(board)
-    #         moves += 1
-    #     print(f"Board {game_number} took {moves} moves")
-    #     moveslist.append(moves)
+# #. van Charlotte aangepast
 
-    ###
+#     moveslist = []
+#     # All the runs
+#     for i in range(runs):
+#         board = Board(d, game_number)
+#         board.places_car()
+#         moves = 0
+#         # A single run
+#         while not (board.is_red_car_at_exit()):
+#             move_car_random_with_heuri(board)
+#             moves += 1
+#         print(f"Board {game_number} took {moves} moves")
+#         moveslist.append(moves)
+
+
+#     ##
 
     #     if i == 0:
     #         best_moves = moves
@@ -149,8 +168,8 @@ if __name__ == "__main__":
     #         print("No solution found.")
 
     # Breadth-first search with early constraint checking applied to game boards 4, 5, 6 en 7.
-    gameboards_list = [(6, 1)] # , (9, 5), (9, 6), (12, 7)
-    constraint_number = 1
+    gameboards_list = [(9, 5), (9, 6), (12, 7)]
+    constraint_number = 2000000
 
     for d, game_number in gameboards_list:
         file_path6 = f'./data/Breadth_First/Best_Moves_ECC/{game_number}_{d}x{d}.csv'
