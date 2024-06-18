@@ -38,7 +38,6 @@ def visualize(d: int, game_number: int):
             plotting_grid(ax, cars_in_game, move, d, game_number)
     plt.show()
 
-
 def import_table(d, game_number):
     """ 
     Collects data of the cars and their initial positions 
@@ -56,18 +55,23 @@ def import_table(d, game_number):
             direction = line[1]
             row = int(line[3])-1
             col = int(line[2])-1
-
             if direction == 'H':
                 width = int(line[4])
                 height = 1
             elif direction == 'V':
                 width = 1
                 height = int(line[4])
-            
             cars_in_game[car_id] = [row, col, width, height]
     return cars_in_game
 
 def colors(cars_in_game):
+    """
+    Assigns a color to each car, picked out of the "gist_ncar" colormap of matplotlip
+
+    pre: dictionary with car id as key and postiontion as value 
+    post: returns same dictionary, but now with color added to the value
+    
+    """
     n_cars = len(cars_in_game)
     cmap = mpl.colormaps["gist_ncar"]
     colors = cmap(np.linspace(0, 1, n_cars))
@@ -81,49 +85,14 @@ def colors(cars_in_game):
 
     return cars_in_game
 
-
-def plotting_grid(ax, cars_in_game, move, d, game_number):
-    ax.clear()
-
-    for i in range(d + 1):
-        ax.axhline(i, color='black', linestyle='-', linewidth=1)  # Horizontal grid lines
-        ax.axvline(i, color='black', linestyle='-', linewidth=1)  # Vertical grid lines
-    print(cars_in_game)
-
-    for car_id, values in cars_in_game.items():
-        row = values[0]
-        col = values[1]
-        width = values[2]
-        height = values[3]
-        color = values[4]  
-        rect = patches.Rectangle((col, row), width, height, linewidth=1, edgecolor='black', facecolor=color)
-        ax.add_patch(rect)
-
-    # Set labels and limits
-    ax.set_xticks(np.arange(d + 1))
-    ax.set_yticks(np.arange(d + 1))
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
-    ax.grid(True)
-    ax.set_xlim(0, d)
-    ax.set_ylim(0, d)
-    ax.set_aspect('equal')
-    ax.invert_yaxis()
-
-    car_moves_data= car_moves(d, game_number)
-    if move != len(car_moves_data):
-        plt.title(f'Move {move}')
-    else:
-        plt.title(f'You won! You had a total of {move} moves!')
-    
-    for spine in ax.spines.values():
-        spine.set_linewidth(8)
-
-    plt.draw()
-    plt.pause(0.5) 
-
-
 def car_moves(d, game_number):
+    """
+    Collects data of the moves of the cars.
+
+    pre: table with car_id and their moves
+    post: a list with for each move a list with car_id, direction and move
+    """
+
     car_moves_data = []
     with open(f'../../data/Random/Best_Moves_WOH/r_best_move_{game_number}_{d}x{d}.csv', "r") as csvfile:
         reader = csv.reader(csvfile)
@@ -136,6 +105,56 @@ def car_moves(d, game_number):
     car_moves_data 
 
     return car_moves_data
+
+def plotting_grid(ax, cars_in_game, move, d, game_number):
+    """
+    Plotting the game.
+
+    pre: the axes object, dictionary with car_id as key and postions as value, 
+    move count and dimension and game_number
+    post: a plot
+
+    """
+    ax.clear()
+
+    # making the grid
+    for i in range(d + 1):
+        ax.axhline(i, color='black', linestyle='-', linewidth=1)  # Horizontal grid lines
+        ax.axvline(i, color='black', linestyle='-', linewidth=1)  # Vertical grid lines
+
+    # adding cars as rectangles to the grid
+    for car_id, values in cars_in_game.items():
+        row, col, width, height, color = values  
+        rect = patches.Rectangle((col, row), width, height, linewidth=1, edgecolor='black', facecolor=color)
+        ax.add_patch(rect)
+
+    # settings grid
+    ax.set_xticks(np.arange(d + 1))
+    ax.set_yticks(np.arange(d + 1))
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.grid(True)
+    ax.set_xlim(0, d)
+    ax.set_ylim(0, d)
+    ax.set_aspect('equal')
+    ax.invert_yaxis()
+
+    # title of plot
+    car_moves_data= car_moves(d, game_number)
+    if move != len(car_moves_data):
+        plt.title(f'Move {move}')
+    else:
+        plt.title(f'You won! You had a total of {move} moves!')
+    
+    # border around the grid
+    for spine in ax.spines.values():
+        spine.set_linewidth(8)
+
+    # updating the plot
+    plt.draw()
+    # pause of 0,5 seconds
+    plt.pause(0.5) 
+
 
 # Main script
 if __name__ == "__main__":
