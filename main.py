@@ -8,7 +8,7 @@ from code.classes.vehicle import Vehicle
 from code.algorithms.breadth_first import (
     breadth_first_search_without_heur
 )
-from code.algorithms.random import move_car_random_WOH
+from code.algorithms.random import move_car_random_WH
 # from code.visualisation import frequency_graph
 
 # from natsort import natsorted
@@ -62,24 +62,25 @@ if __name__ == "__main__":
     # Seed instellen voor reproduceerbare resultaten
     random.seed(42)
 
-    game_number = 5
+    game_number = 4
     d = 9
 
-    file_path1 = f'.data/Random/Freq_moves_WOH/{game_number}_freq_move_{d}x{d}.csv'
-    file_path2 = f'.data/Random/Best_Moves_WOH/{game_number}_best_move_{d}x{d}.csv'
+    # file_path1 = f'.data/Random/Freq_moves_WOH/{game_number}_freq_move_{d}x{d}.csv'
+    # file_path2 = f'.data/Random/Best_Moves_WOH/{game_number}_best_move_{d}x{d}.csv'
     # file_path3 = f'.data/Random/Freq_moves_WH/{game_number}_freq_move_{d}x{d}.csv'
     # file_path4 = f'.data/Random/Best_Moves_WH/{game_number}_best_move_{d}x{d}.csv'
     # start = time.time()
 
     moveslist = []
-    # while time.time() - start < 60:
-    # print(start)
-    for i in range(10):
+    # while time.time() - start < 300:
+    for i in range(1000):
         board = Board(d, game_number)
         board.printboard()
         moves = 0
         while not (board.is_red_car_at_exit()):
-            move_car_random_WOH(board)
+            # if start == 60:
+            #     end = time.time() - start
+            move_car_random_WH(board)
             moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
@@ -93,14 +94,16 @@ if __name__ == "__main__":
         board.move_history = []
 
     # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(file_path_1, mode='w', newline='') as file:
+    # os.makedirs(os.path.dirname(f'.data/Random/Freq_moves_WOH/{game_number}_freq_move_{d}x{d}.csv'), exist_ok=True)
+    with open(f'data/Random/Freq_moves_WH/{game_number}_freq_move_{d}x{d}.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
             
         for list in moveslist:
             writer.writerow([list])
 
     # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
-    with open(file_path2, mode='w', newline='') as file:
+    # os.makedirs(os.path.dirname(file_path2), exist_ok=True)
+    with open(f'data/Random/Best_Moves_WH/{game_number}_best_move_{d}x{d}.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Move direction', 'Step'])
 

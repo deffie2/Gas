@@ -17,9 +17,9 @@ def move_car_random_WOH(board):
     # Move the vehicle to the new position
     board.move_vehicle(movable_vehicle, move_direction, step)
 
-    print()
-    board.printboard()
-    print()
+    # print()
+    # board.printboard()
+    # print()
 
 
 def move_car_random_WH(board):

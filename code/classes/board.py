@@ -272,7 +272,7 @@ class Board:
             return True
         return False
 
-    def move_vehicle(self, car_id: str, move_direction: str, step: int) -> "Board":
+    def move_vehicle(self, car_id: str, move_direction: str, step: int) -> None:
         """
         Moves a vehicle on the board.
 
@@ -284,9 +284,9 @@ class Board:
         assert car_id in self.vehicle_dict.keys(), f"Vehicle ID '{car_id}' must exist in vehicle_dict"
         assert move_direction in ['L', 'R', 'U', 'D'], f"Invalid move direction: {move_direction}"
 
-        new_board = copy.copy(self)
-        new_board.move_history = copy.copy(new_board.move_history)
-        new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
+        # new_board = copy.copy(self)
+        # new_board.move_history = copy.copy(new_board.move_history)
+        # new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
 
 
         vehicle = self.vehicle_dict[car_id]
@@ -297,17 +297,26 @@ class Board:
             new_col = vehicle.col
             new_row = vehicle.row + step
         
+        # # Append move to move history
+        # new_board.move_history.append([car_id, move_direction, step])
+      
+        # # Move the vehicle to the new position
+        # new_vehicle = vehicle.locationchange(new_row, new_col)
+        # new_board.vehicle_dict[new_vehicle.car] = new_vehicle
+
+        # # Update the board
+        # new_board.update_board()
+
         # Append move to move history
-        new_board.move_history.append([car_id, move_direction, step])
+        self.move_history.append([car_id, move_direction, step])
       
         # Move the vehicle to the new position
-        new_vehicle = vehicle.locationchange(new_row, new_col)
-        new_board.vehicle_dict[new_vehicle.car] = new_vehicle
+        vehicle.locationchange(new_row, new_col)
 
         # Update the board
-        new_board.update_board()
+        self.update_board()
 
-        return new_board
+        # return new_board
 
     def update_board(self) -> None:
         """
