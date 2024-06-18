@@ -1,7 +1,7 @@
 import random
 
 
-from ..classes.board import Board
+from code.classes.board import Board
 
 
 def move_car_random(board):
