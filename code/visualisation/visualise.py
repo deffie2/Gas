@@ -11,6 +11,7 @@ def frequency_graph(name_data: str, name_new_file: str) -> None:
     """
 
     list_of_n_moves = []
+    n_bins = 100
     
     # Open file and save data in list
     with open(f"data/Freq_moves_table/Random/{name_data}") as csv_file:
@@ -21,7 +22,7 @@ def frequency_graph(name_data: str, name_new_file: str) -> None:
                 list_of_n_moves.append(item)
             
     # Plot Histogram on x
-    plt.hist(list_of_n_moves, rwidth=1.0)
+    plt.hist(list_of_n_moves, rwidth=1.0, bins = n_bins)
     plt.xlabel('Amount of moves')
     plt.ylabel('Frequency')
     plt.title('Randomise table')
