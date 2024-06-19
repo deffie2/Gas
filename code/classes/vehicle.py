@@ -3,6 +3,9 @@ import copy
 class Vehicle:
 
     def __init__(self, car, direction, x, y, Size: int) -> None:
+        """
+        Initialize multiple variables
+        """
         self.car = car 
         self.size = Size
         self.direction = direction 
@@ -11,10 +14,15 @@ class Vehicle:
         self.col = y
         self.vehicle_positions = []
     
-        # self.justmoved = False
+        self.justmoved = False
         self.n_times_moved = 0
      
-    def vehiclepositions(self):
+    def vehiclepositions(self) -> list:
+        """
+        Finds the coordinates on which the vehicle stands.
+        For example a car of lenght 2 could stand on (1,2) and (1,3)
+        """
+        
         self.vehicle_positions = []
         for i in range(self.size):
             if self.direction == "H":
@@ -26,6 +34,9 @@ class Vehicle:
 
     # FUNCTIE LOCATIE
     def locationchange(self, x, y) -> None:
+        """
+        Changes the location of the vehicle.
+        """
         self.n_times_moved += 1
         self.locationHead = [x, y]
         self.row = x
