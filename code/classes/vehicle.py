@@ -1,3 +1,5 @@
+import copy
+
 class Vehicle:
 
     def __init__(self, car, direction, x, y, Size: int) -> None:
@@ -28,6 +30,17 @@ class Vehicle:
         self.locationHead = [x, y]
         self.row = x
         self.col = y
+        
+
+
+        # new_car = copy.copy(self)
+
+        # new_car.n_times_moved += 1
+        # new_car.locationHead = [x, y]
+        # new_car.row = x
+        # new_car.col = y
+
+        # return new_car
         # Verander locatie -> nieuwe coordinaten
 
     # functie om beide locaties te hebben, om get makkelijker op te vragen. 

@@ -3,14 +3,14 @@ import math
 import os
 
 
-#from code.classes.vehicle import Vehicle
+from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
 
 ###########################
 # Om het te testen: python3 board.py
-from vehicle import Vehicle
+# from vehicle import Vehicle
 #########################
-
+import copy
 
 class Board:
     """  
@@ -45,13 +45,27 @@ class Board:
 
 
         ###################################################################
-        # Om het te testen: python3 board.py
-        current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
-        csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
+        # # Om het te testen: python3 board.py
+        # current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
+        # csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
 
-          # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+        #   # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+        # # Initialize vehicles from the CSV file
+        # with open(csv_path, "r") as csvfile:
+        #     reader = csv.reader(csvfile)
+        #     next(reader)
+        #     for row in reader:
+        #         car = row[0]
+        #         direction = row[1]
+        #         ycor = int(row[2]) - 1
+        #         xcor = int(row[3]) - 1
+        #         Size = int(row[4])
+
+        # #################################################################
+
+        # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
         # Initialize vehicles from the CSV file
-        with open(csv_path, "r") as csvfile:
+        with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
             for row in reader:
@@ -60,20 +74,6 @@ class Board:
                 ycor = int(row[2]) - 1
                 xcor = int(row[3]) - 1
                 Size = int(row[4])
-
-        # #################################################################
-
-        # # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
-        # # Initialize vehicles from the CSV file
-        # with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
-            # reader = csv.reader(csvfile)
-            # next(reader)
-            # for row in reader:
-                # car = row[0]
-                # direction = row[1]
-                # ycor = int(row[2]) - 1
-                # xcor = int(row[3]) - 1
-                # Size = int(row[4])
         # ##############################################################
 
                 # Save vehicle as object in dict
@@ -283,6 +283,12 @@ class Board:
         """
         assert car_id in self.vehicle_dict.keys(), f"Vehicle ID '{car_id}' must exist in vehicle_dict"
         assert move_direction in ['L', 'R', 'U', 'D'], f"Invalid move direction: {move_direction}"
+
+        # new_board = copy.copy(self)
+        # new_board.move_history = copy.copy(new_board.move_history)
+        # new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
+
+
         vehicle = self.vehicle_dict[car_id]
         if move_direction == 'L' or move_direction == 'R':
             new_col = vehicle.col + step
@@ -291,6 +297,16 @@ class Board:
             new_col = vehicle.col
             new_row = vehicle.row + step
         
+        # # Append move to move history
+        # new_board.move_history.append([car_id, move_direction, step])
+      
+        # # Move the vehicle to the new position
+        # new_vehicle = vehicle.locationchange(new_row, new_col)
+        # new_board.vehicle_dict[new_vehicle.car] = new_vehicle
+
+        # # Update the board
+        # new_board.update_board()
+
         # Append move to move history
         self.move_history.append([car_id, move_direction, step])
       
@@ -299,6 +315,8 @@ class Board:
 
         # Update the board
         self.update_board()
+
+        # return new_board
 
     def update_board(self) -> None:
         """

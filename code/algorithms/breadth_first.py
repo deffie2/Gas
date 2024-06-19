@@ -11,7 +11,7 @@ def breadth_first_search_without_heur(initial_bord: Board):
     Perform breadth-first search on the given initial board to find a path
     where the red car reaches the exit.
     """
-    assert isinstance(initial_board, Board), "initial_board should be an instance of Board"
+    # assert isinstance(initial_board, Board), "initial_board should be an instance of Board"
 
     # Create een queue om toestanden van het bord en bijbehorende moves te beheren
     queue = Queue()
@@ -121,8 +121,8 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
         for move_direction, step_list in possible_moves[car_id]:
             for steps in step_list:
                 # Maak een kopie van het bord en voer de zet uit
-                new_board = copy.deepcopy(current_board)
-                new_board.move_vehicle(car_id, move_direction, steps)
+                #new_board = copy.deepcopy(current_board)
+                new_board = current_board.move_vehicle(car_id, move_direction, steps)
                 
                 new_board_state = hash(new_board.get_board_state())
 

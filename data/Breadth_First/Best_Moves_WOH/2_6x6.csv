@@ -1,15 +1,15 @@
 Car,Move direction,Step
-A,L,-2
-C,L,-1
-B,L,-2
 X,L,-1
+C,L,-1
 D,L,-1
-H,U,-1
+A,L,-2
+B,L,-2
 G,U,-2
+H,U,-1
 F,R,2
 K,U,-2
-I,L,-3
 L,L,-3
+I,L,-3
 K,D,2
 F,L,-1
 H,D,3

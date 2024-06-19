@@ -5,6 +5,10 @@ def count_blocking_cars(board: 'Board') -> int:
     """
     Heuristic: Number of blocking cars
     """
+
+    # for loop moet beginnen op de plek 
+
+
     red_car = board.vehicle_dict['X']
     blocking_cars = 0
     for col in range(red_car.col + red_car.size, board.dimension):
