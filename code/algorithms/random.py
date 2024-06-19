@@ -9,6 +9,7 @@ def move_car_random_WOH(board, runs):
     moveslist = []
     for i in range(runs):
 
+        moves = 0
         while not (board.is_red_car_at_exit()):
             # Select a random move
             movable_vehicle, possible_vehicle_moves = select_random_move(board)
