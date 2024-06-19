@@ -10,6 +10,7 @@ from code.algorithms.breadth_first import (
     breadth_first_search_without_heur
 )
 from code.algorithms.random import move_car_random_WH, move_car_random_WOH
+from visualise import frequency_graph
 # from code.visualisation import frequency_graph
 
 # from natsort import natsorted
@@ -38,13 +39,14 @@ if __name__ == "__main__":
     #     d= argv[3]
 
     if len(sys.argv) < 5:
-        print("Gebruik: script.py <game_number> <d> <algoritme> <runs>")
+        print("Usage: script.py <game_number> <d> <algoritme> <runs>")
         sys.exit(1)
     
     game_number = int(sys.argv[1])
     d = int(sys.argv[2])
     algorithm = sys.argv[3]
     runs = int(sys.argv[4])
+    visualise= sys.argv[5]
 
     board = Board(d, game_number)
 
@@ -53,6 +55,13 @@ if __name__ == "__main__":
     elif algorithm == "rh":
         csv_names = move_car_random_WH(board, runs)
         print(csv_names)
+        csv_names[0]
+    
+    if visualise == "v":
+        frequency_graph(csv_names[0], csv_names[2])
+
+
+    
     
 
     

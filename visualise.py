@@ -10,7 +10,7 @@ def frequency_graph(name_data: str, algorithm: str) -> None:
 
     list_of_n_moves = []
 
-    if algorithm == WOH:
+    if algorithm == "WOH":
         # Open file and save data in list
         with open(f"data/Random/Freq_Moves_WOH/{name_data}") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -19,7 +19,7 @@ def frequency_graph(name_data: str, algorithm: str) -> None:
                     item = int(item.lstrip('\ufeff'))
                     list_of_n_moves.append(item)
 
-    elif algorithm == WH:
+    elif algorithm == "WH":
         # Open file and save data in list
         with open(f"data/Random/Freq_Moves_WH/{name_data}") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -38,12 +38,16 @@ def frequency_graph(name_data: str, algorithm: str) -> None:
     name_new_file = str(input("How do you want to name your new png-file? "))
     
 
-    if algorithm == WOH:
+    if algorithm == "WOH":
         # Save the plot to a file
         plt.savefig(f'data/Graphs/Random/Freq_graph_WOH/{name_new_file}.png')
-    elif algorithm == WH:
+        print("Saving succesfull")
+    elif algorithm == "WH":
         # Save the plot to a file
         plt.savefig(f'data/Graphs/Random/Freq_graph_WH/{name_new_file}.png')
+        print("Saving succesfull")
+    else:
+        print("Saving not succesfull, wrong alogrithm")
 
 
 if __name__ == "__main__":
