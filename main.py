@@ -57,7 +57,9 @@ if __name__ == "__main__":
 
     #######################################################################
 
-    Random Function without any heuristics 
+    ## Random Function without any heuristics 
+            #move_car_random(board, move, d, game_number,d)
+
     for d, game_number in gameboards_list:
         file_path1 = f'.data/Random/Freq_moves_WOH/{game_number}_freq_move_{d}x{d}.csv'
         file_path2 = f'.data/Random/Best_Moves_WOH/{game_number}_best_move_{d}x{d}.csv'
@@ -69,7 +71,7 @@ if __name__ == "__main__":
             board = Board(d, game_number)
             moves = 0
             while not (board.is_red_car_at_exit()):
-                move_car_random(board)
+                move_car_random_WOH(board)
                 moves += 1
             print(f"Board {game_number} took {moves} moves")
             moveslist.append(moves)
