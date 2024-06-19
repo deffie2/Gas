@@ -42,6 +42,7 @@ class Board:
         self.movable_vehicles: Set[str] = set()
         self.possible_moves_dict: Dict[str, List[Tuple[str, List[int]]]] = {}
         self.move_history: List[List[Union[str, int]]] = []
+        self.game_number = game_number
 
 
         ##################################################################

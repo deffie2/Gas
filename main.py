@@ -51,8 +51,8 @@ if __name__ == "__main__":
     if algorithm == "r":
         csv_names = move_car_random_WOH(board, runs)
     elif algorithm == "rh":
-        cvs_names= move_car_random_WH(board, runs)
-    print(csv_names)
+        csv_names = move_car_random_WH(board, runs)
+        print(csv_names)
     
 
     

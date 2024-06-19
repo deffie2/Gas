@@ -1,10 +1,14 @@
 import random
+import csv
 
 
 from code.classes.board import Board
 
 
 def move_car_random_WOH(board, runs):
+
+    game_number = board.game_number
+    d = board.dimension
 
     moveslist = []
     for i in range(runs):
@@ -50,29 +54,35 @@ def move_car_random_WOH(board, runs):
         for list in best_moves_list:
             writer.writerow(list)
     csv_namen.append("data/Random/Best_Moves_WOH/board_{game_number}_{runs}_Best_moves_WOH_{d}x{d}.csv")
-    csv_namen.append(WOH)
+    csv_namen.append("WOH")
 
     return csv_namen
 
 
 def move_car_random_WH(board, runs):
+
+    game_number = board.game_number
+    d = board.dimension
+
     moveslist = []
     for i in range(runs):
-        # Select a random move
-        movable_vehicle, possible_vehicle_moves = select_random_move(board)
+        moves = 0
+        while not (board.is_red_car_at_exit()):
+            # Select a random move
+            movable_vehicle, possible_vehicle_moves = select_random_move(board)
 
-        # Combine all possible steps for all directions
-        all_possible_steps = combine_possible_steps(possible_vehicle_moves)
+            # Combine all possible steps for all directions
+            all_possible_steps = combine_possible_steps(possible_vehicle_moves)
 
-        # Randomly select a step from all possible steps
-        move_direction, step = random.choice(all_possible_steps)
+            # Randomly select a step from all possible steps
+            move_direction, step = random.choice(all_possible_steps)
 
-        if not (board.heuri_red_clear_exit()):
-            # Move the vehicle to the new position
-            board.move_vehicle(movable_vehicle, move_direction, step)
-        else:
-            board.heuri_get_red_to_exit()
-        moves += 1
+            if not (board.heuri_red_clear_exit()):
+                # Move the vehicle to the new position
+                board.move_vehicle(movable_vehicle, move_direction, step)
+            else:
+                board.heuri_get_red_to_exit()
+            moves += 1
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
 
@@ -100,7 +110,7 @@ def move_car_random_WH(board, runs):
         for list in best_moves_list:
             writer.writerow(list)
     csv_namen.append("data/Random/Best_Moves_WH/board_{game_number}_{runs}_Best_moves_WH_{d}x{d}.csv")
-    csv_namen.append(WH)
+    csv_namen.append("WH")
 
     return csv_namen
 
