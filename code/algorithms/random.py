@@ -44,7 +44,7 @@ def move_car_random_WOH(board, runs):
         
         for list in moveslist:
             writer.writerow([list])
-    csv_namen.append("data/Random/Freq_moves_WOH/board_{game_number}_{runs}_freq_move_WOH_{d}x{d}.csv")
+    csv_namen.append(f'data/Random/Freq_moves_WOH/board_{game_number}_{runs}_freq_move_WOH_{d}x{d}.csv')
 
 
     with open(f'data/Random/Best_Moves_WOH/board_{game_number}_{runs}_Best_moves_WOH_{d}x{d}.csv', mode='w', newline='') as file:
@@ -53,7 +53,7 @@ def move_car_random_WOH(board, runs):
 
         for list in best_moves_list:
             writer.writerow(list)
-    csv_namen.append("data/Random/Best_Moves_WOH/board_{game_number}_{runs}_Best_moves_WOH_{d}x{d}.csv")
+    csv_namen.append(f'data/Random/Best_Moves_WOH/board_{game_number}_{runs}_Best_moves_WOH_{d}x{d}.csv')
     csv_namen.append("WOH")
 
     return csv_namen
@@ -100,7 +100,7 @@ def move_car_random_WH(board, runs):
         
         for list in moveslist:
             writer.writerow([list])
-    csv_namen.append("data/Random/Freq_moves_WH/board_{game_number}_{runs}_freq_move_WH_{d}x{d}.csv")
+    csv_namen.append(f'data/Random/Freq_moves_WH/board_{game_number}_{runs}_freq_move_WH_{d}x{d}.csv')
 
     # !!! Verander 'r' in 'b' als je met Breadth werkt!!!!
     with open(f'data/Random/Best_Moves_WH/board_{game_number}_{runs}_Best_moves_WH_{d}x{d}.csv', mode='w', newline='') as file:
@@ -109,7 +109,7 @@ def move_car_random_WH(board, runs):
 
         for list in best_moves_list:
             writer.writerow(list)
-    csv_namen.append("data/Random/Best_Moves_WH/board_{game_number}_{runs}_Best_moves_WH_{d}x{d}.csv")
+    csv_namen.append(f'data/Random/Best_Moves_WH/board_{game_number}_{runs}_Best_moves_WH_{d}x{d}.csv')
     csv_namen.append("WH")
 
     return csv_namen
