@@ -16,7 +16,7 @@ def move_car_random_WOH(board, runs):
         moves = 0
         while not (board.is_red_car_at_exit()):
             # Select a random move
-            movable_vehicle, possible_vehicle_moves = select_random_move(board)
+            movable_vehicle, possible_vehicle_moves = select_random_move(board, False)
 
             # Combine all possible steps for all directions
             all_possible_steps = combine_possible_steps(possible_vehicle_moves)
@@ -69,7 +69,7 @@ def move_car_random_WH(board, runs):
         moves = 0
         while not (board.is_red_car_at_exit()):
             # Select a random move
-            movable_vehicle, possible_vehicle_moves = select_random_move(board)
+            movable_vehicle, possible_vehicle_moves = select_random_move(board, True)
 
             # Combine all possible steps for all directions
             all_possible_steps = combine_possible_steps(possible_vehicle_moves)
@@ -114,10 +114,12 @@ def move_car_random_WH(board, runs):
 
     return csv_namen
 
-def select_random_move(board):
+def select_random_move(board, heuristics: bool):
     # Generate all possible moves
     movable_vehicles, possible_moves = board.generate_all_possible_moves()
 
+    if heuristics:
+        movable_vehicles = board.heuri_change_moveable_cars()
     # Randomly select a vehicle that can move
     movable_vehicle = random.choice(list(movable_vehicles))
 

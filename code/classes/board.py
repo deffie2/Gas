@@ -398,7 +398,6 @@ class Board:
         for car_id, vehicle in self.vehicle_dict.items():
             if vehicle.justmoved:
                 vehicle_id_with_just_moved = car_id
-                print(f"Vehicle ID just moved: {vehicle_id_with_just_moved}")
                 break  # Stop searching: 
         
         # Take car out of the data structure
