@@ -6,7 +6,7 @@ import csv
 import time
 import matplotlib.cm as cm
 
-def visualize(d: int, game_number: int):
+def visualize(d: int, game_number: int ):
     """ 
     Uses data of the initial positon of the cars and all the moves, 
     for each move the position of the car gets updated. With this updated data, 
