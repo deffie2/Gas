@@ -387,8 +387,9 @@ class Board:
     
     def heuri_change_moveable_cars(self) -> set:
         """
-        Input: Set of moveable cars
-        Output: Set of (new) moveable cars
+        Pre: Set of moveable cars
+        Post: Set of (new) moveable cars
+        First run self.movable_vehicles(), before running this. 
         Reproduces the data structure of moveable cars, but it takes out the car that was just moved.
         """
         vehicle_id_with_just_moved = "Empty"

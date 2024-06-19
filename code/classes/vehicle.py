@@ -19,6 +19,8 @@ class Vehicle:
      
     def vehiclepositions(self) -> list:
         """
+        Post: List filled with tuple coordinates
+        
         Finds the coordinates on which the vehicle stands.
         For example a car of lenght 2 could stand on (1,2) and (1,3)
         """
@@ -35,6 +37,8 @@ class Vehicle:
     # FUNCTIE LOCATIE
     def locationchange(self, x, y) -> None:
         """
+        Pre: x and y coordinates
+        Post: self.row and self.col will be changed. Als the amount of times moved will be changed
         Changes the location of the vehicle.
         """
         self.n_times_moved += 1
