@@ -3,13 +3,13 @@ import math
 import os
 
 
-from code.classes.vehicle import Vehicle
+#from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
 
-###########################
-# Om het te testen: python3 board.py
-# from vehicle import Vehicle
-#########################
+##########################
+#Om het te testen: python3 board.py
+from vehicle import Vehicle
+########################
 import copy
 
 class Board:
@@ -44,28 +44,14 @@ class Board:
         self.move_history: List[List[Union[str, int]]] = []
 
 
-        ###################################################################
-        # # Om het te testen: python3 board.py
-        # current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
-        # csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
+        ##################################################################
+        # Om het te testen: python3 board.py
+        current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
+        csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
 
-        #   # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
-        # # Initialize vehicles from the CSV file
-        # with open(csv_path, "r") as csvfile:
-        #     reader = csv.reader(csvfile)
-        #     next(reader)
-        #     for row in reader:
-        #         car = row[0]
-        #         direction = row[1]
-        #         ycor = int(row[2]) - 1
-        #         xcor = int(row[3]) - 1
-        #         Size = int(row[4])
-
-        # #################################################################
-
-        # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+          # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
         # Initialize vehicles from the CSV file
-        with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+        with open(csv_path, "r") as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
             for row in reader:
@@ -74,7 +60,21 @@ class Board:
                 ycor = int(row[2]) - 1
                 xcor = int(row[3]) - 1
                 Size = int(row[4])
-        # ##############################################################
+
+        # #################################################################
+
+        # # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+        # # Initialize vehicles from the CSV file
+        # with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+            # reader = csv.reader(csvfile)
+            # next(reader)
+            # for row in reader:
+                # car = row[0]
+                # direction = row[1]
+                # ycor = int(row[2]) - 1
+                # xcor = int(row[3]) - 1
+                # Size = int(row[4])
+        # # ##############################################################
 
                 # Save vehicle as object in dict
                 vehicle = Vehicle(car, direction, xcor, ycor, Size)
@@ -288,7 +288,11 @@ class Board:
         # new_board.move_history = copy.copy(new_board.move_history)
         # new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
 
-
+        # Reset justmoved for all vehicles to False
+        for carID, vehicles in self.vehicle_dict.items():
+            vehicles.justmoved = False
+        
+        # Vind vehicle and new coordinates
         vehicle = self.vehicle_dict[car_id]
         if move_direction == 'L' or move_direction == 'R':
             new_col = vehicle.col + step
@@ -297,6 +301,9 @@ class Board:
             new_col = vehicle.col
             new_row = vehicle.row + step
         
+        # Change justmoved from vehicle
+        vehicle.justmoved = True
+
         # # Append move to move history
         # new_board.move_history.append([car_id, move_direction, step])
       
@@ -376,8 +383,30 @@ class Board:
         
             # Moves red car by that amount
             self.move_vehicle("X", "R", steps)
-
     
+    def heuri_change_moveable_cars(self) -> set:
+        """
+        Input: Set of moveable cars
+        Output: Set of (new) moveable cars
+        Reproduces the data structure of moveable cars, but it takes out the car that was just moved.
+        """
+        vehicle_id_with_just_moved = "Empty"
+        
+        # What car was just moved?
+        for car_id, vehicle in self.vehicle_dict.items():
+            if vehicle.justmoved:
+                vehicle_id_with_just_moved = car_id
+                print(f"Vehicle ID just moved: {vehicle_id_with_just_moved}")
+                break  # Stop searching: 
+        
+        # Take car out of the data structure
+        if not vehicle_id_with_just_moved == "Empty" and not len(self.movable_vehicles) == 1:
+            self.movable_vehicles.remove(vehicle_id_with_just_moved)
+            
+        return self.movable_vehicles
+    
+    def __repr__(self) -> str:
+        return f"Board({self.movable_vehicles})"
 
 
 # MAIN: 
@@ -396,9 +425,9 @@ if __name__ == "__main__":
     board1 = Board(6,1)
     board2 = Board(6,1)
     
-    print(board1.empty_places)
-    print(board1 is board2)
-    print(board1 == board2)
+    #print(board1.empty_places)
+    #print(board1 is board2)
+    #print(board1 == board2)
     # # C,L,-1
     # # A,L,-1
     # # G,U,-2
@@ -421,17 +450,20 @@ if __name__ == "__main__":
     # # I,U,-1
     # # X,R,1
     board1.move_vehicle("C","L",-1)
+    
     board1.move_vehicle("A","L",-1)
     
     board1.move_vehicle("G","U",-2)
-    board1.heuri_red_clear_exit()
     board1.move_vehicle("L","U",-2)
     board1.move_vehicle("J","L",-3)
     board1.move_vehicle("I","D",2)
-    #print(board1.heuri_red_clear_exit())
-    board1.heuri_get_red_to_exit()
     board1.move_vehicle("H","R",1)
+    board1.printboard()
     board1.move_vehicle("E","D",3)
+    board1.printboard()
+    board1.empty_places()
+    print(f"set met movable vehicles: {board1.vehicles_moveable()}")
+    print(f"Set met ene car weggenomen: {board1.heuri_change_moveable_cars()}")
     board1.move_vehicle("D","L",-1)
     board1.move_vehicle("H","L",-1)
     board1.move_vehicle("I","U",-3)
