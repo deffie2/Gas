@@ -71,6 +71,19 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
                 #new_board = copy.deepcopy(current_board)
                 new_board = current_board.move_vehicle(car_id, steps)
                 
+                # BEAM: Geef elk nieuw bord een waarde
+                    # -> Gebeurd met heuristics functie
+                    
+                # BEAM: Sla het new_board op in een datastructuur:
+                    #- Datastructuur kan gesorteerd worden
+                    #- De Heuristicswaarde, (de auto en het aantal stappen?), het bord
+                
+                # BEAM: OUT OF LOOP: Sorteer de scores van de mogelijke borden
+                
+                # BEAM: OUT OF LOOP: Indexeer alleen de beste BEAM (int) borden op basis van heuristicswaarde
+                
+                # BEAM: Restart the same loop
+                
                 new_board_state = hash(new_board.get_board_state())
 
                 # Controleer of de nieuwe toestand al is bezocht
