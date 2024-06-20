@@ -98,12 +98,12 @@ class Board:
 
     def __hash__(self) -> int:
         """
-        Computes the SHA-512 hash value of the current board state.
+        Computes the SHA3-512 hash value of the current board state.
 
         post: Returns an integer hash value
         """
         state_str = str(self.get_board_state())
-        return int(hashlib.sha512(state_str.encode('utf-8')).hexdigest(), 16)
+        return int(hashlib.sha3_512(state_str.encode('utf-8')).hexdigest(), 16)
 
     def createboard(self) -> None:
         """
