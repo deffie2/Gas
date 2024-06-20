@@ -1,6 +1,7 @@
 from code.classes.board import Board
 from code.classes.priorityqueue import PriorityQueue
-from heuristics import total_count_BEAM
+from code.algorithms.heuristics import total_count_BEAM
+import csv
 
 # import sys
 # sys.path.append("../classes")
@@ -9,14 +10,14 @@ from heuristics import total_count_BEAM
 
 from typing import List
 
+
 def beam_search(d, game_number, runs):
-	"""
+    """
     Perform beam search on the given initial board to find a path
     where the red car reaches the exit.
     """
-
     beam_width = int(input("What value would you like for the beam width? "))
-   	csv_name = None
+    csv_name = None
     for i in range(runs):
         initial_board = Board(d, game_number)
         
@@ -45,8 +46,8 @@ def beam_search(d, game_number, runs):
 
 
 def calculate_heuristic(board):
-	return heuristic.total_count_BEAM()
-	
+    return total_count_BEAM(board)
+    
 
 def initialize_search(initial_board):
     """Initializes the priority queue and parents dictionary for the search."""
@@ -84,12 +85,12 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
                 # Sla het nieuwe bord en de heuristische waarde op in een lijst
                 new_board_state = hash(new_board.get_board_state())
                 if new_board_state not in parents:
-                	next_states.append((heuristic_value, new_board, car_id, steps))
+                    next_states.append((heuristic_value, new_board, car_id, steps))
 
-  	# Sorteer de volgende toestanden op basis van heuristische waarde
-  	next_states.sort(key=lambda x: x[0], reverse=True)
+    # Sorteer de volgende toestanden op basis van heuristische waarde
+    next_states.sort(key=lambda x: x[0], reverse=True)
 
-  	# Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
+    # Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
     for heuristic_value, new_board, car_id, steps in next_states[:beam_width]:
         new_board_state = hash(new_board.get_board_state())
         if new_board_state not in parents:
@@ -126,7 +127,3 @@ def save_solution_to_csv(solution, d, game_number):
 
     return file_path
 
-
-if __name__ == "__main__":
-
-	board1 = Board(9,6)
