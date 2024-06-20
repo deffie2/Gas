@@ -8,6 +8,7 @@ from code.classes.board import Board
 from code.classes.vehicle import Vehicle
 from code.algorithms.breadth_first import breadth_first_search
 from code.algorithms.random import move_car_random_WH, move_car_random_WOH
+from code.algorithms.beam_search import beam_search
 from code.visualisation.visualise import frequency_graph
 
 # from visualise import frequency_graph
