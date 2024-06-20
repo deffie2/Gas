@@ -24,7 +24,6 @@ class Vehicle:
         Finds the coordinates on which the vehicle stands.
         For example a car of lenght 2 could stand on (1,2) and (1,3)
         """
-        
         self.vehicle_positions = []
         for i in range(self.size):
             if self.direction == "H":
@@ -41,24 +40,21 @@ class Vehicle:
         Post: self.row and self.col will be changed. Als the amount of times moved will be changed
         Changes the location of the vehicle.
         """
-        self.n_times_moved += 1
-        self.locationHead = [x, y]
-        self.row = x
-        self.col = y
-        
+        # self.n_times_moved += 1
+        # self.locationHead = [x, y]
+        # self.row = x
+        # self.col = y
+        new_car = copy.copy(self)
 
+        new_car.n_times_moved += 1
+        new_car.locationHead = [x, y]
+        new_car.row = x
+        new_car.col = y
 
-        # new_car = copy.copy(self)
-
-        # new_car.n_times_moved += 1
-        # new_car.locationHead = [x, y]
-        # new_car.row = x
-        # new_car.col = y
-
-        # return new_car
+        return new_car
         # Verander locatie -> nieuwe coordinaten
 
     # functie om beide locaties te hebben, om get makkelijker op te vragen. 
 
-    def __repr__(self) -> str:
-        return f"Vehicle({self.direction},{self.col},{self.row},{self.size})"
+    # def __repr__(self) -> str:
+    #     return f"Vehicle({self.direction},{self.col},{self.row},{self.size})"

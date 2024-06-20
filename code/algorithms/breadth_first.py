@@ -1,4 +1,5 @@
 import copy
+import csv
 
 
 from code.classes.board import Board
@@ -6,100 +7,46 @@ from code.classes.queue import Queue
 from typing import List, Optional, Tuple
 
 
-def breadth_first_search_without_heur(initial_bord: Board):
+def breadth_first_search(d, game_number, runs):
     """
     Perform breadth-first search on the given initial board to find a path
     where the red car reaches the exit.
     """
-    # assert isinstance(initial_board, Board), "initial_board should be an instance of Board"
+    csv_name = None
+    for i in range(runs):
 
-    # Create een queue om toestanden van het bord en bijbehorende moves te beheren
-    queue = Queue()
-    # Bijhouden van de ouders van elk bord voor pad reconstructie
-    parents = {}
-
-    # Zet het initial_bord in queue en visited_state
-    queue.enqueue(initial_bord)
-    initial_state = hash(initial_bord)
-    parents[initial_state] = None
-
-    # Nu ga je checken als de queue niet leeg is
-    while not queue.is_empty():
-        # Get the current state from the queue and pop it
-        current_board = queue.dequeue()
-        # print(current_board)
-
-        # Check if the initial state is already a winning state
-        if current_board.is_red_car_at_exit():
-            queue.clear()
-            return reconstruct_path(parents, hash(current_board))
-
-        # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
-        process_moves(current_board, queue, parents)
-
-    return None
-
-
-# def breadth_first_search_with_early_constraints(initial_board: Board, constrain_number: int):
-#     """Executes BFS with early constraints and resets search if constraints are exceeded."""
-
-#     movable_vehicles, possible_moves = initial_board.generate_all_possible_moves()
-#     all_paths_to_exit = []
-
-#     for car_id in movable_vehicles:
-#         queue, parents = initialize_search(initial_board)
+        initial_board = Board(d, game_number)
         
+        # Initialize the queue and parents dictionary for the search
+        queue, parents = initialize_search(initial_board)
 
-#         # Move the current car and initialize the search from that state
-#         for move_direction, step_list in possible_moves[car_id]:
-#             for steps in step_list:
-#                 new_board = copy.deepcopy(initial_board)
-#                 new_board.move_vehicle(car_id, move_direction, steps)
+        # Nu ga je checken als de queue niet leeg is
+        while not queue.is_empty():
+            # Get the current state from the queue and pop it
+            current_board = queue.dequeue()
+            # print(current_board)
 
-#                 new_board_state = hash(new_board.get_board_state())
+            # Check if the initial state is already a winning state
+            if current_board.is_red_car_at_exit():
+                queue.clear()
+                solution = reconstruct_path(parents, hash(current_board))
 
-#                 # Controleer of de nieuwe toestand al is bezocht
-#                 if new_board_state not in queue.visited_state:
-#                     queue.enqueue(new_board)
-#                     parents[new_board_state] = (hash(initial_board.get_board_state()), car_id, move_direction, steps)
-#                     print(f"De eerste: Key: {new_board_state}, Value: {parents[new_board_state]} ")
-#                     # new_board.printboard()
+                # Save the solution to the CSV file
+                csv_name = save_solution_to_csv(solution, d, game_number)
+                break  # Break after finding the solution for this run
 
-#                     moves = 1
-#                     while not queue.is_empty():
+            # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
+            process_moves(current_board, queue, parents)
 
-#                         # Get the current state from the queue and pop it
-#                         current_board = queue.dequeue()
-
-#                         # Check if the current state is already a winning state
-#                         if current_board.is_red_car_at_exit():
-#                             red_car_path = reconstruct_path(parents, hash(current_board))
-#                             all_paths_to_exit.add(red_car_path)
-#                             queue.clear()
-#                             queue, parents = initialize_search(initial_board)
-#                             break
-
-#                         elif moves >= constrain_number:
-#                             queue.clear()
-#                             queue, parents = initialize_search(initial_board)
-#                             break
-
-
-#                         # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
-#                         moves += 1
-#                         # print()
-#                         # print(moves)
-#                         process_moves(current_board, queue, parents)
-
-    
-#     if all_paths_to_exit:
-#         return min(all_paths_to_exit, key=len)
-#     else:
-#         return None
+    if csv_name:
+        return csv_name
+    return None
 
 def initialize_search(initial_bord):
     """Initializes the queue and parents dictionary for the search."""
+    # Create een queue om toestanden van het bord en bijbehorende moves te beheren
     queue = Queue()
+    # Bijhouden van de ouders van elk bord voor pad reconstructie
     parents = {}
 
     # Enqueue the initial board and mark it as visited
@@ -122,15 +69,15 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
             for steps in step_list:
                 # Maak een kopie van het bord en voer de zet uit
                 #new_board = copy.deepcopy(current_board)
-                new_board = current_board.move_vehicle(car_id, move_direction, steps)
+                new_board = current_board.move_vehicle(car_id, steps)
                 
                 new_board_state = hash(new_board.get_board_state())
 
                 # Controleer of de nieuwe toestand al is bezocht
                 if new_board_state not in queue.visited_state:
                     queue.enqueue(new_board)
-                    parents[new_board_state] = (hash(current_board.get_board_state()), car_id, move_direction, steps)
-                    # print(f"Key: {new_board_state}, Value: {parents[new_board_state]}")
+                    parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
+                    print(f"Key: {new_board_state}, Value: {parents[new_board_state]}")
                     # new_board.printboard()
                     # print()
     # print("move_klaar")
@@ -144,13 +91,28 @@ def reconstruct_path(parents: dict, state: int):
     path = []
     while parents[state] is not None:
         # Haal de ouderstaat en de bijbehorende zet op
-        parent_state, car_id, move_direction, steps = parents[state]
+        parent_state, car_id, steps = parents[state]
         # Voeg de zet toe aan het pad
-        path.append([car_id, move_direction, steps])
+        path.append([car_id, steps])
         # Update de huidige toestand naar de ouderstaat voor de volgende iteratie
         state = parent_state
     # Keer het pad om zodat het van begin naar eind gaat
     return path[::-1]
+
+def save_solution_to_csv(solution, d, game_number):
+    """
+    Save the solution path to a CSV file.
+    """
+    file_path = f'data/Breadth_First/Best_Moves/board_{game_number}_{d}x{d}.csv'
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Car', 'Step'])
+        for move in solution:
+            writer.writerow(move)
+        print(f"Moves successfully saved to {file_path}")
+
+    return file_path
+
 
 
 

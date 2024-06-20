@@ -1,4 +1,5 @@
 import csv
+import hashlib
 import math
 import os
 
@@ -42,7 +43,7 @@ class Board:
         self.movable_vehicles: Set[str] = set()
         self.possible_moves_dict: Dict[str, List[Tuple[str, List[int]]]] = {}
         self.move_history: List[List[Union[str, int]]] = []
-        self.game_number = game_number
+        # self.game_number = game_number
 
 
         ##################################################################
@@ -97,11 +98,12 @@ class Board:
 
     def __hash__(self) -> int:
         """
-        Computes the hash value of the current board state.
+        Computes the SHA-512 hash value of the current board state.
 
         post: Returns an integer hash value
         """
-        return hash(self.get_board_state())
+        state_str = str(self.get_board_state())
+        return int(hashlib.sha512(state_str.encode('utf-8')).hexdigest(), 16)
 
     def createboard(self) -> None:
         """
@@ -273,21 +275,19 @@ class Board:
             return True
         return False
 
-    def move_vehicle(self, car_id: str, move_direction: str, step: int) -> None:
+    def move_vehicle(self, car_id: str, step: int) -> "Board":
         """
         Moves a vehicle on the board.
 
         pre: car_id in self.vehicle_dict.keys()  # Vehicle ID must exist in vehicle_dict
-        pre: move_direction in ['L', 'R', 'U', 'D']  # Valid move directions
         pre: step > 0  # Step must be positive
         post: Vehicle is moved on the board, and the board state is updated
         """
         assert car_id in self.vehicle_dict.keys(), f"Vehicle ID '{car_id}' must exist in vehicle_dict"
-        assert move_direction in ['L', 'R', 'U', 'D'], f"Invalid move direction: {move_direction}"
 
-        # new_board = copy.copy(self)
-        # new_board.move_history = copy.copy(new_board.move_history)
-        # new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
+        new_board = copy.copy(self)
+        new_board.move_history = copy.copy(new_board.move_history)
+        new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
 
         # Reset justmoved for all vehicles to False
         for carID, vehicles in self.vehicle_dict.items():
@@ -295,36 +295,36 @@ class Board:
         
         # Vind vehicle and new coordinates
         vehicle = self.vehicle_dict[car_id]
-        if move_direction == 'L' or move_direction == 'R':
+        if vehicle.direction == 'H':
             new_col = vehicle.col + step
             new_row = vehicle.row
-        elif move_direction == 'U' or move_direction == 'D':
+        elif vehicle.direction == 'V':
             new_col = vehicle.col
             new_row = vehicle.row + step
         
         # Change justmoved from vehicle
         vehicle.justmoved = True
 
-        # # Append move to move history
-        # new_board.move_history.append([car_id, move_direction, step])
-      
-        # # Move the vehicle to the new position
-        # new_vehicle = vehicle.locationchange(new_row, new_col)
-        # new_board.vehicle_dict[new_vehicle.car] = new_vehicle
-
-        # # Update the board
-        # new_board.update_board()
-
         # Append move to move history
-        self.move_history.append([car_id, move_direction, step])
+        new_board.move_history.append([car_id, step])
       
         # Move the vehicle to the new position
-        vehicle.locationchange(new_row, new_col)
+        new_vehicle = vehicle.locationchange(new_row, new_col)
+        new_board.vehicle_dict[new_vehicle.car] = new_vehicle
 
         # Update the board
-        self.update_board()
+        new_board.update_board()
 
-        # return new_board
+        # # Append move to move history
+        # self.move_history.append([car_id, step])
+      
+        # # Move the vehicle to the new position
+        # vehicle.locationchange(new_row, new_col)
+
+        # # Update the board
+        # self.update_board()
+
+        return new_board
 
     def update_board(self) -> None:
         """
@@ -368,22 +368,21 @@ class Board:
             if not (self.exit_cordinate[0], i) in self.empty_places():
                 return False
         return True
-        
+
     def heuri_get_red_to_exit(self) -> None:
         """
         Input: Nothing
         Output: Moves red_car to the exit
         """
-        
         # Checks if the way is clear
-        if (self.heuri_red_clear_exit()):
+        if self.heuri_red_clear_exit():
         
             # How much should red car move?
             red_car = self.vehicle_dict.get('X', None)
             steps = self.dimension - red_car.col - 2
         
             # Moves red car by that amount
-            self.move_vehicle("X", "R", steps)
+            self.move_vehicle("X", steps)
     
     def heuri_change_moveable_cars(self) -> set:
         """

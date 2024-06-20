@@ -12,7 +12,7 @@ def frequency_graph(name_data: str, algorithm: str) -> None:
 
     if algorithm == "WOH":
         # Open file and save data in list
-        with open(f"data/Random/Freq_Moves_WOH/{name_data}") as csv_file:
+        with open(f'{name_data}') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
                 for item in row:
@@ -21,7 +21,7 @@ def frequency_graph(name_data: str, algorithm: str) -> None:
 
     elif algorithm == "WH":
         # Open file and save data in list
-        with open(f"data/Random/Freq_Moves_WH/{name_data}") as csv_file:
+        with open(f'{name_data}') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
                 for item in row:
