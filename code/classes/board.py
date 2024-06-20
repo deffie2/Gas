@@ -369,7 +369,7 @@ class Board:
                 return False
         return True
 
-    def heuri_get_red_to_exit(self) -> None:
+    def heuri_get_red_to_exit(self) -> "Board":
         """
         Input: Nothing
         Output: Moves red_car to the exit
@@ -382,7 +382,7 @@ class Board:
             steps = self.dimension - red_car.col - 2
         
             # Moves red car by that amount
-            self.move_vehicle("X", steps)
+            return self.move_vehicle("X", steps)
     
     def heuri_change_moveable_cars(self) -> set:
         """

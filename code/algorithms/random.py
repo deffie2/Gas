@@ -51,29 +51,31 @@ def move_car_random_WH(d, game_number, runs):
         moves = 0
         while not (board.is_red_car_at_exit()):
             # Select a random move
-            print("hello")
             movable_vehicle, possible_vehicle_moves = select_random_move(board, True)
-            print(movable_vehicle)
-            print(possible_vehicle_moves)
+            # print(f"Gekozen: {movable_vehicle}")
+            # print("next")
 
             # Combine all possible steps for all directions
             all_possible_steps = combine_possible_steps(possible_vehicle_moves)
-            print(all_possible_steps)
 
             # Randomly select a step from all possible steps
             move_direction, step = random.choice(all_possible_steps)
-            print(movable_vehicle)
-            print(possible_vehicle_moves)
+            # print(movable_vehicle)
+            # print(possible_vehicle_moves)
 
             if not (board.heuri_red_clear_exit()):
                 # Move the vehicle to the new position
-                print("hello1")
                 new_board = board.move_vehicle(movable_vehicle, step)
             else:
-                board.heuri_get_red_to_exit()
+                print(f"dit is {board}")
+                board.printboard()
+                new_board = board.heuri_get_red_to_exit()
 
             board = new_board
+            # board.printboard()
+            print(board)
             moves += 1
+            print(moves)
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
 
