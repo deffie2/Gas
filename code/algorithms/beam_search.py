@@ -1,9 +1,11 @@
-# from code.classes.board import Board
-# from code.classes.priorityqueue import PriorityQueue
-import sys
-sys.path.append("../classes")
-from board import Board
-from priorityqueue import PriorityQueue
+from code.classes.board import Board
+from code.classes.priorityqueue import PriorityQueue
+from heuristics import total_count_BEAM
+
+# import sys
+# sys.path.append("../classes")
+# from board import Board
+# from priorityqueue import PriorityQueue
 
 from typing import List
 
@@ -43,8 +45,8 @@ def beam_search(d, game_number, runs):
 
 
 def calculate_heuristic(board):
-	pass
-
+	return heuristic.total_count_BEAM()
+	
 
 def initialize_search(initial_board):
     """Initializes the priority queue and parents dictionary for the search."""
