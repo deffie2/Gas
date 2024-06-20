@@ -4,12 +4,12 @@ import math
 import os
 
 
-from code.classes.vehicle import Vehicle
+# from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
 
 ##########################
-# #Om het te testen: python3 board.py
-# from vehicle import Vehicle
+#Om het te testen: python3 board.py
+from vehicle import Vehicle
 ########################
 import copy
 
@@ -47,27 +47,13 @@ class Board:
 
 
         ##################################################################
-        # # Om het te testen: python3 board.py
-        # current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
-        # csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
+        # Om het te testen: python3 board.py
+        current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
+        csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
 
-        #   # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
-        # # Initialize vehicles from the CSV file
-        # with open(csv_path, "r") as csvfile:
-        #     reader = csv.reader(csvfile)
-        #     next(reader)
-        #     for row in reader:
-        #         car = row[0]
-        #         direction = row[1]
-        #         ycor = int(row[2]) - 1
-        #         xcor = int(row[3]) - 1
-        #         Size = int(row[4])
-
-        # #################################################################
-
-        # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+          # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
         # Initialize vehicles from the CSV file
-        with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+        with open(csv_path, "r") as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
             for row in reader:
@@ -76,6 +62,20 @@ class Board:
                 ycor = int(row[2]) - 1
                 xcor = int(row[3]) - 1
                 Size = int(row[4])
+
+        # #################################################################
+
+        # # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
+        # # Initialize vehicles from the CSV file
+        # with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+        #     reader = csv.reader(csvfile)
+        #     next(reader)
+        #     for row in reader:
+        #         car = row[0]
+        #         direction = row[1]
+        #         ycor = int(row[2]) - 1
+        #         xcor = int(row[3]) - 1
+        #         Size = int(row[4])
         # # ##############################################################
 
                 # Save vehicle as object in dict
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     # print(board.get_board_state())
 
     # test eq__
-    board1 = Board(6,1)
+    board1 = Board(9,6)
     board2 = Board(6,1)
     
     #print(board1.empty_places)
@@ -449,36 +449,36 @@ if __name__ == "__main__":
     # # B,L,-1
     # # I,U,-1
     # # X,R,1
-    board1.move_vehicle("C","L",-1)
+    # board1.move_vehicle("C","L",-1)
     
-    board1.move_vehicle("A","L",-1)
+    # board1.move_vehicle("A","L",-1)
     
-    board1.move_vehicle("G","U",-2)
-    board1.move_vehicle("L","U",-2)
-    board1.move_vehicle("J","L",-3)
-    board1.move_vehicle("I","D",2)
-    board1.move_vehicle("H","R",1)
-    board1.printboard()
-    board1.move_vehicle("E","D",3)
-    board1.printboard()
-    board1.empty_places()
-    print(f"set met movable vehicles: {board1.vehicles_moveable()}")
-    print(f"Set met ene car weggenomen: {board1.heuri_change_moveable_cars()}")
-    board1.move_vehicle("D","L",-1)
-    board1.move_vehicle("H","L",-1)
-    board1.move_vehicle("I","U",-3)
-    board1.move_vehicle("H","R",1)
-    board1.move_vehicle("E","U",-2)
-    board1.move_vehicle("J","R",3)
-    board1.move_vehicle("L","D",1)
-    board1.move_vehicle("E","D",1)
-    board1.move_vehicle("X","R",3)
-    board1.move_vehicle("G","D",1)
-    board1.move_vehicle("B","L",-1)
-    board1.move_vehicle("I","U",-1)
-    print(board1.heuri_red_clear_exit())
-    board1.heuri_get_red_to_exit()
-    board1.printboard()
+    # board1.move_vehicle("G","U",-2)
+    # board1.move_vehicle("L","U",-2)
+    # board1.move_vehicle("J","L",-3)
+    # board1.move_vehicle("I","D",2)
+    # board1.move_vehicle("H","R",1)
+    # board1.printboard()
+    # board1.move_vehicle("E","D",3)
+    # board1.printboard()
+    # board1.empty_places()
+    # print(f"set met movable vehicles: {board1.vehicles_moveable()}")
+    # print(f"Set met ene car weggenomen: {board1.heuri_change_moveable_cars()}")
+    # board1.move_vehicle("D","L",-1)
+    # board1.move_vehicle("H","L",-1)
+    # board1.move_vehicle("I","U",-3)
+    # board1.move_vehicle("H","R",1)
+    # board1.move_vehicle("E","U",-2)
+    # board1.move_vehicle("J","R",3)
+    # board1.move_vehicle("L","D",1)
+    # board1.move_vehicle("E","D",1)
+    # board1.move_vehicle("X","R",3)
+    # board1.move_vehicle("G","D",1)
+    # board1.move_vehicle("B","L",-1)
+    # board1.move_vehicle("I","U",-1)
+    # print(board1.heuri_red_clear_exit())
+    # board1.heuri_get_red_to_exit()
+    # board1.printboard()
     #board1.move_vehicle("X","R",1)
     
     
@@ -491,3 +491,10 @@ if __name__ == "__main__":
     # print(board.possible_moves_dict)
     # print(board.exit_cordinate)
     # print(board.get_board_state())
+
+    board1.printboard()
+    board1.empty_places()
+    board1.vehicles_moveable()
+    board1.possible_sets()
+    print(board1.possible_sets())
+
