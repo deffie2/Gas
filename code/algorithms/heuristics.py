@@ -1,7 +1,7 @@
-#from code.classes.board import Board
-import sys
-sys.path.append("../classes")
-from board import Board
+from code.classes.board import Board
+#import sys
+#sys.path.append("../classes")
+#from board import Board
 
 
 def total_count_BEAM(board: "Board") -> int:
