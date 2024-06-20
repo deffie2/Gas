@@ -121,6 +121,10 @@ def total_moves_of_car_just_moved(board: 'Board') -> int:
             just_moved_n_moved = vehicles.n_times_moved
             break
     
+    
+    if total_cars_moved == 0:
+        return 0
+        
     # Calculate score
     score = round((just_moved_n_moved / total_cars_moved) * 10)
     
