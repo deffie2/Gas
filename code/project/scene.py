@@ -18,7 +18,6 @@ def visualize(d: int, game_number: int ):
 
     cars_in_game = import_table(d, game_number)
     colors = get_colors(cars_in_game)
-    picking_random_colors(colors)
     cars_in_game = assinging_colors(colors, cars_in_game)
     fig, ax = plt.subplots()
     plotting_grid(ax, cars_in_game, 0, d, game_number)
@@ -80,8 +79,8 @@ def get_colors(cars_in_game):
     
     """
     n_cars = len(cars_in_game)
-    cmap = mpl.colormaps["gist_ncar"]
-    colors = cmap(np.linspace(0, 1, n_cars))
+    cmap = mpl.colormaps["nipy_spectral"]
+    colors = cmap(np.linspace(0.05, 0.80, n_cars))
     return colors.tolist()
     
 
@@ -170,6 +169,6 @@ def plotting_grid(ax, cars_in_game, move, çd, game_number):
 
 # Main script
 if __name__ == "__main__":
-    d = 6  # Example grid size
-    game_number = 1  # Example game number
+    d = 9  # Example grid size
+    game_number = 4  # Example game number
     visualize(d, game_number)
