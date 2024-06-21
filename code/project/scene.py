@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.patches as patches
 import matplotlib as mpl
 import csv
-import time
 import matplotlib.cm as cm
+import random
 
 def visualize(d: int, game_number: int ):
     """ 
@@ -16,7 +16,9 @@ def visualize(d: int, game_number: int ):
     """
 
     cars_in_game = import_table(d, game_number)
-    cars_in_game = colors(cars_in_game)
+    colors = get_colors(cars_in_game)
+    picking_random_colors(colors)
+    cars_in_game = assinging_colors(colors, cars_in_game)
     fig, ax = plt.subplots()
     plotting_grid(ax, cars_in_game, 0, d, game_number)
     car_moves_data = car_moves(d, game_number, cars_in_game)
@@ -65,7 +67,8 @@ def import_table(d, game_number):
             cars_in_game[car_id] = [row, col, width, height]
     return cars_in_game
 
-def colors(cars_in_game):
+
+def get_colors(cars_in_game):
     """
     Assigns a color to each car, picked out of the "gist_ncar" colormap of matplotlip
 
@@ -76,14 +79,20 @@ def colors(cars_in_game):
     n_cars = len(cars_in_game)
     cmap = mpl.colormaps["gist_ncar"]
     colors = cmap(np.linspace(0, 1, n_cars))
-    color_index = 0
+    return colors.tolist()
+    
+
+def picking_random_colors(colors):
+    random_index = random.randint(0, len(colors) - 1)
+    color = colors.pop(random_index)
+    return color
+
+def assinging_colors(colors, cars_in_game):
     for car_id in cars_in_game.keys():
         if car_id == 'X':
             cars_in_game[car_id].append('red')
         else:
-            cars_in_game[car_id].append(colors[color_index])
-            color_index += 1
-
+            cars_in_game[car_id].append(picking_random_colors(colors))
     return cars_in_game
 
 def car_moves(d, game_number, cars_in_game):
@@ -102,14 +111,11 @@ def car_moves(d, game_number, cars_in_game):
             car_id = row[0]
             steps = int(row[1])
             width = cars_in_game[car_id][2]
-            print(width)
             car_moves_data.append((car_id, steps, width))
-    print(car_moves_data)
     return car_moves_data
 
 
-
-def plotting_grid(ax, cars_in_game, move, d, game_number):
+def plotting_grid(ax, cars_in_game, move, çd, game_number):
     """
     Plotting the game.
 
