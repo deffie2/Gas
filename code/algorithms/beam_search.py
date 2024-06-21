@@ -30,7 +30,7 @@ def beam_search(d, game_number, runs):
 
             moves += 1
 
-            # Print a message every 1000 moves
+            # Print a message every 100000 moves
             if moves % 100000 == 0:
                 print(f"Move count: {moves}")
 
