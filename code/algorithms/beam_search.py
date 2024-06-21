@@ -30,8 +30,13 @@ def beam_search(d, game_number, runs):
 
             # Check if the current state is a winning state
             if current_board.is_red_car_at_exit():
-                pq.clear()
+                current_board.printboard()
+                print(hash(current_board))
+                print()
+                print(parents)
                 solution = reconstruct_path(parents, hash(current_board))
+
+                pq.clear()
                 
                 # Save the solution to the CSV file
                 csv_name = save_solution_to_csv(solution, d, game_number)
@@ -60,7 +65,10 @@ def initialize_search(initial_board):
     initial_state = hash(initial_board)
     parents[initial_state] = None
 
-    return priority_queue, parents
+    print(f"Initial state hash: {initial_state}")
+    print(f"Initial board state: {initial_board.get_board_state()}")
+
+    return pq, parents
 
 
 def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_width: int):
@@ -77,6 +85,9 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
                 # Maak een kopie van het bord en voer de zet uit
                 #new_board = copy.deepcopy(current_board)
                 new_board = current_board.move_vehicle(car_id, steps)
+                print()
+                print("Hier komt het board")
+                new_board.printboard()
                 
                 # BEAM: Geef elk nieuw bord een waarde
                     # -> Gebeurd met heuristics functie
@@ -84,8 +95,12 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
 
                 # Sla het nieuwe bord en de heuristische waarde op in een lijst
                 new_board_state = hash(new_board.get_board_state())
+                print(f"Is het: {new_board_state}")
                 if new_board_state not in parents:
+                    print(f"Adding new state: {new_board_state}")
                     next_states.append((heuristic_value, new_board, car_id, steps))
+
+                
 
     # Sorteer de volgende toestanden op basis van heuristische waarde
     next_states.sort(key=lambda x: x[0], reverse=True)
@@ -102,6 +117,7 @@ def reconstruct_path(parents: dict, state: int):
     """
     Reconstruct the path from the goal state back to the initial state using parent relationships.
     """
+    print(f"Reconstructing path for state: {state}")
     path = []
     while parents[state] is not None:
         # Haal de ouderstaat en de bijbehorende zet op
@@ -117,7 +133,7 @@ def save_solution_to_csv(solution, d, game_number):
     """
     Save the solution path to a CSV file.
     """
-    file_path = f'data/Breadth_First/Best_Moves/board_{game_number}_{d}x{d}.csv'
+    file_path = f'data/Beam_Search/board_{game_number}_{d}x{d}.csv'
     with open(file_path, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Step'])
