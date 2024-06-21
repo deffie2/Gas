@@ -1,7 +1,7 @@
-from code.classes.board import Board
-#import sys
-#sys.path.append("../classes")
-#from board import Board
+#from code.classes.board import Board
+import sys
+sys.path.append("../classes")
+from board import Board
 
 
 def total_count_BEAM(board: "Board") -> int:
@@ -16,13 +16,23 @@ def total_count_BEAM(board: "Board") -> int:
     score_blocking_cars = count_blocking_cars(board)
     score_free_space_blocking_cars = free_space_blocking_cars(board)
     score_fraction_moved = total_moves_of_car_just_moved(board)
-    print(f"score fraction moved: {score_fraction_moved}")
+    
+    # 
+    
     
     # The higher the further away it is to win with this board
     total_count = score_red_car_distance + score_blocking_cars - score_free_space_blocking_cars + score_fraction_moved
     
     # Invert the score (so higher means, the closer the board would be to a solution)
     total_count *= -1
+    
+    # If the red car has a clear way to the exit
+    if board.heuri_red_clear_exit():
+        total_count += 1000
+    
+    # If the red car is already at the end
+    if board.is_red_car_at_exit():
+        total_count += 2000
     
     return total_count
     
@@ -53,27 +63,6 @@ def count_blocking_cars(board: 'Board') -> int:
         if board.board[red_car.row][col] != "_":
             blocking_cars += 1
     return blocking_cars
-
-#def movability_red_car(board: "Board") -> int
-    
-
-# # Ik snap dit niet
-# def blocking_cars_distance(board: 'Board') -> int:
-    # """
-    # Heuristic: Total distance of blocking cars from their movable position
-    # """
-    # total_distance = 0
-    # red_car = board.vehicle_dict['X']
-    # for col in range(red_car.col + red_car.size, board.dimension):
-        # if board.board[red_car.row][col] != "_":
-            # blocking_car_id = board.board[red_car.row][col]
-            # blocking_car = board.vehicle_dict[blocking_car_id]
-            # #if blocking_car.direction == 'H':
-             # #   distance = abs(blocking_car.row - red_car.row)
-            # #else:
-             # #   distance = abs(blocking_car.col - red_car.col)
-            # #total_distance += distance
-    # return total_distance
 
 # DONE
 def free_space_blocking_cars(board: 'Board') -> int:
