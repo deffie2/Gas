@@ -20,8 +20,17 @@ def breadth_first_search(d, game_number, runs):
         # Initialize the queue and parents dictionary for the search
         queue, parents = initialize_search(initial_board)
 
+        moves = 0
+
         # Nu ga je checken als de queue niet leeg is
         while not queue.is_empty():
+
+            moves += 1
+
+            # Print a message every 100000 moves
+            if moves % 100000 == 0:
+                print(f"Move count: {moves}")
+
             # Get the current state from the queue and pop it
             current_board = queue.dequeue()
             # print(current_board)
@@ -84,12 +93,12 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
                 
                 # BEAM: Restart the same loop
                 
-                new_board_state = hash(new_board.get_board_state())
+                new_board_state = hash(new_board)
 
                 # Controleer of de nieuwe toestand al is bezocht
                 if new_board_state not in queue.visited_state:
                     queue.enqueue(new_board)
-                    parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
+                    parents[new_board_state] = (hash(current_board), car_id, steps)
                     # print(f"Key: {new_board_state}, Value: {parents[new_board_state]}")
                     # new_board.printboard()
                     # print()

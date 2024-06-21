@@ -72,11 +72,11 @@ if __name__ == "__main__":
 
     # Simulation
 
-    elif visualise == "v" and algorithm == "b":
+    elif visualise == "v" and algorithm == "bf":
         print("hello")
 
     elif visualise == "v" and algorithm == "bs":
-        print(hello)
+        print("hello")
 
 
     

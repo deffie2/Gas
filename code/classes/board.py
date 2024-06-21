@@ -83,7 +83,7 @@ class Board:
                 self.vehicle_dict[car] = vehicle
 
         self.places_car()
-
+  
     def __eq__(self, other) -> bool:
         """
         Compares two Board objects for equality.
@@ -103,7 +103,8 @@ class Board:
         post: Returns an integer hash value
         """
         state_str = str(self.get_board_state())
-        return int(hashlib.sha3_512(state_str.encode('utf-8')).hexdigest(), 16)
+        new_hash = int(hashlib.sha3_512(state_str.encode('utf-8')).hexdigest(), 16)
+        return new_hash
 
     def __lt__(self, other):
         """
