@@ -5,6 +5,7 @@ import matplotlib as mpl
 import csv
 import matplotlib.cm as cm
 import random
+import time
 
 def visualize(d: int, game_number: int ):
     """ 
@@ -39,7 +40,9 @@ def visualize(d: int, game_number: int ):
                     else:
                         cars_in_game[car_id][0] -= 1
             plotting_grid(ax, cars_in_game, move, d, game_number)
-    plt.show()
+    plt.show(block=False)
+    time.sleep(10)
+    plt.close()
 
 def import_table(d, game_number):
     """ 
