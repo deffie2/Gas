@@ -35,7 +35,7 @@ if __name__ == "__main__":
     d = int(sys.argv[2])
     algorithm = sys.argv[3]
     runs = int(sys.argv[4])
-    visualise= sys.argv[5]
+    visualise = sys.argv[5]
 
     
 #     --------------------------- Random --------------------------------------

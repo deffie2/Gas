@@ -1,35 +1,64 @@
 import heapq
+from typing import Any, List, Tuple
+from code.classes.board import Board
 
 
 class PriorityQueue:
-	def __init__(self):
-		self._queue = []
 
-	def is_empty(self):
-		return len(self._queue) == 0
+    def __init__(self) -> None:
+        """
+        Initializes the priority queue.
 
-	def size(self):
-		return len(self._queue)
+        Post: a new empty priority queue is created.
+        """
+        self._queue: List[Board] = []
 
-	def push(self, item, priority):
-		heapq.heappush(self._queue, (-priority, item))
+    def is_empty(self) -> bool:
+        """
+        Checks if the priority queue is empty.
 
-	def pop(self):
-		if self.is_empty():
-			raise IndexError("The priority queue is empty.")
-		return heapq.heappop(self._queue)[-1]
+        post: returns True if the priority queue contains no elements,
+        otherwise False.
+        """
+        return len(self._queue) == 0
 
-	def clear(self):
-		self._queue.clear()
+    def size(self) -> int:
+        """
+        Returns the size of the priority queue.
 
+        Post: Returns the number of elements currently in the priority queue.
+        """
+        return len(self._queue)
 
-if __name__ == "__main__":
-	
-	pq = PriorityQueue()
-	pq.push("Task 1", 1)
-	pq.push("Taks2", 4)
-	pq.push("Task 3", 2)
+    def push(self, item: Board, priority: int) -> None:
+        """
+        Adds an item to the priority queue with a specified priority.
 
-	print(pq.pop())
-	print(pq.pop())
-	print(pq.pop())
+        Pre: priority must be an integer.
+
+        Post: the item is added to the priority queue with the specified
+        priority.
+        """
+        assert isinstance(priority, int), "Priority must be an integer."
+        heapq.heappush(self._queue, (-priority, item))
+
+    def pop(self) -> Board:
+        """
+        Removes and returns the item with the highest priority.
+
+        Pre: the priority queue must not be empty.
+
+        Post: the board state with the highest priority is removed from the
+        priority queue and returned.
+        Post: Raises an IndexError if the priority queue is empty.
+        """
+        assert not self.is_empty(), "The priority queue must not be empty."
+        return heapq.heappop(self._queue)[-1]
+
+    def clear(self) -> None:
+        """
+        Clears all items from the priority queue.
+
+        Post: all items are removed from the priority queue.
+        """
+        self._queue.clear()

@@ -31,7 +31,7 @@ def beam_search(d, game_number, runs):
             moves += 1
 
             # Print a message every 100000 moves
-            if moves % 100000 == 0:
+            if moves % 10000 == 0:
                 print(f"Move count: {moves}")
 
             current_board = pq.pop()
@@ -104,6 +104,9 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
 
     # Sorteer de volgende toestanden op basis van heuristische waarde
     next_states.sort(key=lambda x: x[0], reverse=True)
+    # print(next_states)
+    # print()
+    print()
 
     # Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
     for heuristic_value, new_board, car_id, steps in next_states[:beam_width]:
@@ -144,4 +147,6 @@ def save_solution_to_csv(solution, d, game_number, beam_width):
         print(f"Moves successfully saved to {file_path}")
 
     return file_path
+
+
 
