@@ -76,7 +76,7 @@ if __name__ == "__main__":
         print("hello")
 
     elif visualise == "v" and algorithm == "bs":
-        print(hello)
+        print("hello")
 
 
     

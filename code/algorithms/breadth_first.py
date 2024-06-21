@@ -84,12 +84,12 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
                 
                 # BEAM: Restart the same loop
                 
-                new_board_state = hash(new_board.get_board_state())
+                new_board_state = hash(new_board)
 
                 # Controleer of de nieuwe toestand al is bezocht
                 if new_board_state not in queue.visited_state:
                     queue.enqueue(new_board)
-                    parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
+                    parents[new_board_state] = (hash(current_board), car_id, steps)
                     # print(f"Key: {new_board_state}, Value: {parents[new_board_state]}")
                     # new_board.printboard()
                     # print()

@@ -24,26 +24,26 @@ def beam_search(d, game_number, runs):
         # Initialize the priority queue and parents dictionary for the search
         pq, parents = initialize_search(initial_board)
 
+        # hash_change =  None
+
         while not pq.is_empty():
-            # Get the current state from the priority queue
+
+            # if hash_change is None:
+                # Get the current state from the priority queue
             current_board = pq.pop()
 
             # Check if the current state is a winning state
             if current_board.is_red_car_at_exit():
-                current_board.printboard()
-                print(hash(current_board))
-                print()
-                print(parents)
-                solution = reconstruct_path(parents, hash(current_board))
-
                 pq.clear()
+                solution = reconstruct_path(parents, hash(current_board))
+                
                 
                 # Save the solution to the CSV file
-                csv_name = save_solution_to_csv(solution, d, game_number)
+                csv_name = save_solution_to_csv(solution, d, game_number, beam_width)
                 break  # Break after finding the solution for this run
 
             # Process the possible moves from the current board state
-            process_moves(current_board, pq, parents, beam_width)
+            hash_change = process_moves(current_board, pq, parents, beam_width)
 
     if csv_name:
         return csv_name
@@ -65,9 +65,6 @@ def initialize_search(initial_board):
     initial_state = hash(initial_board)
     parents[initial_state] = None
 
-    print(f"Initial state hash: {initial_state}")
-    print(f"Initial board state: {initial_board.get_board_state()}")
-
     return pq, parents
 
 
@@ -85,32 +82,33 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
                 # Maak een kopie van het bord en voer de zet uit
                 #new_board = copy.deepcopy(current_board)
                 new_board = current_board.move_vehicle(car_id, steps)
-                print()
-                print("Hier komt het board")
-                new_board.printboard()
                 
                 # BEAM: Geef elk nieuw bord een waarde
                     # -> Gebeurd met heuristics functie
                 heuristic_value = calculate_heuristic(new_board)
 
                 # Sla het nieuwe bord en de heuristische waarde op in een lijst
-                new_board_state = hash(new_board.get_board_state())
-                print(f"Is het: {new_board_state}")
+                new_board_state = hash(new_board)
                 if new_board_state not in parents:
-                    print(f"Adding new state: {new_board_state}")
                     next_states.append((heuristic_value, new_board, car_id, steps))
 
-                
+                # if new_board.is_red_car_at_exit():
+                #     parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
+                #     return new_board_state
+
+
 
     # Sorteer de volgende toestanden op basis van heuristische waarde
     next_states.sort(key=lambda x: x[0], reverse=True)
 
     # Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
     for heuristic_value, new_board, car_id, steps in next_states[:beam_width]:
-        new_board_state = hash(new_board.get_board_state())
+        new_board_state = hash(new_board)
         if new_board_state not in parents:
             pq.push(new_board, heuristic_value)
-            parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
+            parents[new_board_state] = (hash(current_board), car_id, steps)
+
+    return None
 
 
 def reconstruct_path(parents: dict, state: int):
@@ -129,11 +127,11 @@ def reconstruct_path(parents: dict, state: int):
     # Keer het pad om zodat het van begin naar eind gaat
     return path[::-1]
 
-def save_solution_to_csv(solution, d, game_number):
+def save_solution_to_csv(solution, d, game_number, beam_width):
     """
     Save the solution path to a CSV file.
     """
-    file_path = f'data/Beam_Search/board_{game_number}_{d}x{d}.csv'
+    file_path = f'data/Beam_Search/board_{game_number}_{d}x{d}_beam_width_{beam_width}.csv'
     with open(file_path, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Step'])
