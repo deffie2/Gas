@@ -19,22 +19,23 @@ def visualize(d: int, game_number: int ):
     cars_in_game = colors(cars_in_game)
     fig, ax = plt.subplots()
     plotting_grid(ax, cars_in_game, 0, d, game_number)
-
-    car_moves_data = car_moves(d, game_number)
+    car_moves_data = car_moves(d, game_number, cars_in_game)
 
     move = 0
-    for car_id, direction, steps in car_moves_data:
+    for car_id, steps, width in car_moves_data:
         if car_id in cars_in_game:
             move += 1
             for i in range(abs(steps)):
-                if direction == 'R':  # Move right
-                    cars_in_game[car_id][1] += 1
-                elif direction == 'L':  # Move left
-                    cars_in_game[car_id][1] -= 1
-                elif direction == 'U':  # Move up
-                    cars_in_game[car_id][0] -= 1
-                elif direction == 'D':  # Move down
-                    cars_in_game[car_id][0] += 1
+                if width > 1:
+                    if steps > 0:
+                        cars_in_game[car_id][1] += 1
+                    else:
+                        cars_in_game[car_id][1] -= 1
+                elif width == 1:
+                    if steps > 0:
+                        cars_in_game[car_id][0] += 1
+                    else:
+                        cars_in_game[car_id][0] -= 1
             plotting_grid(ax, cars_in_game, move, d, game_number)
     plt.show()
 
@@ -85,7 +86,7 @@ def colors(cars_in_game):
 
     return cars_in_game
 
-def car_moves(d, game_number):
+def car_moves(d, game_number, cars_in_game):
     """
     Collects data of the moves of the cars.
 
@@ -94,17 +95,19 @@ def car_moves(d, game_number):
     """
 
     car_moves_data = []
-    with open(f'../../data/Random/Best_Moves_WOH/r_best_move_{game_number}_{d}x{d}.csv', "r") as csvfile:
+    with open(f'../../data/Breadth_First/Best_Moves/board_{game_number}_{d}x{d}.csv', "r") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header
         for row in reader:
             car_id = row[0]
-            direction = row[1]
-            steps = int(row[2])
-            car_moves_data.append((car_id, direction, steps))
-    car_moves_data 
-
+            steps = int(row[1])
+            width = cars_in_game[car_id][2]
+            print(width)
+            car_moves_data.append((car_id, steps, width))
+    print(car_moves_data)
     return car_moves_data
+
+
 
 def plotting_grid(ax, cars_in_game, move, d, game_number):
     """
@@ -140,7 +143,7 @@ def plotting_grid(ax, cars_in_game, move, d, game_number):
     ax.invert_yaxis()
 
     # title of plot
-    car_moves_data= car_moves(d, game_number)
+    car_moves_data= car_moves(d, game_number, cars_in_game)
     if move != len(car_moves_data):
         plt.title(f'Move {move}')
     else:
@@ -159,5 +162,5 @@ def plotting_grid(ax, cars_in_game, move, d, game_number):
 # Main script
 if __name__ == "__main__":
     d = 6  # Example grid size
-    game_number = 2  # Example game number
+    game_number = 1  # Example game number
     visualize(d, game_number)
