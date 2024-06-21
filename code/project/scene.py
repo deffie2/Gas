@@ -72,11 +72,11 @@ def import_table(d, game_number):
 
 def get_colors(cars_in_game):
     """
-    Assigns a color to each car, picked out of the "gist_ncar" colormap of matplotlip
+    Creating a list of colors with the same length as the amount of cars. 
+    The color get picked of a color spectrum
 
     pre: dictionary with car id as key and postiontion as value 
-    post: returns same dictionary, but now with color added to the value
-    
+    post: returns a list with colors
     """
     n_cars = len(cars_in_game)
     cmap = mpl.colormaps["nipy_spectral"]
@@ -85,11 +85,24 @@ def get_colors(cars_in_game):
     
 
 def picking_random_colors(colors):
+    """
+    Picking a random color out of the color list.
+
+    pre: list with colors
+    post: random color out of the list
+    """
     random_index = random.randint(0, len(colors) - 1)
     color = colors.pop(random_index)
     return color
 
 def assinging_colors(colors, cars_in_game):
+    """
+    Each car gets a random color assigned, the car with 
+    car_id "X' gets the color red assigned
+
+    pre: list of colors and dictionary with car id as key and postiontion as value 
+    post: Dictionary with car id as key and postiontion AND color as value
+    """
     for car_id in cars_in_game.keys():
         if car_id == 'X':
             cars_in_game[car_id].append('red')
