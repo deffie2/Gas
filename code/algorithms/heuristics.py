@@ -16,7 +16,7 @@ def total_count_BEAM(board: "Board") -> int:
     score_blocking_cars = count_blocking_cars(board)
     score_free_space_blocking_cars = free_space_blocking_cars(board)
     score_fraction_moved = total_moves_of_car_just_moved(board)
-    print(f"score fraction moved: {score_fraction_moved}")
+    # print(f"score fraction moved: {score_fraction_moved}")
     
     # The higher the further away it is to win with this board
     total_count = score_red_car_distance + score_blocking_cars - score_free_space_blocking_cars + score_fraction_moved
@@ -93,13 +93,13 @@ def free_space_blocking_cars(board: 'Board') -> int:
             #                            blocking_car.col, blocking_car.size)
             #possible_moves_dict = board.possible_sets()
             movable_vehicles, possible_moves = board.generate_all_possible_moves()
-            print(f"board.movable_vehicles: {board.movable_vehicles}")
-            print(f"dictionary possible moves: {possible_moves}")
+            # print(f"board.movable_vehicles: {board.movable_vehicles}")
+            # print(f"dictionary possible moves: {possible_moves}")
             if blocking_car_id in board.movable_vehicles:
                 for Tuple in possible_moves[blocking_car_id]:
-                    print(Tuple)
+                    # print(Tuple)
                     free_space += len(Tuple[1])
-    print(free_space)
+    # print(free_space)
     return free_space
 
     # DONE
@@ -139,6 +139,6 @@ if __name__ == "__main__":
     #helper = {"Banaan": 6, "Appel": 3}
     #print(helper)
     totalcount = total_count_BEAM(board3)
-    print(totalcount)
+    # print(totalcount)
     
     

@@ -105,6 +105,16 @@ class Board:
         state_str = str(self.get_board_state())
         return int(hashlib.sha3_512(state_str.encode('utf-8')).hexdigest(), 16)
 
+    def __lt__(self, other):
+        """
+        Less than comparison for Board objects.
+        """
+        # Define your comparison logic here
+        # For example, you could compare based on a heuristic value or any other criteria
+        # Here's a simple example using the size of move history as a basis:
+        return len(self.move_history) < len(other.move_history)
+
+
     def createboard(self) -> None:
         """
         Creates an empty board with dimensions self.dimension x self.dimension.
@@ -408,9 +418,22 @@ class Board:
     def __repr__(self) -> str:
         return f"Board({self.movable_vehicles})"
 
+    def test_hash_consistency():
+        """
+        Test to ensure that the hash values of two identical boards are the same.
+        """
+        board1 = Board(6, 1)
+        board2 = copy.deepcopy(board1)
+
+        assert board1 == board2, "Boards should be identical"
+        assert hash(board1) == hash(board2), "Hashes should be identical"
+
+        print("Hash consistency test passed successfully!")
 
 # MAIN: 
 if __name__ == "__main__":
+
+    Board.test_hash_consistency()
 
 
     # board = Board(1,6)
@@ -422,8 +445,8 @@ if __name__ == "__main__":
     # print(board.get_board_state())
 
     # test eq__
-    board1 = Board(9,6)
-    board2 = Board(6,1)
+    # board1 = Board(9,6)
+    # board2 = Board(6,1)
     
     #print(board1.empty_places)
     #print(board1 is board2)
@@ -492,9 +515,5 @@ if __name__ == "__main__":
     # print(board.exit_cordinate)
     # print(board.get_board_state())
 
-    board1.printboard()
-    board1.empty_places()
-    board1.vehicles_moveable()
-    board1.possible_sets()
-    print(board1.possible_sets())
+    # 
 
