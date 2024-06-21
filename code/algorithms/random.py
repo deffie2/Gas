@@ -7,6 +7,8 @@ from code.classes.board import Board
 
 def move_car_random_WOH(d, game_number, runs):
 
+    random.seed(42)  # Set the seed for reproducibility
+
     moveslist = []
     for i in range(runs):
 
@@ -41,6 +43,8 @@ def move_car_random_WOH(d, game_number, runs):
 
 
 def move_car_random_WH(d, game_number, runs):
+
+    random.seed(42)  # Set the seed for reproducibility
 
     moveslist = []
     for i in range(runs):
