@@ -24,12 +24,16 @@ def beam_search(d, game_number, runs):
         # Initialize the priority queue and parents dictionary for the search
         pq, parents = initialize_search(initial_board)
 
-        # hash_change =  None
+        moves = 0
 
         while not pq.is_empty():
 
-            # if hash_change is None:
-                # Get the current state from the priority queue
+            moves += 1
+
+            # Print a message every 1000 moves
+            if moves % 20000 == 0:
+                print(f"Move count: {moves}")
+
             current_board = pq.pop()
 
             # Check if the current state is a winning state
@@ -43,7 +47,7 @@ def beam_search(d, game_number, runs):
                 break  # Break after finding the solution for this run
 
             # Process the possible moves from the current board state
-            hash_change = process_moves(current_board, pq, parents, beam_width)
+            process_moves(current_board, pq, parents, beam_width)
 
     if csv_name:
         return csv_name

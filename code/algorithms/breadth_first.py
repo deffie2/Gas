@@ -20,8 +20,17 @@ def breadth_first_search(d, game_number, runs):
         # Initialize the queue and parents dictionary for the search
         queue, parents = initialize_search(initial_board)
 
+        moves = 0
+
         # Nu ga je checken als de queue niet leeg is
         while not queue.is_empty():
+
+            moves += 1
+
+            # Print a message every 1000 moves
+            if moves % 20000 == 0:
+                print(f"Move count: {moves}")
+
             # Get the current state from the queue and pop it
             current_board = queue.dequeue()
             # print(current_board)
