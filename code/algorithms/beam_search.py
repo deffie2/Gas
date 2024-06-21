@@ -31,7 +31,7 @@ def beam_search(d, game_number, runs):
             moves += 1
 
             # Print a message every 1000 moves
-            if moves % 20000 == 0:
+            if moves % 100000 == 0:
                 print(f"Move count: {moves}")
 
             current_board = pq.pop()
