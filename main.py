@@ -9,7 +9,8 @@ from code.classes.vehicle import Vehicle
 from code.algorithms.breadth_first import breadth_first_search
 from code.algorithms.random import move_car_random_WH, move_car_random_WOH
 from code.algorithms.beam_search import beam_search
-from code.visualisation.visualise import frequency_graph , simulation
+from code.visualisation.visualise import frequency_graph
+from code.visualisation.simulation import visualize
 
 # from visualise import frequency_graph
 
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     
     if algorithm == "r":
         csv_names = move_car_random_WOH(d, game_number, runs)
+        print(csv_names)
     elif algorithm == "rh":
         csv_names = move_car_random_WH(d, game_number, runs)
         print(csv_names)
@@ -69,6 +71,9 @@ if __name__ == "__main__":
 
     if visualise == "v" and (algorithm == "r" or algorithm == "rh"):
         frequency_graph(csv_names[0], csv_names[2])
+        print(csv_names[1])
+        print()
+
         visualize(d, game_number, csv_names[1])
 
     # Simulation

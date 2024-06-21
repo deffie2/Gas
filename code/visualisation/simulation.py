@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 import random
 import time
 
-def visualize(d: int, game_number: int, csv ):
+def visualize(d: int, game_number: int, csv_names: str):
     """ 
     Uses data of the initial positon of the cars and all the moves, 
     for each move the position of the car gets updated. With this updated data, 
@@ -20,8 +20,8 @@ def visualize(d: int, game_number: int, csv ):
     colors = get_colors(cars_in_game)
     cars_in_game = assinging_colors(colors, cars_in_game)
     fig, ax = plt.subplots()
-    plotting_grid(ax, cars_in_game, 0, d, game_number)
-    car_moves_data = car_moves(csv, cars_in_game)
+    plotting_grid(ax, cars_in_game, 0, d, game_number, csv_names)
+    car_moves_data = car_moves(csv_names, cars_in_game)
 
     move = 0
     for car_id, steps, width in car_moves_data:
@@ -38,12 +38,12 @@ def visualize(d: int, game_number: int, csv ):
                         cars_in_game[car_id][0] += 1
                     else:
                         cars_in_game[car_id][0] -= 1
-            plotting_grid(ax, cars_in_game, move, d, game_number)
+            plotting_grid(ax, cars_in_game, move, d, game_number, csv_names)
     plt.show(block=False)
     time.sleep(10)
     plt.close()
 
-def import_table(d, game_number, csv):
+def import_table(d, game_number):
     """ 
     Collects data of the cars and their initial positions 
 
@@ -52,7 +52,7 @@ def import_table(d, game_number, csv):
 
     """
     cars_in_game = {}
-    with open(f'../../data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
+    with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header
         for line in reader:
@@ -110,7 +110,7 @@ def assinging_colors(colors, cars_in_game):
             cars_in_game[car_id].append(picking_random_colors(colors))
     return cars_in_game
 
-def car_moves(csv, cars_in_game):
+def car_moves(csv_names: str, cars_in_game):
     """
     Collects data of the moves of the cars.
 
@@ -119,7 +119,7 @@ def car_moves(csv, cars_in_game):
     """
 
     car_moves_data = []
-    with open(f'{csv}', "r") as csvfile:
+    with open(f'{csv_names}') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header
         for row in reader:
@@ -130,7 +130,7 @@ def car_moves(csv, cars_in_game):
     return car_moves_data
 
 
-def plotting_grid(ax, cars_in_game, move, çd, game_number):
+def plotting_grid(ax, cars_in_game, move, d, game_number, csv_names):
     """
     Plotting the game.
 
@@ -164,7 +164,7 @@ def plotting_grid(ax, cars_in_game, move, çd, game_number):
     ax.invert_yaxis()
 
     # title of plot
-    car_moves_data= car_moves(d, game_number, cars_in_game)
+    car_moves_data = car_moves(csv_names, cars_in_game)
     if move != len(car_moves_data):
         plt.title(f'Move {move}')
     else:
