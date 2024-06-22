@@ -96,11 +96,6 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
                 if new_board_state not in parents:
                     next_states.append((heuristic_value, new_board, car_id, steps))
 
-                # if new_board.is_red_car_at_exit():
-                #     parents[new_board_state] = (hash(current_board.get_board_state()), car_id, steps)
-                #     return new_board_state
-
-
 
     # Sorteer de volgende toestanden op basis van heuristische waarde
     next_states.sort(key=lambda x: x[0], reverse=True)
