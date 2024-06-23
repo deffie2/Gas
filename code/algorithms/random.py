@@ -50,7 +50,6 @@ def move_car_random_WH(d, game_number, runs):
     for i in range(runs):
 
         board = Board(d, game_number)
-        board.printboard()
 
         moves = 0
         while not (board.is_red_car_at_exit()):
@@ -71,15 +70,10 @@ def move_car_random_WH(d, game_number, runs):
                 # Move the vehicle to the new position
                 new_board = board.move_vehicle(movable_vehicle, step)
             else:
-                print(f"dit is {board}")
-                board.printboard()
                 new_board = board.heuri_get_red_to_exit()
 
             board = new_board
-            # board.printboard()
-            print(board)
             moves += 1
-            print(moves)
         print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
 
