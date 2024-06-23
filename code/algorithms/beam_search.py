@@ -101,7 +101,7 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
     next_states.sort(key=lambda x: x[0], reverse=True)
     # print(next_states)
     # print()
-    print()
+    # print()
 
     # Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
     for heuristic_value, new_board, car_id, steps in next_states[:beam_width]:
@@ -117,7 +117,7 @@ def reconstruct_path(parents: dict, state: int):
     """
     Reconstruct the path from the goal state back to the initial state using parent relationships.
     """
-    print(f"Reconstructing path for state: {state}")
+    # print(f"Reconstructing path for state: {state}")
     path = []
     while parents[state] is not None:
         # Haal de ouderstaat en de bijbehorende zet op
