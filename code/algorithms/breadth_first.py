@@ -1,5 +1,6 @@
 import copy
 import csv
+import time
 
 
 from code.classes.board import Board
@@ -12,6 +13,7 @@ def breadth_first_search(d, game_number, runs):
     Perform breadth-first search on the given initial board to find a path
     where the red car reaches the exit.
     """
+    start_time = time.time()
     csv_name = None
     for i in range(runs):
 
@@ -37,11 +39,15 @@ def breadth_first_search(d, game_number, runs):
 
             # Check if the initial state is already a winning state
             if current_board.is_red_car_at_exit():
-                queue.clear()
                 solution = reconstruct_path(parents, hash(current_board))
+                end_time = time.time()
+                queue.clear()
 
                 # Save the solution to the CSV file
                 csv_name = save_solution_to_csv(solution, d, game_number)
+                elapsed_time = end_time - start_time
+                print(f"De code heeft {elapsed_time} seconden nodig gehad om uit te voeren.")
+                print(f"De lengte van de dictionary is: {len(parents) - 1}")
                 break  # Break after finding the solution for this run
 
             # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
