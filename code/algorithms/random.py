@@ -1,11 +1,17 @@
 import csv
 import random
-
+from typing import List, Tuple
 
 from code.classes.board import Board
 
 
-def move_car_random_WOH(d, game_number, runs):
+def move_car_random_WOH(d: int, game_number: int, runs: int ) -> List[str]:
+    """
+    Perform random moves without heuristics (WOH) to solve the board and save the results to CSV files.
+
+    Post: the number of moves for each run and the best move sequence are saved in CSV files.
+    Post: a list of CSV file paths and the algorithm name are returned.
+    """
 
     random.seed(42)  # Set the seed for reproducibility
 
@@ -42,7 +48,13 @@ def move_car_random_WOH(d, game_number, runs):
     return csv_namen
 
 
-def move_car_random_WH(d, game_number, runs):
+def move_car_random_WH(d: int, game_number: int, runs: int) -> List[str]:
+    """
+    Perform random moves with heuristics (WH) to solve the board and save the results to CSV files.
+
+    Post: the number of moves for each run and the best move sequence are saved in CSV files.
+    Post: a list of CSV file paths and the algorithm name are returned.
+    """
 
     random.seed(42)  # Set the seed for reproducibility
 
@@ -85,7 +97,12 @@ def move_car_random_WH(d, game_number, runs):
     csv_namen = save_moves_to_csv(game_number, runs, d, moveslist, best_moves_list, algorithm)
     return csv_namen
 
-def select_random_move(board, heuristics: bool):
+def select_random_move(board: Board, heuristics: bool):
+    """
+    Select a random move from the board's possible moves.
+
+    Post: a randomly selected movable vehicle and its possible moves are returned.
+    """
     # Generate all possible moves
     movable_vehicles, possible_moves = board.generate_all_possible_moves()
 
@@ -100,13 +117,23 @@ def select_random_move(board, heuristics: bool):
     return movable_vehicle, possible_vehicle_moves
 
 def combine_possible_steps(possible_vehicle_moves):
+    """
+    Combine all possible steps for all directions of a vehicle's moves.
+
+    Postconditions: a combined list of all possible steps is returned.
+    """
     all_possible_steps = []
     for move_direction, move_steps in possible_vehicle_moves:
         for step in move_steps:
             all_possible_steps.append((move_direction, step))
     return all_possible_steps
 
-def save_moves_to_csv(game_number, runs, d, moveslist, best_moves_list, algorithm):
+def save_moves_to_csv(game_number: int, runs: int, d, moveslist, best_moves_list, algorithm: str) -> List[str]:
+    """
+    Save the moves and best moves to CSV files.
+
+    Post: Two CSV files are created: one for the frequency of moves and one for the best moves.
+    """
     csv_namen = []
     filepath1 = f'data/Random/Freq_moves_{algorithm}/board_{game_number}_{runs}_freq_move_{algorithm}_{d}x{d}.csv'
     with open(filepath1, mode='w', newline='') as file:
