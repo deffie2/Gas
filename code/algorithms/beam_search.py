@@ -2,6 +2,8 @@ from code.classes.board import Board
 from code.classes.priorityqueue import PriorityQueue
 from code.algorithms.heuristics import total_count_BEAM
 import csv
+import time
+
 
 # import sys
 # sys.path.append("../classes")
@@ -17,6 +19,7 @@ def beam_search(d, game_number, runs):
     where the red car reaches the exit.
     """
     beam_width = int(input("What value would you like for the beam width? "))
+    start_time = time.time()
     csv_name = None
     for i in range(runs):
         initial_board = Board(d, game_number)
@@ -38,12 +41,16 @@ def beam_search(d, game_number, runs):
 
             # Check if the current state is a winning state
             if current_board.is_red_car_at_exit():
-                pq.clear()
                 solution = reconstruct_path(parents, hash(current_board))
+                end_time = time.time()
+                pq.clear()
                 
                 
                 # Save the solution to the CSV file
                 csv_name = save_solution_to_csv(solution, d, game_number, beam_width)
+                lapsed_time = end_time - start_time
+                print(f"De code heeft {elapsed_time} seconden nodig gehad om uit te voeren.")
+                print(f"De lengte van de dictionary is: {len(parents) - 1}")
                 break  # Break after finding the solution for this run
 
             # Process the possible moves from the current board state
@@ -101,7 +108,7 @@ def process_moves(current_board: Board, pq: PriorityQueue, parents: dict, beam_w
     next_states.sort(key=lambda x: x[0], reverse=True)
     # print(next_states)
     # print()
-    print()
+    # print()
 
     # Voeg de beste beam_width toestanden toe aan de prioriteitswachtrij
     for heuristic_value, new_board, car_id, steps in next_states[:beam_width]:
@@ -117,7 +124,7 @@ def reconstruct_path(parents: dict, state: int):
     """
     Reconstruct the path from the goal state back to the initial state using parent relationships.
     """
-    print(f"Reconstructing path for state: {state}")
+    # print(f"Reconstructing path for state: {state}")
     path = []
     while parents[state] is not None:
         # Haal de ouderstaat en de bijbehorende zet op
