@@ -18,10 +18,11 @@ def total_count_BEAM(board: "Board") -> int:
     score_fraction_moved = total_moves_of_car_just_moved(board)
     
     # NIEUW : Normaliseer de scores (stel dat ze allemaal binnen [0, 10] vallen)
-    normalized_red_car_distance = normalize(score_red_car_distance, 0, 10)
-    normalized_blocking_cars = normalize(score_blocking_cars, 0, 10)
-    normalized_free_space_blocking_cars = normalize(score_free_space_blocking_cars, 0, 10)
+    normalized_red_car_distance = normalize(score_red_car_distance, 0, board.dimension - 1)
+    normalized_blocking_cars = normalize(score_blocking_cars, 0, max_blocking_cars(board))
+    normalized_free_space_blocking_cars = normalize(score_free_space_blocking_cars, 0, max_empty_spaces(board))
     normalized_fraction_moved = normalize(score_fraction_moved, 0, 10)
+    print(f"normalized_fraction_moved {normalized_fraction_moved}")
 
     # NIEUW: Weeg de genormaliseerde scores
     weight_red_car_distance = 0.25
@@ -32,7 +33,7 @@ def total_count_BEAM(board: "Board") -> int:
     # NIEUW
     total_count = (
         weight_red_car_distance * normalized_red_car_distance +
-        weight_blocking_cars * normalized_blocking_cars +
+        weight_blocking_cars * normalized_blocking_cars -
         weight_free_space_blocking_cars * normalized_free_space_blocking_cars +
         weight_fraction_moved * normalized_fraction_moved
     )
@@ -56,6 +57,50 @@ def total_count_BEAM(board: "Board") -> int:
 # NIEUW
 def normalize(value, min_value, max_value):
     return (value - min_value) / (max_value - min_value)
+
+def max_empty_spaces(board: "Board"):
+    red_car = board.vehicle_dict.get('X')
+    location = red_car.col + red_car.size
+    max_blocking_cars = 0
+    total_size = 0
+    colomns_left = 0
+    for i in range(location, board.dimension):
+        colomns_left =+ 1
+        for car_id, value in board.vehicle_dict.items():
+            col = value.col
+            direction = value.direction
+            size = value.size
+            if col == i and direction == 'V':
+                max_blocking_cars += 1
+                total_size += size
+      
+    empty_spaces = (board.dimension * colomns_left) - total_size
+    if empty_spaces == 0:
+        empty_spaces = 1
+
+    return empty_spaces   
+
+def max_blocking_cars(board: "Board"):
+    red_car = board.vehicle_dict.get('X')
+    location = red_car.col + red_car.size
+    max_blocking_cars = 0
+    total_size = 0
+    for i in range(location, board.dimension):
+        colomns_left =+ 1
+        for car_id, value in board.vehicle_dict.items():
+            col = value.col
+            direction = value.direction
+            size = value.size
+            if col == i and direction == 'V':
+                max_blocking_cars += 1
+                total_size += size
+                break
+    print(f"max_blocking_cars {max_blocking_cars}") 
+    if max_blocking_cars == 0:
+        max_blocking_cars = 1
+    return max_blocking_cars
+     
+
 
     # DONE
 def distance_for_red_car(board: "Board") -> int:
@@ -112,8 +157,7 @@ def total_moves_of_car_just_moved(board: 'Board') -> int:
     """
     Pre: board
     Post: score (as an int)
-    A variable that determines how much a car has moved already, ranging from 0 to 10
-    The score is relative to the total amount of cars moved
+    A variable that determines how much a car has moved already, relative to the average amount of times the cars moved
     """
     
     # Total amount of cars moved
@@ -128,9 +172,17 @@ def total_moves_of_car_just_moved(board: 'Board') -> int:
     
     if total_cars_moved == 0:
         return 0
-        
+    
+    n_cars= len(board.vehicle_dict)
+    average = total_cars_moved / n_cars 
+    score = just_moved_n_moved / average
+
     # Calculate score
-    score = round((just_moved_n_moved / total_cars_moved) * 10)
+    print(f"just n moved {just_moved_n_moved}")
+    print(f"total car moved {total_cars_moved}")
+    #score = round((just_moved_n_moved / total_cars_moved) * 10)
+          
+    
     print(f"how much the car relatively already has moved: {score}")
     return score
 

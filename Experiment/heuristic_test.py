@@ -1,5 +1,5 @@
 import pytest
-from code.classes.board import Board 
+from ..code.classes.board import Board 
 
 example_board = [
     ['_', 'A', 'A', 'B', 'B', 'B'],
@@ -11,10 +11,10 @@ example_board = [
 ]
 
 def setup_board():
-    return Board(example_board)
+    return Board(1,6)
 
 def test_distance_for_red_car(setup_board):
-    expected_distance = 6  # Expected distance for red car 'X'
+    expected_distance = 5  # Expected distance for red car 'X'
     actual_distance = setup_board.distance_for_red_car()
     assert actual_distance == expected_distance
 
