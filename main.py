@@ -11,6 +11,7 @@ from code.algorithms.random import move_car_random_WH, move_car_random_WOH
 from code.algorithms.beam_search import beam_search
 from code.visualisation.visualise import frequency_graph
 from code.visualisation.simulation import visualize
+from code.algorithms.test import beam_search_test
 
 # from visualise import frequency_graph
 
@@ -66,6 +67,10 @@ if __name__ == "__main__":
         solution = beam_search(d, game_number, runs)
         print(solution)
 
+    if algorithm == "s" and shorest_path == "no":
+        solution = beam_search_test(d, game_number, runs)
+        print(solution)
+
 
     # --------------------------- Visualisation -------------------------------
 
@@ -86,6 +91,9 @@ if __name__ == "__main__":
             visualize(d, game_number, solution)
 
         elif visualise == "v" and algorithm == "bs":
+            visualize(d, game_number, solution)
+
+        elif visualise == "v" and algorithm == "s":
             visualize(d, game_number, solution)
 
     # --------------------------------------------------------------------------
