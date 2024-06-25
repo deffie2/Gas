@@ -21,6 +21,12 @@ def beam_search(d, game_number, runs):
     beam_width = int(input("What value would you like for the beam width? "))
     start_time = time.time()
     csv_name = None
+
+    filename = 'beam_search_results.csv'
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['run', 'time (s)', 'dictionary length', 'moves'])
+
     for i in range(runs):
         initial_board = Board(d, game_number)
         
@@ -48,14 +54,19 @@ def beam_search(d, game_number, runs):
                 
                 # Save the solution to the CSV file
                 csv_name = save_solution_to_csv(solution, d, game_number, beam_width)
-                lapsed_time = end_time - start_time
+                elapsed_time = end_time - start_time
                 print(f"De code heeft {elapsed_time} seconden nodig gehad om uit te voeren.")
                 print(f"De lengte van de dictionary is: {len(parents) - 1}")
+
+                with open(filename, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([i, elapsed_time, len(parents) - 1, moves])
                 break  # Break after finding the solution for this run
 
             # Process the possible moves from the current board state
             process_moves(current_board, pq, parents, beam_width)
 
+        
     if csv_name:
         return csv_name
     return None

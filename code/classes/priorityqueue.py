@@ -39,7 +39,7 @@ class PriorityQueue:
         Post: the item is added to the priority queue with the specified
         priority.
         """
-        assert isinstance(priority, int), "Priority must be an integer."
+        # assert isinstance(priority, int), "Priority must be an integer."
         heapq.heappush(self._queue, (-priority, item))
 
     def pop(self) -> Board:

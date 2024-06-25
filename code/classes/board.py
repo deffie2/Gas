@@ -128,6 +128,7 @@ class Board:
             for j in range(self.dimension):
                 row.append("_")
             self.board.append(row)
+        
 
     def places_car(self) -> None:
         """
