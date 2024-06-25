@@ -14,6 +14,7 @@ def beam_search_test(d, game_number, runs):
     where the red car reaches the exit.
     """
     beam_width = int(input("What value would you like for the beam width? "))
+    heuristic_weight_value = float(input("What heuristics weight value would you like to test? "))
     start_time = time.time()
     csv_name = None
     for i in range(runs):
@@ -53,7 +54,7 @@ def beam_search_test(d, game_number, runs):
             print("children", len(states))
             #states = filter_states_on_parents(states, parents)
             #add_to_parent_states(states, parents)
-            scored_states = score_states(states)
+            scored_states = score_states(states, heuristic_weight_value)
             scored_states = apply_beam(scored_states, beam_width)
             boards = []
             for _, board, _, _ in scored_states:
@@ -114,10 +115,10 @@ def process_moves(boards: list[Board], parents: dict[int, tuple[int, str, int]])
 #         if h not in parents:
 #             parents[h] = (h, car_id, steps)
 
-def score_states(states: list[tuple[Board, str, int]]) -> list[tuple[int, Board, str, int]]:
+def score_states(states: list[tuple[Board, str, int]], heuristic_weight_value: float) -> list[tuple[int, Board, str, int]]:
     scored_states = []
     for board, car_id, steps in states:
-        scored_states.append((calculate_heuristic(board), board, car_id, steps))
+        scored_states.append((calculate_heuristic(board, heuristic_weight_value), board, car_id, steps))
     return scored_states
 
 def apply_beam(states: list[tuple[int, Board, str, int]], beam_width: int) -> list[tuple[int, Board, str, int]]:
