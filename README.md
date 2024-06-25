@@ -12,7 +12,7 @@ python3 -m pip install -r requirements.txt
 ```
 ## Experiment
 ### Experiment 1
-Objective: Evaluate the performance of breadth-first search (BFS) and beam search (BS) algorithms on boards of varying dimensions and configurations, aiming to identify beam widths for BS that achieve comparable move counts to BFS.
+Objective: Evaluate the performance of breadth-first search (BFS) and beam search (BS) algorithms on boards of varying dimensions and configurations, aiming to identify beam widths for BS that achieve comparable move counts to BFS and finding the optimal beam width.
 
 #### Breadth-First Search (BFS)
 
