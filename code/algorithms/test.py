@@ -3,6 +3,7 @@ from code.classes.priorityqueue import PriorityQueue
 from code.algorithms.heuristics import total_count_BEAM
 import csv
 import time
+import os
 
 from typing import List
 
@@ -35,7 +36,16 @@ def beam_search_test(d, game_number, runs):
                     print(f"De code heeft {elapsed_time} seconden nodig gehad om uit te voeren.")
                 
                 # Save the solution to the CSV file
-                    csv_name = save_solution_to_csv(solution, d, game_number, beam_width)
+                    csv_name, amount_moves = save_solution_to_csv(solution, d, game_number, beam_width)
+                    # Save the solution details to the CSV file
+                    filepath = f'Experiment/results_bs.csv'
+                    file_exists = os.path.isfile(filepath)
+                    with open(filepath, mode='a', newline='') as file:
+                        writer = csv.writer(file)
+                        if not file_exists:
+                            writer.writerow(['Board', 'Algorithm', 'Board States', 'Time', 'Beam Width', 'Moves'])
+                            file_exists = True
+                        writer.writerow([game_number, 'bs', len(parents) - 1, elapsed_time, beam_width, amount_moves])
                     return csv_name
 
             # Process the possible moves from the current board state
@@ -143,7 +153,12 @@ def save_solution_to_csv(solution, d, game_number, beam_width):
             writer.writerow(move)
         print(f"Moves successfully saved to {file_path}")
 
-    return file_path
+    # Read the number of lines in the CSV file
+    with open(file_path, mode='r') as file:
+        reader = csv.reader(file)
+        amount_moves = sum(1 for row in reader) - 1
+    
+    return file_path, amount_moves
 
 
 

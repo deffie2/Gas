@@ -4,7 +4,7 @@ from code.classes.board import Board
 # from board import Board
 
 
-def total_count_BEAM(board: "Board") -> int:
+def total_count_BEAM(board: "Board", weight_fraction_moved) -> int:
     """
     Pre: board
     Post: int (the score)
@@ -25,10 +25,11 @@ def total_count_BEAM(board: "Board") -> int:
     print(f"normalized_fraction_moved {normalized_fraction_moved}")
 
     # NIEUW: Weeg de genormaliseerde scores
-    weight_red_car_distance = 0.25
-    weight_blocking_cars = 0.25
-    weight_free_space_blocking_cars = 0.25
-    weight_fraction_moved = 0.25
+
+    weight_red_car_distance = (1.0 - weight_fraction_moved)/3
+    weight_blocking_cars = (1.0 - weight_fraction_moved)/3
+    weight_free_space_blocking_cars = (1.0 - weight_fraction_moved)/3
+
 
     # NIEUW
     total_count = (
