@@ -38,7 +38,7 @@ def beam_search_test(d, game_number, runs):
                 # Save the solution to the CSV file
                     csv_name, amount_moves = save_solution_to_csv(solution, d, game_number, beam_width)
                     # Save the solution details to the CSV file
-                    filepath = f'Experiment/results.csv'
+                    filepath = f'Experiment/results_bs.csv'
                     file_exists = os.path.isfile(filepath)
                     with open(filepath, mode='a', newline='') as file:
                         writer = csv.writer(file)

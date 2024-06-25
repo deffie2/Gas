@@ -51,7 +51,7 @@ def breadth_first_search(d, game_number, runs):
                 print(f"The length of the dictionary is: {len(parents) - 1}")
 
                 # Save the solution details to the CSV file
-                filepath = f'Experiment/results.csv'
+                filepath = f'Experiment/results_bf.csv'
                 file_exists = os.path.isfile(filepath)
                 with open(filepath, mode='a', newline='') as file:
                     writer = csv.writer(file)
