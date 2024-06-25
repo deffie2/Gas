@@ -68,9 +68,20 @@ Enter your desired integer value for the beam width when prompted.
 
 ##### Visualization
 
-After running each command (either BFS or BS), the results including the number of board states, moves, and the chosen beam width will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BFS and BS across different beam widths for each board.
+After running each command (either BFS or BS), the results including the number of board states, moves, and the chosen beam width will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BFS and BS across different beam widths for each board. 
 
-This structure provides clear instructions on how to conduct the experiment, specify beam widths appropriately for each board, and access the results for further analysis through CSV files and visualization tools. Adjust <dimension> and <runs> in the commands as per your specific setup and parameters.
+##### Generating Graphs 
+To generate graphs from the CSV files, follow these steps:
+
+1. Navigate to the Experiments directory.
+2. Execute the following command in the terminal:
+```bash
+python3 graphs_for_ex1.py
+```
+This script will load the data from the CSV files and automatically generate graphs for time versus beam width, board states versus beam width, and moves versus beam width for each board.
+
+By providing these instructions, you outline how to conduct the experiment, specify beam widths for BS, save results in CSV format, and generate visualizations for analysis.
+
 
 ### Experiment 2
 Objective: Objective: Normalize heuristic values which currently rely heavily on empty spaces, aiming to improve algorithm performance of beam search across different board configurations and dimensions.

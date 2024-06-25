@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import csv
 
 # Stap 3: Gegevens laden vanuit CSV-bestand
-df = pd.read_csv('results.csv')
+df = pd.read_csv('results_bs.csv')
 
 # Filteren op alleen 'bs' (Beam Search) algorithm
 df_bs = df[df['Algorithm'] == 'bs']
