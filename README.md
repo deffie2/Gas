@@ -10,78 +10,110 @@ git clone https://github.com/deffie2/Gas.git
 ```bash
 python3 -m pip install -r requirements.txt
 ```
-## Experiment
-### Experiment 1
-Objective: Evaluate the performance of breadth-first search (BFS) and beam search (BS) algorithms on boards of varying dimensions and configurations, aiming to identify beam widths for BS that achieve comparable move counts to BFS and finding the optimal beam width.
+## Experiment setup
+
+### Running Board Commands
+To excute the experiments, run commands for each specified board configuration:
 
 #### Breadth-First Search (BFS)
+Run boards 1, 2, and 3 using the following commands:
 
-Boards and Parameters:
-
-* Board 1: Run BFS.
+* **Board 1:**
 ```bash
-python main.py 1 <dimension> bf <runs> v no
+python3 main.py 1 6 bf 1 v no
 ```
-Replace <dimension> and <runs> accordingly.
-* Board 2: Run BFS.
+* **Board 2:**
 ```bash
-python main.py 2 <dimension> bf <runs> v no
+python3 main.py 2 6 bf 1 v no
 ```
-Replace <dimension> and <runs> accordingly.
-* Board 3: Run BFS.
+* **Board 3:**
 ```bash
-python main.py 3 <dimension> bf <runs> v no
+python3 main.py 3 6 bf 1 v no
 ```
-Replace <dimension> and <runs> accordingly.
-
 #### Beam Search (BS)
+For boards 1, 2, and 3, run BS with beam width selection:
+* **Board 1:**
+```bash
+python3 main.py 1 6 bs 1 v no
+```
+* **Board 2:**
+```bash
+python3 main.py 2 6 bs 1 v no
+```
+* **Board 3:**
+```bash
+python3 main.py 3 6 bs 1 v no
+```
 
-Boards and Parameters:
+##### Note
+During the execution of BS commands in this experiment, you will be prompted to enter both a beam width value and a heuristic weight-value.
 
-* Board 1: Run BS with beam width selection.
-```bash
-python main.py 1 <dimension> bs <runs> v no
+When prompted during the beam search commands, follow these steps:
+```arduino
+What value would you like for the beam width? <enter beam width value>
 ```
-Replace <dimension> and <runs> accordingly.
-* Board 2: Run BS with beam width selection.
-```bash
-python main.py 2 <dimension> bs <runs> v no
+Enter your desired integer value for the beam width.
+
+```arduino
+What heuristics weight-value would you like to test? <enter heuristic weight-value>
 ```
-Replace <dimension> and <runs> accordingly.
-* Board 3:  Run BS with beam width selection.
-```bash
-python main.py 3 <dimension> bs <runs> v no
-```
-Replace <dimension> and <runs> accordingly.
+Enter your desired heuristic weight-value.
+
+### Experiment 1
+##### Objective
+Evaluate the performance of breadth-first search (BFS) and beam search (BS) algorithms on boards of varying dimensions and configurations, aiming to identify beam widths for BS that achieve comparable move counts to BFS and finding the optimal beam width.
+
+##### Conducting BFS and BS
+Run the aforementioned BFS commands for each board. Subsequently, execute the BS commands for each board using the specified beam width options below and always set the heuristic weight value to 0.25.
+
 ##### Beam Width Selection
-
 For beam search, select the following beam widths:
 * Board 1: Try beam widths 50, 100, 200.
 * Board 2: Try beam widths 50, 100, 200, 300, 400.
 * Board 3: Try beam widths 100, 200, 300, 400, 500.
 
-During execution of the beam search commands, you will be prompted to enter the beam width value:
-```bash
-What value would you like for the beam width? <enter beam width value>
-```
-Enter your desired integer value for the beam width when prompted.
-
 ##### Visualization
-
-After running each command (either BFS or BS), the results including the number of board states, moves, and the chosen beam width will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BFS and BS across different beam widths for each board. 
+After running each commands for BFS and BS, the results including the number of board states, moves, and the chosen beam width will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BFS and BS across different beam widths for each board. 
 
 ##### Generating Graphs 
-To generate graphs from the CSV files, follow these steps:
-
-1. Navigate to the Experiments directory.
+To generate graphs and tables from the CSV files, follow these steps:
+##### Step 1: Generate BS Graphs
+1. Navigate to the `Experiments` directory.
 2. Execute the following command in the terminal:
 ```bash
 python3 graphs_for_ex1.py
 ```
-This script will load the data from the CSV files and automatically generate graphs for time versus beam width, board states versus beam width, and moves versus beam width for each board.
-
-By providing these instructions, you outline how to conduct the experiment, specify beam widths for BS, save results in CSV format, and generate visualizations for analysis.
-
+##### Step 2: Generate BFS and BS Tables
+1. Navigate to the `Experiments` directory.
+2. Execute the following command in the terminal:
+```bash
+python3 tabels_for_ex1.py
+```
+These scripts will automatically process data from the CSV files to produce graphs and tables for analysis.
 
 ### Experiment 2
-Objective: Objective: Normalize heuristic values which currently rely heavily on empty spaces, aiming to improve algorithm performance of beam search across different board configurations and dimensions.
+Objective: We want to test if a specific heuristic actually creates better results. This will be tested by varying the weights for this heuristic from 0 to 0.5 in increments of 0.125. The heuristic we want to check, checks the relativity of the amount of the car that has just moved, with the average amount of moves of all cars. If the car that just moved, moved more that the average moves of all cars, the total score gets lower for this board. The lower the score the less chance the board will be selected. 
+
+##### Conducting BS
+Before excuting the BS commands delete the `results_bs.csv` file in the `Experiments` directory. 
+Then Run the aforementioned BS commands for each board using a beam width of 100 and the heuristic weight-value options below.
+
+##### Heuristic weight-value
+For beam search, evalute the following heuristic weight-value:
+* Board 1: Try 0, 0.125, 0.25, 0.375, 0.5.
+* Board 2: Try 0, 0.125, 0.25, 0.375, 0.5.
+* Board 3: Try 0, 0.125, 0.25, 0.375, 0.5.
+
+##### Visualization
+After excuting each BS command, the results including the number of board states, moves, chosen beam width and heuristic weight-value will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BS with different heuristic weight-values for each board. 
+
+##### Generating Graphs 
+To generate graphs from the CSV files, follow these steps:
+##### Step 1: Generate BS Graphs
+1. Navigate to the `Experiments` directory.
+2. Execute the following command in the terminal:
+```bash
+python3 graphs_for_ex2.py
+```
+These scripts will automatically process data from the CSV files to produce graphs for analysis.
+
