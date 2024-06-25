@@ -1,6 +1,7 @@
 import copy
 import csv
 import time
+import os
 
 
 from code.classes.board import Board
@@ -44,10 +45,20 @@ def breadth_first_search(d, game_number, runs):
                 queue.clear()
 
                 # Save the solution to the CSV file
-                csv_name = save_solution_to_csv(solution, d, game_number)
+                csv_name, amount_moves = save_solution_to_csv(solution, d, game_number)
                 elapsed_time = end_time - start_time
-                print(f"De code heeft {elapsed_time} seconden nodig gehad om uit te voeren.")
-                print(f"De lengte van de dictionary is: {len(parents) - 1}")
+                print(f"The code took {elapsed_time} seconds to execute.")
+                print(f"The length of the dictionary is: {len(parents) - 1}")
+
+                # Save the solution details to the CSV file
+                filepath = f'Experiment/results.csv'
+                file_exists = os.path.isfile(filepath)
+                with open(filepath, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    if not file_exists:
+                        writer.writerow(['Board', 'Algorithm', 'Board States', 'Time', 'Beam Width', 'Moves'])
+                        file_exists = True
+                    writer.writerow([game_number, 'bf', len(parents) - 1, elapsed_time, '-', amount_moves])
                 break  # Break after finding the solution for this run
 
             # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
@@ -124,8 +135,13 @@ def save_solution_to_csv(solution, d, game_number):
         for move in solution:
             writer.writerow(move)
         print(f"Moves successfully saved to {file_path}")
+    
+    # Read the number of lines in the CSV file
+    with open(file_path, mode='r') as file:
+        reader = csv.reader(file)
+        amount_moves = sum(1 for row in reader) - 1
 
-    return file_path
+    return file_path, amount_moves
 
 
 
