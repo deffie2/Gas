@@ -98,7 +98,6 @@ def process_moves(current_board: Board, queue: Queue, parents: dict):
     # print("move_klaar")
 
 
-
 def reconstruct_path(parents: dict, state: int):
     """
     Reconstruct the path from the goal state back to the initial state using parent relationships.
