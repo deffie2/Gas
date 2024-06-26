@@ -1,5 +1,21 @@
 # Gas
 
+## Introduction
+Welcome to the Rush Hour project! This project focuses on solving Rush Hour puzzles using various algorithms and strategies.
+
+Rush Hour is a puzzle game where the aim is to navigate a red car off the board by sliding other vehicles that obstruct its path. Vehicles can only be moved horizontally or vertically along their respective rows, and the red car can only exit in a straight line.
+
+## Case Introduction
+
+In this project, we tackle solving various Rush Hour boards:
+
+* Board 1 to 3: Simple setups to get familiar with the game and basic strategies.
+* Board 4 to 6: More challenging boards requiring efficient solution algorithms.
+* Board 7: A special challenge that may require adjustments to our algorithms.
+
+## Implementation
+We have developed a Python implementation for Rush Hour, utilizing a board representation and different search algorithms to find solutions. Below is how you can set up and run the project:
+
 ## Installation
 
 1. Clone de repository:
@@ -10,6 +26,12 @@ git clone https://github.com/deffie2/Gas.git
 ```bash
 python3 -m pip install -r requirements.txt
 ```
+## Running the Algorithms
+
+Leg uit hoe de commands werken in de main en hoe alles werkt en opgeslagen wordt. random, BFS en BS
+
+
+
 ## Experiment setup
 
 ### Running Board Commands
