@@ -4,12 +4,13 @@ from code.classes.board import Board
 # from board import Board
 
 
-def total_count_BEAM(board: "Board", weight_fraction_moved) -> int:
+def total_count_BEAM(board: "Board", weight_fraction_moved: float) -> int:
     """
-    Pre: board
-    Post: int (the score)
     Counts the total score of importance. 
     The higher te score, the closer this board supposingly is to a solution 
+
+    Pre: board
+    Post: int (the score)
     """
     
     score_red_car_distance = distance_for_red_car(board) 
@@ -106,9 +107,10 @@ def max_blocking_cars(board: "Board"):
     # DONE
 def distance_for_red_car(board: "Board") -> int:
     """
-    Pre: board
-    Post: score (as an int)
     Counts the distance the red car still has to move to go to the exit
+
+    pre: board
+    post: score (as an int)
     """
     
     red_car = board.vehicle_dict['X']
@@ -120,9 +122,10 @@ def distance_for_red_car(board: "Board") -> int:
     # DONE
 def count_blocking_cars(board: 'Board') -> int:
     """
-    Pre: board
-    Post: score (as an int)
     Counts the amount of cars that block the red car from an exit
+
+    pre: board
+    post: score (as an int)
     """
 
     red_car = board.vehicle_dict['X']
@@ -136,10 +139,10 @@ def count_blocking_cars(board: 'Board') -> int:
 # DONE
 def free_space_blocking_cars(board: 'Board') -> int:
     """
-    Pre: New option  board
-    Post: score (as an int)
     Calculates the total amount of empty places 
     the blocking cars could move to.
+    pre: New option  board
+    post: score (as an int)
     """
     free_space = 0
     red_car = board.vehicle_dict['X']
