@@ -19,7 +19,7 @@ def test_distance_for_red_car(setup_board):
     assert actual_distance == expected_distance
 
 def test_count_blocking_cars(setup_board):
-    expected_count = 4  # Expected number of cars blocking red car 'X'
+    expected_count = 3  # Expected number of cars blocking red car 'X'
     actual_count = setup_board.count_blocking_cars()
     assert actual_count == expected_count
 

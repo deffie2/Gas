@@ -7,13 +7,18 @@ import matplotlib.cm as cm
 import random
 import time
 
-def visualize(d: int, game_number: int, csv_names: str):
+def visualize(d: int, game_number: int, csv_names: str) -> None:
     """ 
     Uses data of the initial positon of the cars and all the moves, 
-    for each move the position of the car gets updated. With this updated data, 
-    a new game state gets plotted
+    for each move the position of the car gets updated. With this 
+    updated data, a new game state gets plotted
 
-    pre: dimension (d) and game_number (game_number)
+    pre: d is a positive integer that indicates the size of the board, 
+    game_number is a valid that identifies for game board.
+
+    pre: the dimension of the grid (d), the game number (game_number) and the path to 
+    the csv file with the moves you want to visualize (csv_names)
+
     """
 
     cars_in_game = import_table(d, game_number)
