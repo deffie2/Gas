@@ -1,5 +1,6 @@
 import csv
 import random
+import os
 from typing import List, Tuple
 
 from code.classes.board import Board
@@ -10,10 +11,26 @@ def move_car_random_WOH(d: int, game_number: int, runs: int) -> List[str]:
     Perform random moves without heuristics (WOH) to solve the board
     and save the results to CSV files.
 
+    pre: d is a positive integer that indicates the size of the board.
+    pre: game_number is a valid that identifies for game board.
+    pre: runs is a positive integer that indicates the number of runs to
+    attempt.
+
     Post: the number of moves for each run and the best move sequence
     are saved in CSV files.
     Post: a list of CSV file paths and the algorithm name are returned.
     """
+    assert isinstance(d, int) and d > 0, "d must be a positive integer."
+    assert isinstance(game_number, int) and game_number > 0, \
+        "game_number must be higher then zero."
+    assert isinstance(runs, int) and runs > 0, \
+        "runs must be a positive integer."
+
+    # Check if the CSV file exists for the given game configuration
+    csv_path = f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv'
+    assert os.path.isfile(csv_path), \
+        f"Invalid game configuration for d={d} and game_number={game_number}"
+
     random.seed(42)  # Set the seed for reproducibility
     best_moves = float('inf')
 
@@ -58,10 +75,26 @@ def move_car_random_WH(d: int, game_number: int, runs: int) -> List[str]:
     Perform random moves with heuristics (WH) to solve the board and
     save the results to CSV files.
 
+    pre: d is a positive integer that indicates the size of the board.
+    pre: game_number is a valid that identifies for game board.
+    pre: runs is a positive integer that indicates the number of runs to
+    attempt.
+
     Post: the number of moves for each run and the best move sequence
     are saved in CSV files.
     Post: a list of CSV file paths and the algorithm name are returned.
     """
+    assert isinstance(d, int) and d > 0, "d must be a positive integer."
+    assert isinstance(game_number, int) and game_number > 0, \
+        "game_number must be higher then zero."
+    assert isinstance(runs, int) and runs > 0, \
+        "runs must be a positive integer."
+
+    # Check if the CSV file exists for the given game configuration
+    csv_path = f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv'
+    assert os.path.isfile(csv_path), \
+        f"Invalid game configuration for d={d} and game_number={game_number}"
+
     random.seed(42)  # Set the seed for reproducibility
     best_moves = float('inf')
 
