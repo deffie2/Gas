@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-def frequency_graph(name_data: str, algorithm: str, runs: int) -> None:
+def frequency_graph(name_data: str, algorithm: str, runs: int, xmax: int, ymax: int) -> None:
     """
     Input: name of CSV file
     Output: Plots a Histogram of moves for a certain board
@@ -34,8 +34,8 @@ def frequency_graph(name_data: str, algorithm: str, runs: int) -> None:
     plt.ylabel('Frequency')
 
     # Set axis limits
-    plt.xlim([0, 150000])
-    plt.ylim([0, 1000])
+    plt.xlim([0, xmax])
+    plt.ylim([0, ymax])
 
     if algorithm == "WOH":
         plt.title(f'Random without Heuristics for {runs} Runs')
@@ -61,4 +61,6 @@ if __name__ == "__main__":
     name_data = str(input("What is the name of the dataset you wish to access? "))
     algorithm = str(input("What algorithm do you want to save? "))
     runs = int(input("How many times was this algorithm run? "))
-    frequency_graph(name_data, algorithm, runs)
+    xmax = int(input("The x-axis should run from 0 to ? ")
+    ymax = int(input("The y-axis should run from 0 to ? ")
+    frequency_graph(name_data, algorithm, runs, xmax, ymax)
