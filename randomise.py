@@ -7,6 +7,11 @@ import random
 
 
 def move_car_random(board):
+    """
+    Pre: A board: list[list[str]]
+    Post: Moves vehicle to new position
+    
+    """
 	# Select a random move
     movable_vehicle, possible_vehicle_moves = select_random_move(board)
 
@@ -22,10 +27,12 @@ def move_car_random(board):
     else:
         board.heuri_get_red_to_exit()
 
-    # Move the vehicle to the new position
-    #board.move_vehicle(movable_vehicle, move_direction, step)
-
-def select_random_move(board):
+def select_random_move(board) ->:
+    """
+    Pre: A board list[list[str]]
+    Post: Movable_vehicle: str, possible_vehicle_moves: list[int]
+    Returns the vehicle that is supposed to move and the amount of steps it should
+    """
     # Generate all possible moves
     movable_vehicles, possible_moves = board.generate_all_possible_moves()
 

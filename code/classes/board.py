@@ -6,11 +6,6 @@ import os
 
 from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
-
-##########################
-# #Om het te testen: python3 board.py
-# from vehicle import Vehicle
-########################
 import copy
 
 class Board:
