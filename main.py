@@ -1,7 +1,3 @@
-import csv
-import os
-import time
-import random
 import sys
 
 from code.classes.board import Board
@@ -20,7 +16,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 5:
         print("Usage: script.py <game_number> <d> <algoritme> <runs> <shorest_path>")
         sys.exit(1)
-    
+
     # Parse command-line arguments
     game_number = int(sys.argv[1])
     d = int(sys.argv[2])
@@ -41,7 +37,6 @@ if __name__ == "__main__":
     # Perform breadth-first search on specified game board and dimensions
     if algorithm == "bf" and shorest_path == "no":
         solution = breadth_first_search(d, game_number, runs)
-        
 
     # --------------------------- Beam Search   -------------------------------
     # Execute beam search algorithm on specified game board and dimensions
@@ -50,7 +45,7 @@ if __name__ == "__main__":
 
     # --------------------------- Visualisation -------------------------------
     # Generate graphs or visualizations based on algorithm results
-    if shorest_path == "no": 
+    if shorest_path == "no":
 
         if algorithm == "r" or algorithm == "rh":
             frequency_graph(csv_names[0], csv_names[2])
@@ -64,7 +59,9 @@ if __name__ == "__main__":
     if shorest_path == "yes":
         if algorithm == "r" or "rh":
             # Visualize shortest path for random with and withour heuristics
-            name_data = str(input("What is the name of the dataset you wish to access? "))
+            name_data = str(
+                input("What is the name of the dataset you wish to access? ")
+            )
             path = f'data/Random/Best_Moves_WOH/{name_data}'
             visualize(d, game_number, path)
 
@@ -75,7 +72,8 @@ if __name__ == "__main__":
 
         elif algorithm == "bs":
             # Visualize shortest path for beam search
-            name_data = str(input("What is the name of the dataset you wish to access? "))
+            name_data = str(
+                input("What is the name of the dataset you wish to access? ")
+            )
             path = f'data/Beam_Search/{name_data}'
             visualize(d, game_number, path)
-    
