@@ -89,6 +89,7 @@ def get_colors(cars_in_game: Dict[str, List[int]]) -> List[List[float]]:
     n_cars = len(cars_in_game)
     cmap = mpl.colormaps["nipy_spectral"]
     colors = cmap(np.linspace(0.05, 0.80, n_cars))
+
     return colors.tolist()
     
 

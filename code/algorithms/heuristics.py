@@ -151,7 +151,9 @@ def normalize_scores(scores: Tuple[int, int, int, float], board: "Board") -> \
     normalized_red_car_distance = normalize(scores[0], 0, board.dimension - 1)
     normalized_blocking_cars = normalize(scores[1], 0, max_blocking_cars(board))
     normalized_free_space_blocking_cars = normalize(scores[2], 0, max_empty_spaces(board))
-    normalized_fraction_moved = normalize(scores[3], 0, 10)
+    normalized_fraction_moved = normalize(scores[3], 0, 1)
+
+
 
     return (
         normalized_red_car_distance,
@@ -207,7 +209,7 @@ def free_space_blocking_cars(board: 'Board') -> int:
             if blocking_car_id in board.movable_vehicles:
                 for Tuple in possible_moves[blocking_car_id]:
                     free_space += len(Tuple[1])
-    print(f"free space: {free_space}")
+    
     return free_space
 
 
