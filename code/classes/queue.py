@@ -1,3 +1,7 @@
+from typing import List
+from code.classes.board import Board
+
+
 class Queue:
 
     def __init__(self) -> None:
@@ -6,7 +10,7 @@ class Queue:
 
         post: creates an instance of Queue with an empty list as data storage.
         """
-        self._data = []
+        self._data: List[Board] = []
 
     def enqueue(self, item) -> None: 
         """
@@ -16,7 +20,7 @@ class Queue:
         """
         self._data.append(item)    
 
-    def dequeue(self):
+    def dequeue(self) -> Board:
         """
         Remove and return element from the front of the queue.
 
