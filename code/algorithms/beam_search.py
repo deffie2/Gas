@@ -1,6 +1,6 @@
 from code.classes.board import Board
 from code.algorithms.heuristics import total_count_BEAM
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional, Union
 
 import csv
 import time
@@ -161,7 +161,7 @@ def save_solution_to_csv(solution: List[List[Union[str, int]]], d: int, game_num
     beam_width: int, elapsed_time: float, heuristic_weight_value: float, parents: Dict[int, Tuple[int, str, int]]) -> str:
     """
     Saves the solution path to a CSV file.
-    
+
     post: returns the file path where the solution is saved.
     """
     file_path1 = f'data/Beam_Search/board_{game_number}_bm_{beam_width}_hv_{heuristic_weight_value}.csv'
