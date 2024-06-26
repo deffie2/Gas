@@ -43,10 +43,8 @@ if __name__ == "__main__":
 
         if algorithm == "r" and shorest_path == "no":
             csv_names = move_car_random_WOH(d, game_number, runs)
-            print(csv_names)
         elif algorithm == "rh" and shorest_path == "no":
             csv_names = move_car_random_WH(d, game_number, runs)
-            print(csv_names)
             csv_names[0]
 
     # --------------------------- Breadth First -------------------------------
@@ -55,16 +53,12 @@ if __name__ == "__main__":
 
     if algorithm == "bf" and shorest_path == "no":
         solution = breadth_first_search(d, game_number, runs)
-        print(solution)
-
         
 
     # --------------------------- Beam Search   -------------------------------
 
     if algorithm == "bs" and shorest_path == "no":
         solution = beam_search(d, game_number, runs)
-        print(solution)
-
 
     # --------------------------- Visualisation -------------------------------
 
@@ -74,9 +68,6 @@ if __name__ == "__main__":
 
         if algorithm == "r" or algorithm == "rh":
             frequency_graph(csv_names[0], csv_names[2])
-            print(csv_names[1])
-            print()
-
             visualize(d, game_number, csv_names[1])
 
         # Simulation

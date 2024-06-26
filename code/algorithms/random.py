@@ -36,7 +36,6 @@ def move_car_random_WOH(d: int, game_number: int, runs: int ) -> List[str]:
 
             board = new_board
             moves += 1
-        print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
 
         if i == 0 or moves < best_moves:
@@ -86,7 +85,6 @@ def move_car_random_WH(d: int, game_number: int, runs: int) -> List[str]:
 
             board = new_board
             moves += 1
-        print(f"Board {game_number} took {moves} moves")
         moveslist.append(moves)
 
         if i == 0 or moves < best_moves:
