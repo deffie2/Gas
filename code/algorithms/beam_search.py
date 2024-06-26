@@ -98,7 +98,11 @@ def calculate_heuristic(board: Board, heuristic_weight_value: float) -> int:
 
 def initialize_search(initial_board: Board) -> Tuple[
         Board, Dict[int, Tuple[int, str, int]]]:
-    """Initializes the parents dictionary for the search."""
+    """
+    Initializes the parents dictionary for the search.
+
+    post: returns parent dictionary
+    """
     parents: Dict[int, Tuple[int, str, int]] = {}
 
     # initial board with its heuristic value
@@ -173,7 +177,8 @@ def apply_beam(states: list[tuple[int, Board, str, int]],
     return states[:beam_width]
 
 
-def reconstruct_path(parents: dict, state: int):
+def reconstruct_path(parents: Dict[int, Tuple[int, str, int]], 
+                     state: int) -> List[Tuple[str, int]]:
     """
     Reconstruct the path from the goal state back to the initial state using
     parent relationships.
@@ -183,7 +188,7 @@ def reconstruct_path(parents: dict, state: int):
     reach from the initial to the goal state.
     """
     assert isinstance(state, int), "state must be an integer."
-    path: List[Tuple[str, int]] = []
+    path: List[List[str, int]] = []
     while parents[state] is not None:
         parent_state, car_id, steps = parents[state]
         path.append([car_id, steps])
