@@ -27,16 +27,15 @@ if __name__ == "__main__":
     # if len(argv) == 3:
     #     d= argv[3]
 
-    if len(sys.argv) < 7:
-        print("Usage: script.py <game_number> <d> <algoritme> <runs> <visualise> <shorest_path>")
+    if len(sys.argv) < 6:
+        print("Usage: script.py <game_number> <d> <algoritme> <runs> <shorest_path>")
         sys.exit(1)
     
     game_number = int(sys.argv[1])
     d = int(sys.argv[2])
     algorithm = sys.argv[3]
     runs = int(sys.argv[4])
-    visualise = sys.argv[5]
-    shorest_path = sys.argv[6]
+    shorest_path = sys.argv[5]
 
     
 #     --------------------------- Random --------------------------------------
@@ -73,7 +72,7 @@ if __name__ == "__main__":
 
     if shorest_path == "no": 
 
-        if visualise == "v" and (algorithm == "r" or algorithm == "rh"):
+        if algorithm == "r" or algorithm == "rh":
             frequency_graph(csv_names[0], csv_names[2])
             print(csv_names[1])
             print()
@@ -82,10 +81,10 @@ if __name__ == "__main__":
 
         # Simulation
 
-        elif visualise == "v" and algorithm == "bf":
+        elif algorithm == "bf":
             visualize(d, game_number, solution)
 
-        elif visualise == "v" and algorithm == "bs":
+        elif algorithm == "bs":
             visualize(d, game_number, solution)
 
 

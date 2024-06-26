@@ -2,18 +2,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 
-# Stap 3: Gegevens laden vanuit CSV-bestand
+# Step 1: Load data from CSV file
 df = pd.read_csv('results_bs.csv')
 
-# Filteren op alleen 'bs' (Beam Search) algorithm
+# Step 2: Filter data for 'bs' algorithm
 df_bs = df[df['Algorithm'] == 'bs']
 
-# Unieke boardnummers verkrijgen voor bs algorithm
+# Step 3: Get unique board numbers for bs algorithm
 board_numbers = df_bs['Board'].unique()
 
-# Voor elke boardnummer, plot drie grafieken van bs tegen verschillende variabelen
+# Step 4: Plot graphs for each board number
 for board_number in board_numbers:
-    # Subset van de gegevens voor het huidige boardnummer en 'bs' algorithm
+    # Subset of data for the current board number and 'bs' algorithm
     df_board = df_bs[df_bs['Board'] == board_number]
     
     # Grafiek 1: Tijd versus Beamwidth
