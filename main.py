@@ -16,17 +16,6 @@ from code.visualisation.simulation import visualize
 
 if __name__ == "__main__":
 
-    # from sys import argv
-
-    # Load the requested game or else game 1
-    # if len(argv) == 1:
-    #     game_number = "1"
-    # elif len(argv) == 2:
-    #     game_number = argv[1]
-    
-    # if len(argv) == 3:
-    #     d= argv[3]
-
     if len(sys.argv) < 6:
         print("Usage: script.py <game_number> <d> <algoritme> <runs> <shorest_path>")
         sys.exit(1)
