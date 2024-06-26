@@ -9,8 +9,8 @@ def total_count_BEAM(board: "Board", weight_fraction_moved: float) -> int:
     Counts the total score of importance. 
     The higher te score, the closer this board supposingly is to a solution 
 
-    Pre: board
-    Post: int (the score)
+    pre: board
+    post: int (the score)
     """
     
     score_red_car_distance = distance_for_red_car(board) 
@@ -25,7 +25,7 @@ def total_count_BEAM(board: "Board", weight_fraction_moved: float) -> int:
     normalized_fraction_moved = normalize(score_fraction_moved, 0, 10)
     print(f"normalized_fraction_moved {normalized_fraction_moved}")
 
-    # NIEUW: Weeg de genormaliseerde scores
+    #Weeg de genormaliseerde scores
 
     weight_red_car_distance = (1.0 - weight_fraction_moved)/3
     weight_blocking_cars = (1.0 - weight_fraction_moved)/3
@@ -34,18 +34,14 @@ def total_count_BEAM(board: "Board", weight_fraction_moved: float) -> int:
 
     # NIEUW
     total_count = (
-        weight_red_car_distance * normalized_red_car_distance +
-        weight_blocking_cars * normalized_blocking_cars -
-        weight_free_space_blocking_cars * normalized_free_space_blocking_cars +
+        weight_red_car_distance * normalized_red_car_distance -
+        weight_blocking_cars * normalized_blocking_cars +
+        weight_free_space_blocking_cars * normalized_free_space_blocking_cars -
         weight_fraction_moved * normalized_fraction_moved
     )
 
     # The higher the further away it is to win with this board
-    # EERST: total_count = score_red_car_distance + score_blocking_cars - score_free_space_blocking_cars + score_fraction_moved
-    
-    # Invert the score (so higher means, the closer the board would be to a solution)
-    total_count *= -1
-    
+
     # If the red car has a clear way to the exit
     if board.heuri_red_clear_exit():
         total_count += 1000
@@ -57,7 +53,7 @@ def total_count_BEAM(board: "Board", weight_fraction_moved: float) -> int:
     return total_count
 
 # NIEUW
-def normalize(value, min_value, max_value):
+def normalize(value: int, min_value: int, max_value: int) -> float:
     return (value - min_value) / (max_value - min_value)
 
 def max_empty_spaces(board: "Board"):
