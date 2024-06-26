@@ -23,6 +23,7 @@ def calculate_statespace_row(b: int, totla: int, nauto: int) -> int:
 
 def calculate_statespace_multiple(listrow: list[list[int]], listcol: list[list[int]]) -> int:
     """
+    Calculates the total statespace of a board.
     Pre:
     - listrow: contains the b, totla and nauto per row
     (see function calculate_statespace_row)
@@ -30,7 +31,6 @@ def calculate_statespace_multiple(listrow: list[list[int]], listcol: list[list[i
     (see function calculate_statespace_row)
     Post:
     - An int: which is the total statespace of that board.
-    Calculates the total statespace of a board.
     """
     # Initialize statespace as 1 (because 1 * a = a)
     statespace = 1
@@ -87,6 +87,7 @@ if __name__ == "__main__":
     statespace_6 = calculate_statespace_multiple(row_input_game6, col_input_game6)
     statespace_7 = calculate_statespace_multiple(row_input_game6, col_input_game7)
 
+    # Print statespaces
     print(f"Statespace for game 1: {statespace_1:.2e}")
     print(f"Statespace for game 2: {statespace_2:.2e}")
     print(f"Statespace for game 3: {statespace_3:.2e}")

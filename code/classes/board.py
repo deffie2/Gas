@@ -1,15 +1,14 @@
 import csv
 import hashlib
-import math
-import os
 
 
 from code.classes.vehicle import Vehicle
 from typing import List, Tuple, Dict, Set, Union
 import copy
 
+
 class Board:
-    """  
+    """
     Represents a game board for a Rush Hour-like puzzle game.
 
     Attributes:
@@ -18,18 +17,26 @@ class Board:
         exit_coordinate (list): Coordinates of the exit.
         vehicle_dict (dict): Dictionary mapping vehicle IDs to Vehicle objects.
         movable_vehicles (set): Set of IDs of vehicles that can currently move.
-        possible_moves_dict (dict): Dictionary mapping vehicle IDs to their possible moves.
+        possible_moves_dict (dict): Dictionary mapping vehicle IDs to their
+        possible moves.
         move_history (list): List of previous moves made on the board.
     """
-    def __init__(self, d: int, game_number:int) -> None:
+    def __init__(self, d: int, game_number: int) -> None:
         """
         Initializes a board object.
 
         pre: game_number >= 1  # Game number must be positive
-        post: self.board is initialized with empty spaces
-        post: self.vehicle_dict is populated with vehicles from CSV
+        post: self.board is initialized, with vehicles placed on it. This
+        also includes the dimension, the exit cordinate,
+        a dictionary with vehicles, a set with movable vehicles,
+        a dictionary of possible moves per vehicle and
+        a datastructure that captures move history.
         """
-        assert game_number >= 1, "game_number must be greater than or equal to 1"
+
+        # Check of game_number can work
+        assert game_number >= 1, "game_number must be positive non-zero number"
+
+        # Initialize items in board
         self.board: List[List[str]] = []
         self.dimension: int = d
         self.createboard()
@@ -38,29 +45,7 @@ class Board:
         self.movable_vehicles: Set[str] = set()
         self.possible_moves_dict: Dict[str, List[Tuple[str, List[int]]]] = {}
         self.move_history: List[List[Union[str, int]]] = []
-        # self.game_number = game_number
 
-
-        ##################################################################
-        # # Om het te testen: python3 board.py
-        # current_dir = os.path.dirname(__file__)  # Geeft het pad naar de huidige map van dit script
-        # csv_path = os.path.join(current_dir, '..', '..', 'data', 'Rushhour_games', f'Rushhour{d}x{d}_{game_number}.csv')
-
-        #   # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
-        # # Initialize vehicles from the CSV file
-        # with open(csv_path, "r") as csvfile:
-        #     reader = csv.reader(csvfile)
-        #     next(reader)
-        #     for row in reader:
-        #         car = row[0]
-        #         direction = row[1]
-        #         ycor = int(row[2]) - 1
-        #         xcor = int(row[3]) - 1
-        #         Size = int(row[4])
-
-        # #################################################################
-
-        # waardes van row en colum direct wijzigen met -1 in de x en y coordinats.
         # Initialize vehicles from the CSV file
         with open(f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv', "r") as csvfile:
             reader = csv.reader(csvfile)
@@ -71,14 +56,14 @@ class Board:
                 ycor = int(row[2]) - 1
                 xcor = int(row[3]) - 1
                 Size = int(row[4])
-        # # ##############################################################
 
                 # Save vehicle as object in dict
                 vehicle = Vehicle(car, direction, xcor, ycor, Size)
                 self.vehicle_dict[car] = vehicle
 
+        # Place cars onto the board
         self.places_car()
-  
+
     def __eq__(self, other) -> bool:
         """
         Compares two Board objects for equality.
@@ -105,11 +90,7 @@ class Board:
         """
         Less than comparison for Board objects.
         """
-        # Define your comparison logic here
-        # For example, you could compare based on a heuristic value or any other criteria
-        # Here's a simple example using the size of move history as a basis:
         return len(self.move_history) < len(other.move_history)
-
 
     def createboard(self) -> None:
         """
@@ -123,13 +104,14 @@ class Board:
             for j in range(self.dimension):
                 row.append("_")
             self.board.append(row)
-        
 
     def places_car(self) -> None:
         """
         Places all vehicles on the board based on their initial positions.
 
-        post: Vehicles are placed on self.board according to their initial positions
+        pre: self.vehicle_dict exist and consists of car IDs and vehicle objects
+        post: Vehicles are placed on self.board according to
+        their initial positions
         """
         for carkey, vehicle in self.vehicle_dict.items():
             for i in range(vehicle.size):
@@ -161,8 +143,6 @@ class Board:
         self.movable_vehicles = set()
         for carkey, vehicle in self.vehicle_dict.items():
             car_orientation = vehicle.direction
-            # zoek beide coordinaten per auto . misschien verplaatseen naar vehicle class
-
             vehicle = self.vehicle_dict[carkey]
             vehicle_positions = vehicle.vehiclepositions()
 
@@ -187,19 +167,19 @@ class Board:
         """
         self.possible_moves_dict = {}
         for car_id in self.movable_vehicles:
-                self.possible_moves_dict[car_id] = []
-                vehicle = self.vehicle_dict[car_id]
-                car_orientation = vehicle.direction
-                car_col = vehicle.col
-                car_row = vehicle.row
-                car_length = vehicle.size
-                if car_orientation == 'H':
-                    self.check_horizontal_moves(car_id, car_row, car_col, car_length)
-                elif car_orientation == 'V':
-                    self.check_vertical_moves(car_id, car_row, car_col, car_length)
+            self.possible_moves_dict[car_id] = []
+            vehicle = self.vehicle_dict[car_id]
+            car_orientation = vehicle.direction
+            car_col = vehicle.col
+            car_row = vehicle.row
+            car_length = vehicle.size
+            if car_orientation == 'H':
+                self.check_horizontal_moves(car_id, car_row, car_col, car_length)
+            elif car_orientation == 'V':
+                self.check_vertical_moves(car_id, car_row, car_col, car_length)
         return self.possible_moves_dict
 
-    def check_horizontal_moves(self, car_id: str, car_row: int, car_col: int, car_length: int ) -> None:
+    def check_horizontal_moves(self, car_id: str, car_row: int, car_col: int, car_length: int) -> None:
         """
         Checks possible horizontal moves for a vehicle.
 
@@ -227,7 +207,7 @@ class Board:
         if move_steps_right:
             self.possible_moves_dict[car_id].append(('R', move_steps_right))
 
-    def check_vertical_moves(self, car_id: str, car_row: int, car_col: int, car_length: int ) -> None:
+    def check_vertical_moves(self, car_id: str, car_row: int, car_col: int, car_length: int) -> None:
         """
         Checks possible vertical moves for a vehicle.
 
@@ -261,7 +241,7 @@ class Board:
 
         post: Returns a tuple containing movable vehicles (set) and their possible moves (dict)
         """
-        empty_spaces = self.empty_places()
+
         movable_vehicles = self.vehicles_moveable()
         possible_moves = self.possible_sets()
         return movable_vehicles, possible_moves
@@ -299,7 +279,7 @@ class Board:
         # Reset justmoved for all vehicles to False
         for carID, vehicles in self.vehicle_dict.items():
             vehicles.justmoved = False
-        
+
         # Vind vehicle and new coordinates
         vehicle = self.vehicle_dict[car_id]
         if vehicle.direction == 'H':
@@ -308,28 +288,19 @@ class Board:
         elif vehicle.direction == 'V':
             new_col = vehicle.col
             new_row = vehicle.row + step
-        
+
         # Change justmoved from vehicle
         vehicle.justmoved = True
 
         # Append move to move history
         new_board.move_history.append([car_id, step])
-      
+
         # Move the vehicle to the new position
         new_vehicle = vehicle.locationchange(new_row, new_col)
         new_board.vehicle_dict[new_vehicle.car] = new_vehicle
 
         # Update the board
         new_board.update_board()
-
-        # # Append move to move history
-        # self.move_history.append([car_id, step])
-      
-        # # Move the vehicle to the new position
-        # vehicle.locationchange(new_row, new_col)
-
-        # # Update the board
-        # self.update_board()
 
         return new_board
 
@@ -350,10 +321,10 @@ class Board:
         """
         for i in range(self.dimension):
             for j in range(self.dimension):
-                print(f"{self.board[i][j]:>2}", end = '')
+                print(f"{self.board[i][j]:>2}", end='')
             print()
         print()
-            
+
     def get_board_state(self) -> Tuple[Tuple[str, ...], ...]:
         """
         Gets the current state of the board.
@@ -361,63 +332,70 @@ class Board:
         post: Returns the current board state as a tuple of tuples
         """
         return tuple(map(tuple, self.board))
-    
+
     def heuri_red_clear_exit(self) -> bool:
         """
-        Input: Nothing
-        Output: Boolean
         Returns true if the way to the exit is clear for the red car.
         Otherwise it returns false.
+        pre: Nothing
+        post: Boolean
         """
         red_car = self.vehicle_dict.get('X', None)
-        
+
         for i in range(red_car.col + 2, self.dimension, 1):
             if not (self.exit_cordinate[0], i) in self.empty_places():
                 return False
         return True
 
-    def heuri_get_red_to_exit(self) -> "Board":
+    def heuri_get_red_to_exit(self) -> None:
         """
-        Input: Nothing
-        Output: Moves red_car to the exit
+        When the path is free of vehicles for the red car,
+        the red car will move to the exit.
+        post: Moves red_car to the exit
         """
         # Checks if the way is clear
         if self.heuri_red_clear_exit():
-        
+
             # How much should red car move?
             red_car = self.vehicle_dict.get('X', None)
             steps = self.dimension - red_car.col - 2
-        
+
             # Moves red car by that amount
             return self.move_vehicle("X", steps)
-    
+
     def heuri_change_moveable_cars(self) -> set:
         """
-        Pre: Set of moveable cars
-        Post: Set of (new) moveable cars
-        First run self.movable_vehicles(), before running this. 
-        Reproduces the data structure of moveable cars, but it takes out the car that was just moved.
+        Reproduces the data structure of moveable cars,
+        but it takes out the car that was just moved.
+
+        pre: self.moveable_vehicle exists as a set
+        pre: self.vehicle_dict exists as a dictionary
+        post: Set of (new) moveable cars
         """
         vehicle_id_with_just_moved = "Empty"
-        
+
         # What car was just moved?
         for car_id, vehicle in self.vehicle_dict.items():
             if vehicle.justmoved:
                 vehicle_id_with_just_moved = car_id
-                break  # Stop searching: 
-        
+                break  # Stop searching
+
         # Take car out of the data structure
         if not vehicle_id_with_just_moved == "Empty" and not len(self.movable_vehicles) == 1:
             self.movable_vehicles.remove(vehicle_id_with_just_moved)
-            
+
         return self.movable_vehicles
-    
+
     def __repr__(self) -> str:
+        """
+        Returns a the set of moveable vehicles if printing is neccesary
+        """
         return f"Board({self.movable_vehicles})"
 
     def test_hash_consistency():
         """
-        Test to ensure that the hash values of two identical boards are the same.
+        Test to ensure that the hash values of two identical
+        boards are the same.
         """
         board1 = Board(6, 1)
         board2 = copy.deepcopy(board1)
@@ -426,91 +404,3 @@ class Board:
         assert hash(board1) == hash(board2), "Hashes should be identical"
 
         print("Hash consistency test passed successfully!")
-
-# MAIN: 
-if __name__ == "__main__":
-
-    Board.test_hash_consistency()
-
-
-    # board = Board(1,6)
-    # board.printboard()
-    # print()
-    # hash(board)
-    # print(hash(board))
-    # print(board)
-    # print(board.get_board_state())
-
-    # test eq__
-    # board1 = Board(9,6)
-    # board2 = Board(6,1)
-    
-    #print(board1.empty_places)
-    #print(board1 is board2)
-    #print(board1 == board2)
-    # # C,L,-1
-    # # A,L,-1
-    # # G,U,-2
-    # # L,U,-2
-    # # J,L,-3
-    # # I,D,2
-    # # H,R,1
-    # # E,D,3
-    # # D,L,-1
-    # # H,L,-1
-    # # I,U,-3
-    # # H,R,1
-    # # E,U,-2
-    # # J,R,3
-    # # L,D,1
-    # # E,D,1
-    # # X,R,3
-    # # G,D,1
-    # # B,L,-1
-    # # I,U,-1
-    # # X,R,1
-    # board1.move_vehicle("C","L",-1)
-    
-    # board1.move_vehicle("A","L",-1)
-    
-    # board1.move_vehicle("G","U",-2)
-    # board1.move_vehicle("L","U",-2)
-    # board1.move_vehicle("J","L",-3)
-    # board1.move_vehicle("I","D",2)
-    # board1.move_vehicle("H","R",1)
-    # board1.printboard()
-    # board1.move_vehicle("E","D",3)
-    # board1.printboard()
-    # board1.empty_places()
-    # print(f"set met movable vehicles: {board1.vehicles_moveable()}")
-    # print(f"Set met ene car weggenomen: {board1.heuri_change_moveable_cars()}")
-    # board1.move_vehicle("D","L",-1)
-    # board1.move_vehicle("H","L",-1)
-    # board1.move_vehicle("I","U",-3)
-    # board1.move_vehicle("H","R",1)
-    # board1.move_vehicle("E","U",-2)
-    # board1.move_vehicle("J","R",3)
-    # board1.move_vehicle("L","D",1)
-    # board1.move_vehicle("E","D",1)
-    # board1.move_vehicle("X","R",3)
-    # board1.move_vehicle("G","D",1)
-    # board1.move_vehicle("B","L",-1)
-    # board1.move_vehicle("I","U",-1)
-    # print(board1.heuri_red_clear_exit())
-    # board1.heuri_get_red_to_exit()
-    # board1.printboard()
-    #board1.move_vehicle("X","R",1)
-    
-    
-    # board.places_car()
-    # board.printboard()
-    # board.printboard()
-    # print(board.empty_places())
-    # print(board.vehicles_moveable())
-    # board.possible_sets()
-    # print(board.possible_moves_dict)
-    # print(board.exit_cordinate)
-    # print(board.get_board_state())
-
-    # 
-
