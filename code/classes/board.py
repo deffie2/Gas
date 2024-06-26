@@ -241,7 +241,7 @@ class Board:
 
         post: Returns a tuple containing movable vehicles (set) and their possible moves (dict)
         """
-
+        empty_spaces = self.empty_places()
         movable_vehicles = self.vehicles_moveable()
         possible_moves = self.possible_sets()
         return movable_vehicles, possible_moves
@@ -272,6 +272,7 @@ class Board:
         """
         assert car_id in self.vehicle_dict.keys(), f"Vehicle ID '{car_id}' must exist in vehicle_dict"
 
+        # Make a copy of board
         new_board = copy.copy(self)
         new_board.move_history = copy.copy(new_board.move_history)
         new_board.vehicle_dict = copy.copy(new_board.vehicle_dict)
@@ -378,29 +379,10 @@ class Board:
         for car_id, vehicle in self.vehicle_dict.items():
             if vehicle.justmoved:
                 vehicle_id_with_just_moved = car_id
-                break  # Stop searching
+                break
 
         # Take car out of the data structure
         if not vehicle_id_with_just_moved == "Empty" and not len(self.movable_vehicles) == 1:
             self.movable_vehicles.remove(vehicle_id_with_just_moved)
 
         return self.movable_vehicles
-
-    def __repr__(self) -> str:
-        """
-        Returns a the set of moveable vehicles if printing is neccesary
-        """
-        return f"Board({self.movable_vehicles})"
-
-    def test_hash_consistency():
-        """
-        Test to ensure that the hash values of two identical
-        boards are the same.
-        """
-        board1 = Board(6, 1)
-        board2 = copy.deepcopy(board1)
-
-        assert board1 == board2, "Boards should be identical"
-        assert hash(board1) == hash(board2), "Hashes should be identical"
-
-        print("Hash consistency test passed successfully!")
