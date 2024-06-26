@@ -3,7 +3,7 @@
 ## Introduction
 Welcome to the Rush Hour project! This project focuses on solving Rush Hour puzzles using various algorithms and strategies.
 
-Rush Hour is a puzzle game where the aim is to navigate a red car off the board by sliding other vehicles that obstruct its path. Vehicles can only be moved horizontally or vertically along their respective rows, and the red car can only exit in a straight line.
+Rush Hour is a puzzle game where the aim is to navigate a red car off the board by sliding other vehicles that obstruct its path. Vehicles can only be moved horizontally or vertically along their respective rows, and the red car can only exit in a straight line. One move consist out if any empty blocks that. 1
 
 ## Case Introduction
 
@@ -12,6 +12,25 @@ In this project, we tackle solving various Rush Hour boards:
 * Board 1 to 3: These are 6 by 6 boards.
 * Board 4 to 6: These are 9 by 9 boards and are more challenging.
 * Board 7: This is a 12 by 12 board and is very challenging, requiring efficient solution algorithms.
+
+To solve the boards, we implemented the following rule:
+
+* Each vehicle can move within its lane provided it is not blocked by another vehicle.
+* If there are multiple consecutive empty spaces in front of or behind a vehicle, it can move through all these spaces in a single move.
+
+
+## Algorithm Descriptions
+#### Random
+
+
+#### Random with Heuristics
+
+
+#### Breadth-First Search
+
+
+#### Beam Search
+
 
 ## Implementation
 We have developed a Python implementation for Rush Hour, utilizing a board representation and different search algorithms to find solutions. Below is how you can set up and run the project:
