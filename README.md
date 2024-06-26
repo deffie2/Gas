@@ -18,19 +18,37 @@ To solve the boards, we implemented the following rule:
 * Each vehicle can move within its lane provided it is not blocked by another vehicle.
 * If there are multiple consecutive empty spaces in front of or behind a vehicle, it can move through all these spaces in a single move.
 
+<div style="display: flex; flex-wrap: wrap;">
+  <img src="Foto/Afbeelding van WhatsApp op 2024-06-05 om 12.25.55_11b25097.jpg" alt="Foto 1" width="325">
+  <img src="Foto/oplossing_for_readme.png" alt="board5 " width="325">
+</div>
 
-## Algorithm Descriptions
+## Algorithm Descriptions for Solving Rush Hour Boards
 #### Random
-
+The Random algorithm makes random moves with random cars without any strategic consideration. This approach can be used as a baseline to compare the effectiveness of more sophisticated strategies.
 
 #### Random with Heuristics
+The Random with Heuristics algorithm builds on the random approach by incorporating simple heuristics to avoid repetitive or counterproductive moves:
 
+1. **Avoid Moving the Same Car Back and Forth:** This prevents a car from being moved to a position and then immediately moved back to its original position, which would waste moves and make no progress.
+2. **Move the Red Car to the Exit When Path is Clear:** If the path is free of vehicles, the algorithm will immediately move the red car to the exit. This ensures a quick solution when the opportunity arises.
 
 #### Breadth-First Search
+Breadth-First Search (BFS) is a systematic approach to explore all possible moves from the initial state:
 
+1. **Explore All Possible Moves:** Starting from the initial board configuration, BFS explores all possible single moves.
+2. **Prevent Repeating States:** TTo avoid cycles and unnecessary computations, it keeps track of already visited board states.
+3. **Layer-by-Layer Search:** It explores moves level by level, ensuring the shortest path to the solution is found if it exists.
 
 #### Beam Search
+Beam Search is a heuristic-driven search algorithm that explores the search space more selectively than BFS:
 
+1. Score-Based Evaluation: Each board state is assigned a score based on a set of heuristics.
+    * **Distance of Red Car from Exit:** The further the red car is from the exit, the higher the score, encouraging moves that bring the red car closer to the exit.
+    * **Blocking Cars**: The more cars blocking the exit, the lower the score, prioritizing moves that reduce the number of blocking cars.
+    * **Empty Spaces Around Blocking Cars:** IIf blocking cars have more empty spaces around them, the score is higher, as these cars can potentially be moved out of the way more easily.
+    * **Movement Efficiency:** TThe score is adjusted based on the movement of the last moved car relative to the average movement of all cars.
+2. Unlike BFS, Beam Search limits the number of states it examines at each level to a fixed number (the beam width). This means only the highest-scoring states are considered for further exploration. By focusing on the most promising states, Beam Search balances the depth and breadth of the search, making it more computationally efficient without losing sight of potential solutions.
 
 ## Implementation
 We have developed a Python implementation for Rush Hour, utilizing a board representation and different search algorithms to find solutions. Below is how you can set up and run the project:
@@ -98,11 +116,11 @@ To illustrate, here’s how you would run each algorithm for board configuration
 
 
 ## Visualization Only
-shortest_path can be set to `yes` or `no`. If set to `no`, the chosen algorithm is executed. If set to `yes`, the script assumes the algorithm has been run previously and you wish to view the simulation of that solution. For `r`, `rh`, and `bs`, when choosing to run with yes, you will be prompted:
+Shortest_path can be set to `yes` or `no`. If set to `no`, the chosen algorithm is executed. If set to `yes`, the script assumes the algorithm has been run previously and you wish to view the simulation of that solution. For `r`, `rh`, and `bs`, when choosing to run with yes, you will be prompted:
 ```bash
 What is the name of the dataset you wish to access? 
 ``` 
-Here, you will type the full file name, with `bf` you don't have to enter any file name. 
+Here, you will type the full file name, including csv.With `bf` you don't have to enter any file name. 
 
 ##### Example of short path simualtion
 ```bash
@@ -119,7 +137,7 @@ python3 main.py 2 6 bs 1 yes
 This guide provides a clear understanding of how to use `main.py` and how each parameter affects its operation, ensuring effective execution and result visualization for your project.
 
 ## Calculating Spate Space
-By running this code, you can print all the calculated state spaces of the boards. The state space is the number of possible states a single board can occupy. A formula has been devised to calculate this state space, which you can learn more about in the presentation on 27/6/2024 or by examining the code itself. To find the state spaces, navigate to the `code`. 
+By running this code, you can print all the calculated state spaces of the boards. The state space is the number of possible states a single board can occupy. A formula has been devised to calculate this state space, which you can learn more about in the presentation on 27/6/2024 or by examining the code itself. To find the state spaces, navigate to the `code` directory. 
 ```bash
 python3 statespace.py
 ```
@@ -192,4 +210,21 @@ To generate graphs from the CSV files, follow these steps:
 python3 graphs_for_ex2.py
 ```
 These scripts will automatically process data from the CSV files to produce graphs for analysis.
+
+## Structure
+The following list describes the main directories and files in the project, and where you can find them:
+
+* /code: contains all the code for this project
+    * /code/algorithms: contains the code for the algorithms and heuristics used.
+    * /code/classes: contains the classes used for this case.
+    * /code/visualisation: contains the code to visualize all the graphs and simulations.
+    * /code/statespace.py: contains the code to calculate the state space.
+* /data: contains various data files needed to visualize the graph plots and the simulation of the board solution.
+* /Experiment: contains the code to plot the graphs for the experiments.
+* /Foto: contains photos that were uploaded to the project on Git.
+
+## Actors
+* Charlotte Dasselaar
+* Deveney Etnel
+* Zenna Liekens
 
