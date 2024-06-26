@@ -120,7 +120,7 @@ Shortest_path can be set to `yes` or `no`. If set to `no`, the chosen algorithm 
 ```bash
 What is the name of the dataset you wish to access? 
 ``` 
-Here, you will type the full file name, including csv.With `bf` you don't have to enter any file name. 
+Here, you will enter the complete file name, including `.csv`. For `bf`, you do not need to enter any file name.
 
 ##### Example of short path simualtion
 ```bash
