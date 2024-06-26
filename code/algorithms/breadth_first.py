@@ -1,4 +1,3 @@
-import copy
 import csv
 import time
 import os
@@ -6,73 +5,86 @@ import os
 
 from code.classes.board import Board
 from code.classes.queue import Queue
-from typing import List, Optional, Tuple
+from typing import List, Tuple, Dict
 
 
-def breadth_first_search(d, game_number, runs):
+def breadth_first_search(d: int, game_number: int, runs: int):
     """
     Perform breadth-first search on the given initial board to find a path
     where the red car reaches the exit.
+
+    pre: d is a positive integer that indicates the size of the board.
+    pre: game_number is a valid that identifies for game board.
+    pre: runs is a positive integer that indicates the number of runs to
+    attempt.
+
+    post: returns in a the file path of the saved CSV file containing
+    the solution path if a solution is found within the specified number
+    of runs.
+    post: returns None if no solution is found.
     """
+    assert isinstance(d, int) and d > 0, "d must be a positive integer."
+    assert isinstance(game_number, int) and game_number > 0, \
+        "game_number must be higher then zero."
+    assert isinstance(runs, int) and runs > 0, \
+        "runs must be a positive integer."
+
+    # Check if the CSV file exists for the given game configuration
+    csv_path = f'data/Rushhour_games/Rushhour{d}x{d}_{game_number}.csv'
+    assert os.path.isfile(csv_path), \
+        f"Invalid game configuration for d={d} and game_number={game_number}"
+
+    # Starting the timer to measure execution time
     start_time = time.time()
     csv_name = None
     for i in range(runs):
-
         initial_board = Board(d, game_number)
-        
+
         # Initialize the queue and parents dictionary for the search
         queue, parents = initialize_search(initial_board)
 
         moves = 0
-
-        # Nu ga je checken als de queue niet leeg is
+        # Check if queue is not empty
         while not queue.is_empty():
 
-            moves += 1
-
             # Print a message every 100000 moves
-            if moves % 100000 == 0:
+            moves += 1
+            if moves % 2000000 == 0:
                 print(f"Move count: {moves}")
 
             # Get the current state from the queue and pop it
             current_board = queue.dequeue()
-            # print(current_board)
 
             # Check if the initial state is already a winning state
             if current_board.is_red_car_at_exit():
                 solution = reconstruct_path(parents, hash(current_board))
                 end_time = time.time()
+                elapsed_time = end_time - start_time
+                print(f"The code took {elapsed_time} seconds to execute.")
+                print(f"The number of visited states: {len(parents) - 1}")
                 queue.clear()
 
                 # Save the solution to the CSV file
-                csv_name, amount_moves = save_solution_to_csv(solution, d, game_number)
-                elapsed_time = end_time - start_time
-                print(f"The code took {elapsed_time} seconds to execute.")
-                print(f"The length of the dictionary is: {len(parents) - 1}")
+                csv_name = save_solution_to_csv(
+                    solution, d, game_number,
+                    elapsed_time, parents
+                )
+                return csv_name
 
-                # Save the solution details to the CSV file
-                filepath = f'Experiment/results_bf.csv'
-                file_exists = os.path.isfile(filepath)
-                with open(filepath, mode='a', newline='') as file:
-                    writer = csv.writer(file)
-                    if not file_exists:
-                        writer.writerow(['Board', 'Algorithm', 'Board States', 'Time', 'Beam Width', 'Moves'])
-                        file_exists = True
-                    writer.writerow([game_number, 'bf', len(parents) - 1, elapsed_time, '-', amount_moves])
-                break  # Break after finding the solution for this run
-
-            # Verwerk de mogelijke zetten vanuit de huidige toestand van het bord
+            # Process possible moves from the current board state
             process_moves(current_board, queue, parents)
 
-    if csv_name:
-        return csv_name
     return None
 
-def initialize_search(initial_bord):
-    """Initializes the queue and parents dictionary for the search."""
-    # Create een queue om toestanden van het bord en bijbehorende moves te beheren
+
+def initialize_search(initial_bord: Board) -> Tuple[
+        Board, Dict[int, Tuple[int, str, int]]]:
+    """
+    Initializes the queue and parents dictionary for the search.
+
+    post: returns a initialized queue and a parent dictionary
+    """
     queue = Queue()
-    # Bijhouden van de ouders van elk bord voor pad reconstructie
     parents = {}
 
     # Enqueue the initial board and mark it as visited
@@ -83,67 +95,83 @@ def initialize_search(initial_bord):
     return queue, parents
 
 
-def process_moves(current_board: Board, queue: Queue, parents: dict):
+def process_moves(
+    current_board: Board,
+    queue: Queue,
+    parents: Dict[int, [Tuple[int, str, int]]]
+) -> None:
     """
     Generate and process all possible moves from the current board state.
 
+    post: new board states are added to queue.
     """
-    movable_vehicles, possible_moves = current_board.generate_all_possible_moves()
+    movable_vehicles, possible_moves = \
+        current_board.generate_all_possible_moves()
 
     for car_id in movable_vehicles:
         for move_direction, step_list in possible_moves[car_id]:
             for steps in step_list:
-                # Maak een kopie van het bord en voer de zet uit
-                #new_board = copy.deepcopy(current_board)
                 new_board = current_board.move_vehicle(car_id, steps)
-                
                 new_board_state = hash(new_board)
-
-                # Controleer of de nieuwe toestand al is bezocht
+                # Check if the new state has been visited
                 if new_board_state not in parents:
                     queue.enqueue(new_board)
-                    parents[new_board_state] = (hash(current_board), car_id, steps)
-                    # print(f"Key: {new_board_state}, Value: {parents[new_board_state]}")
-                    # new_board.printboard()
-                    # print()
-    # print("move_klaar")
+                    parents[new_board_state] = \
+                        (hash(current_board), car_id, steps)
 
 
-def reconstruct_path(parents: dict, state: int):
+def reconstruct_path(parents: Dict[int, Tuple[int, str, int]],
+                    state: int) -> List[Tuple[str, int]]:
     """
-    Reconstruct the path from the goal state back to the initial state using parent relationships.
+    Reconstruct the path from the goal state back to the initial state using
+    parent relationships.
+
+    pre: state is the hash of the goal state.
+    post: returns a list of lists representing the sequence of actions to
+    reach from the initial to the goal state.
     """
-    path = []
+    assert isinstance(state, int), "state must be an integer."
+    path: List[Tuple[str, int]] = []
     while parents[state] is not None:
-        # Haal de ouderstaat en de bijbehorende zet op
         parent_state, car_id, steps = parents[state]
-        # Voeg de zet toe aan het pad
         path.append([car_id, steps])
-        # Update de huidige toestand naar de ouderstaat voor de volgende iteratie
         state = parent_state
-    # Keer het pad om zodat het van begin naar eind gaat
+    # Reverse the path to go from start to end
     return path[::-1]
 
-def save_solution_to_csv(solution, d, game_number):
+
+def save_solution_to_csv(
+    solution: List[Tuple[str, int]], d: int, game_number: int,
+    elapsed_time: float,
+    parents: Dict[int, Tuple[int, str, int]]
+) -> str:
     """
-    Save the solution path to a CSV file.
+    Saves the solution path to a CSV file.
+
+    post: returns the file path where the solution is saved.
     """
-    file_path = f'data/Breadth_First/board_{game_number}_{d}x{d}.csv'
-    with open(file_path, mode='w', newline='') as file:
+    file_path1 = f'data/Breadth_First/board_{game_number}_{d}x{d}.csv'
+    with open(file_path1, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Car', 'Step'])
         for move in solution:
             writer.writerow(move)
-        print(f"Moves successfully saved to {file_path}")
-    
-    # Read the number of lines in the CSV file
-    with open(file_path, mode='r') as file:
-        reader = csv.reader(file)
-        amount_moves = sum(1 for row in reader) - 1
+        print(f"Moves successfully saved to {file_path1}")
 
-    return file_path, amount_moves
+    # Save additional results to CSV voor experiment
+    filepath2 = 'Experiment/results_bf.csv'
+    file_exists = os.path.isfile(filepath2)
+    with open(filepath2, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow([
+                'Board', 'Algorithm', 'Board States',
+                'Time', 'Moves'
+            ])
+            file_exists = True
+        writer.writerow([
+            game_number, 'bf', len(parents) - 1,
+            elapsed_time, len(solution)
+        ])
 
-
-
-
-
+    return file_path1
