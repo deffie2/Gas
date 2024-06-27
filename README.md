@@ -3,7 +3,7 @@
 ## Introduction
 Welcome to the Rush Hour project! This project focuses on solving Rush Hour puzzles using various algorithms and strategies.
 
-Rush Hour is a puzzle game where the aim is to navigate a red car off the board by sliding other vehicles that obstruct its path. Vehicles can only be moved horizontally or vertically along their respective rows, and the red car can only exit in a straight line. One move consist out if any empty blocks that. 1
+Rush Hour is a puzzle game where the aim is to navigate a red car off the board by sliding other vehicles that obstruct its path. Vehicles can only be moved horizontally or vertically along their respective rows, and the red car can only exit in a straight line. One move consist out if any empty blocks that. 
 
 ## Case Introduction
 
@@ -116,7 +116,7 @@ To illustrate, here’s how you would run each algorithm for board configuration
 
 
 ## Visualization Only
-Shortest_path can be set to `yes` or `no`. If set to `no`, the chosen algorithm is executed. If set to `yes`, the script assumes the algorithm has been run previously and you wish to view the simulation of that solution. For `r`, `rh`, and `bs`, when choosing to run with yes, you will be prompted:
+Shortest_path can be set to `yes` or `no`. If set to `no`, the chosen algorithm is executed. After the algorithm finishes, a simulation will run. If you run `r` or `rh`, a frequency table of the total runs will also be generated. If set to `yes`, the script assumes the algorithm has been run previously and you wish to view the simulation of that solution. For `r`, `rh`, and `bs`, when choosing to run with yes, you will be prompted:
 ```bash
 What is the name of the dataset you wish to access? 
 ``` 
@@ -134,7 +134,6 @@ python3 main.py 2 6 bs 1 yes
 * Shortest Path Simulation: When set to `yes`, you can view the simulation of the solving board. When set to `no`, the algorithm runs on the chosen board.
 * Data Handling: Results from each run or iteration are typically stored in the appropriate directory under `data` for further analysis.
 
-This guide provides a clear understanding of how to use `main.py` and how each parameter affects its operation, ensuring effective execution and result visualization for your project.
 
 ## Calculating Spate Space
 By running this code, you can print all the calculated state spaces of the boards. The state space is the number of possible states a single board can occupy. A formula has been devised to calculate this state space, which you can learn more about in the presentation on 27/6/2024 or by examining the code itself. To find the state spaces, navigate to the `code` directory. 
@@ -175,7 +174,7 @@ For beam search, select the following beam widths:
 ##### Visualization
 After running each commands for BFS and BS, the results including the number of board states, moves, and the chosen beam width will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BFS and BS across different beam widths for each board. 
 
-##### Generating Graphs 
+##### Generating Graphs
 To generate graphs from the CSV files, follow these steps:
 ##### Step 1: Generate BS Graphs
 1. Navigate to the `Experiments` directory.
@@ -201,7 +200,7 @@ For beam search, evalute the following heuristic weight-value:
 ##### Visualization
 After excuting each BS command, the results including the number of board states, moves, chosen beam width and heuristic weight-value will be saved in a CSV file for each board. This CSV file can then be used to visualize and compare the performance of BS with different heuristic weight-values for each board. 
 
-##### Generating Graphs 
+##### Generating Graphs
 To generate graphs from the CSV files, follow these steps:
 ##### Step 1: Generate BS Graphs
 1. Navigate to the `Experiments` directory.
