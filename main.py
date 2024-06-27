@@ -57,12 +57,17 @@ if __name__ == "__main__":
     # --------------------------------------------------------------------------
     # Perform simulation for shortest path only
     if shorest_path == "yes":
-        if algorithm == "r" or "rh":
+        
+        if algorithm == "r":
             # Visualize shortest path for random with and withour heuristics
-            name_data = str(
-                input("What is the name of the dataset you wish to access? ")
-            )
+            name_data = str(input("What is the name of the dataset you wish to access? "))
             path = f'data/Random/Best_Moves_WOH/{name_data}'
+            visualize(d, game_number, path)
+
+        if algorithm == "rh":
+            # Visualize shortest path for random with and withour heuristics
+            name_data = str(input("What is the name of the dataset you wish to access? "))
+            path = f'data/Random/Best_Moves_WH/{name_data}'
             visualize(d, game_number, path)
 
         elif algorithm == "bf":
@@ -72,8 +77,6 @@ if __name__ == "__main__":
 
         elif algorithm == "bs":
             # Visualize shortest path for beam search
-            name_data = str(
-                input("What is the name of the dataset you wish to access? ")
-            )
+            name_data = str(input("What is the name of the dataset you wish to access? "))
             path = f'data/Beam_Search/{name_data}'
             visualize(d, game_number, path)
